@@ -3,17 +3,20 @@
 \name{remove_sa_item}
 \alias{remove_sa_item}
 \alias{remove_all_sa_item}
+\alias{replace_sa_item}
 \title{Remove SaItems}
 \usage{
 remove_sa_item(x, pos = 1)
 
 remove_all_sa_item(x)
+
+replace_sa_item(x, sa_item, pos = 1)
 }
 \arguments{
 \item{x}{the multiprocessing.}
 
-\item{pos}{the index of the SaItem to remove.}
+\item{pos}{the index of the SaItem to remove or to replace.}
 }
 \description{
-Functions to remove SAItem from a multiprocessing
+Functions to remove/replace a SAItem from a multiprocessing
 }

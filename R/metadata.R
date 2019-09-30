@@ -67,9 +67,9 @@ update_metadata <- function(path_workspace1, path_workspace2,
           builder_sa$metaData(sa_def1$getMetaData())
           sa_def_temp <- builder_sa$build()
 
-          item <- .jcall(mp_wk2, "Ljava/util/List;", "getItems")
           new_sa_item <- .jnew("ec/tstoolkit/jdr/ws/SaItem", sa_def_temp)
-          item$set(as.integer(i_sa - 1), new_sa_item)
+          replace_sa_item(x = mp_wk2, sa_item = new_sa_item,
+                          pos = i_sa)
 
         }else{
           warning(sprintf('The SaItem "%s" is not found in the workspace1',sa_name))
@@ -114,8 +114,8 @@ update_metadata_roughly <- function(path_workspace1, path_workspace2,
       sa_def_temp <- builder_sa$build()
 
       new_sa_item <- .jnew("ec/tstoolkit/jdr/ws/SaItem", sa_def_temp)
-      item <- .jcall(mp_wk2, "Ljava/util/List;", "getItems")
-      item$set(as.integer(i_sa - 1), new_sa_item)
+      replace_sa_item(x = mp_wk2, sa_item = new_sa_item,
+                      pos = i_sa)
     }
   }
   RJDemetra::save_workspace(wk2, path_new_workspace)
@@ -151,10 +151,10 @@ get_comment.sa_item <- function(x){
 
 #' Remove SaItems
 #'
-#' Functions to remove SAItem from a multiprocessing
+#' Functions to remove/replace a SAItem from a multiprocessing
 #'
 #' @param x the multiprocessing.
-#' @param pos the index of the SaItem to remove.
+#' @param pos the index of the SaItem to remove or to replace.
 #'
 #' @name remove_sa_item
 #' @rdname remove_sa_item
@@ -177,7 +177,14 @@ remove_all_sa_item <- function(x){
   item$removeAll()
   return(invisible(TRUE))
 }
-
-
-
+#' @name remove_sa_item
+#' @rdname remove_sa_item
+#' @export
+replace_sa_item <- function(x, sa_item, pos = 1){
+  if(!inherits(x, "multiprocessing"))
+    stop("x must be a multiprocessing")
+  item <- .jcall(x, "Ljava/util/List;", "getItems")
+  item$set(as.integer(pos - 1), sa_item)
+  return(invisible(TRUE))
+}
 
