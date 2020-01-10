@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Extract comments — get_comment • rjdworkspace</title>
+<title>Change the input time series from a SaItem — change_ts • rjdworkspace</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,8 @@
 
 
 
-<meta property="og:title" content="Extract comments — get_comment" />
-<meta property="og:description" content="Function to extract the comments of a workspace" />
+<meta property="og:title" content="Change the input time series from a SaItem — change_ts" />
+<meta property="og:description" content="Function change the input time series from a SaItem" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -105,32 +105,40 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Extract comments</h1>
-    <small class="dont-index">Source: <a href='https://github.com/AQLT/rjdworkspace/blob/master/R/metadata.R'><code>R/metadata.R</code></a></small>
-    <div class="hidden name"><code>get_comment.Rd</code></div>
+    <h1>Change the input time series from a SaItem</h1>
+    <small class="dont-index">Source: <a href='https://github.com/AQLT/rjdworkspace/blob/master/R/change_ts.R'><code>R/change_ts.R</code></a></small>
+    <div class="hidden name"><code>change_ts.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Function to extract the comments of a workspace</p>
+    <p>Function change the input time series from a SaItem</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_comment</span>(<span class='no'>x</span>)</pre>
+    <pre class="usage"><span class='fu'>change_ts</span>(<span class='no'>ts</span>, <span class='no'>sa_item</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>the object where to get the comments.</p></td>
+      <th>ts</th>
+      <td><p>the new <code><a href='https://rdrr.io/r/stats/ts.html'>ts</a></code> object.</p></td>
+    </tr>
+    <tr>
+      <th>sa_item</th>
+      <td><p>the SaItem to modify.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>a SaItem</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#value">Value</a></li>
     </ul>
 
   </div>
