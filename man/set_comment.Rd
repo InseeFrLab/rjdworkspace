@@ -9,7 +9,7 @@ set_comment(x, comment)
 \arguments{
 \item{x}{the sa_item where to change the comments.}
 
-\item{string}{the new comment.}
+\item{comment}{the new comment.}
 }
 \value{
 a new sa_item.
