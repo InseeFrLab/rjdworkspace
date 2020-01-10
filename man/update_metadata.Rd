@@ -7,8 +7,7 @@
 \usage{
 update_metadata(path_workspace1, path_workspace2, path_new_workspace)
 
-update_metadata_roughly(path_workspace1, path_workspace2,
-  path_new_workspace)
+update_metadata_roughly(path_workspace1, path_workspace2, path_new_workspace)
 }
 \arguments{
 \item{path_workspace1}{Path to the workspace that contains the metadata.}

@@ -1,3 +1,4 @@
+#' @importFrom stats frequency
 ts_r2jd <- function(s){
   freq <- frequency(s)
   start <- start(s)

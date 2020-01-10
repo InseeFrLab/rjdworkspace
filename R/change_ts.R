@@ -8,7 +8,7 @@
 #' @return a SaItem
 #' @export
 change_ts <- function(ts, sa_item){
-  sa_def <- .jcall(sa, "Ldemetra/datatypes/sa/SaItemType;", "getSaDefinition")
+  sa_def <- .jcall(sa_item, "Ldemetra/datatypes/sa/SaItemType;", "getSaDefinition")
   jts <- .jcall(sa_def, "Ldemetra/datatypes/Ts;", "getTs")
   
   builder_ts <- jts$toBuilder()

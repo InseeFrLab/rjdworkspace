@@ -16,4 +16,4 @@ URL: https://github.com/AQLT/rjdworkspace
 LazyData: TRUE
 BugReports: https://github.com/AQLT/rjdworkspace/issues
 Encoding: UTF-8
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2

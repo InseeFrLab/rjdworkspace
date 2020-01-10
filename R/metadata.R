@@ -59,6 +59,7 @@ update_metadata <- function(path_workspace1, path_workspace2,
 
           sa_def2 <- .jcall(sa_wk2, "Ldemetra/datatypes/sa/SaItemType;", "getSaDefinition")
           jts2 <- .jcall(sa_def2, "Ldemetra/datatypes/Ts;", "getTs")
+          
           builder_ts <- jts2$toBuilder()
           builder_ts$metaData(jts1$getMetaData())
           jts_temp <- builder_ts$build()
@@ -149,42 +150,40 @@ get_comment.sa_item <- function(x){
   metadata$get("comment")
 }
 
-#' Remove SaItems
-#'
-#' Functions to remove/replace a SAItem from a multiprocessing
-#'
-#' @param x the multiprocessing.
-#' @param pos the index of the SaItem to remove or to replace.
-#'
-#' @name remove_sa_item
-#' @rdname remove_sa_item
+#' Change comment
+#' 
+#' Function to change the comments of a sa_item object
+#' 
+#' @param x the sa_item where to change the comments.
+#' @param comment the new comment.
+#' 
+#' @return a new sa_item.
+#' 
 #' @export
-remove_sa_item <- function(x, pos = 1){
-  if(!inherits(x, "multiprocessing"))
-    stop("x must be a multiprocessing")
+set_comment <- function(x, comment){
+  UseMethod("set_comment", x)
+}
+#' @export
+set_comment.sa_item <- function(x, comment){
+  sa_def <- .jcall(x, "Ldemetra/datatypes/sa/SaItemType;", "getSaDefinition")
+  jts2 <- .jcall(sa_def, "Ldemetra/datatypes/Ts;", "getTs")
+  
+  metadata <- sa_def$getMetaData()
+  
+  jmap<-.jnew("java/util/LinkedHashMap")
+  jmap <- .jcast(jmap, "java/util/Map")
+  jmap$putAll(metadata)
+  jmap$put("comment", comment)
+  
+  builder_ts <- jts2$toBuilder()
+  builder_ts$metaData(jts2$getMetaData())
+  jts_temp <- builder_ts$build()
+  builder_sa <- sa_def$toBuilder()
+  builder_sa$ts(jts_temp)
+  builder_sa$metaData(jmap)
+  sa_def_temp <- builder_sa$build()
 
-  item <- .jcall(x, "Ljava/util/List;", "getItems")
-  item$remove(as.integer(pos - 1))
-  return(invisible(TRUE))
-}
-#' @name remove_sa_item
-#' @rdname remove_sa_item
-#' @export
-remove_all_sa_item <- function(x){
-  if(!inherits(x, "multiprocessing"))
-    stop("x must be a multiprocessing")
-  item <- .jcall(x, "Ljava/util/List;", "getItems")
-  item$removeAll()
-  return(invisible(TRUE))
-}
-#' @name remove_sa_item
-#' @rdname remove_sa_item
-#' @export
-replace_sa_item <- function(x, sa_item, pos = 1){
-  if(!inherits(x, "multiprocessing"))
-    stop("x must be a multiprocessing")
-  item <- .jcall(x, "Ljava/util/List;", "getItems")
-  item$set(as.integer(pos - 1), sa_item)
-  return(invisible(TRUE))
+  new_sa_item <- .jnew("ec/tstoolkit/jdr/ws/SaItem", sa_def_temp)
+  new_sa_item
 }
 
