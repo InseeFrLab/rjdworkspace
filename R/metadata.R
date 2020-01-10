@@ -166,7 +166,7 @@ set_comment <- function(x, comment){
 #' @export
 set_comment.sa_item <- function(x, comment){
   sa_def <- .jcall(x, "Ldemetra/datatypes/sa/SaItemType;", "getSaDefinition")
-  jts2 <- .jcall(sa_def, "Ldemetra/datatypes/Ts;", "getTs")
+  jts <- .jcall(sa_def, "Ldemetra/datatypes/Ts;", "getTs")
   
   metadata <- sa_def$getMetaData()
   
@@ -175,11 +175,11 @@ set_comment.sa_item <- function(x, comment){
   jmap$putAll(metadata)
   jmap$put("comment", comment)
   
-  builder_ts <- jts2$toBuilder()
-  builder_ts$metaData(jts2$getMetaData())
-  jts_temp <- builder_ts$build()
+  # builder_ts <- jts$toBuilder()
+  # builder_ts$metaData(jts$getMetaData())
+  # jts_temp <- builder_ts$build()
   builder_sa <- sa_def$toBuilder()
-  builder_sa$ts(jts_temp)
+  builder_sa$ts(jts)
   builder_sa$metaData(jmap)
   sa_def_temp <- builder_sa$build()
 
