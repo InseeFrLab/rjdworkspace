@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Page not found (404) • rjdworkspace</title>
+<title>Set the specification of a SaItem — set_spec • rjdworkspace</title>
 
 
 <!-- jquery -->
@@ -29,13 +29,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
-<link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script>
+<link href="../pkgdown.css" rel="stylesheet">
+<script src="../pkgdown.js"></script>
 
 
 
 
-<meta property="og:title" content="Page not found (404)" />
+<meta property="og:title" content="Set the specification of a SaItem — set_spec" />
+<meta property="og:description" content="Function to set the specification of a &quot;sa_item&quot;." />
+<meta name="twitter:card" content="summary" />
 
 
 
@@ -54,7 +56,7 @@
   </head>
 
   <body>
-    <div class="container template-title-body">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -66,7 +68,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="index.html">rjdworkspace</a>
+        <a class="navbar-link" href="../index.html">rjdworkspace</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
       </span>
     </div>
@@ -74,13 +76,13 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="index.html">
+  <a href="../index.html">
     <span class="fa fa-home fa-lg"></span>
      
   </a>
 </li>
 <li>
-  <a href="reference/index.html">Reference</a>
+  <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -140,17 +142,59 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Page not found (404)</h1>
+    <h1>Set the specification of a SaItem</h1>
+    <small class="dont-index">Source: <a href='https://github.com/AQLT/rjdworkspace/blob/master/R/manip_sa_item.R'><code>R/manip_sa_item.R</code></a></small>
+    <div class="hidden name"><code>set_spec.Rd</code></div>
     </div>
 
-Content not found. Please use links in the navbar.
+    <div class="ref-description">
+    <p>Function to set the specification of a <code>"sa_item"</code>.</p>
+    </div>
+
+    <pre class="usage"><span class='fu'>set_spec</span>(<span class='no'>sa_item</span>, <span class='no'>spec</span>)</pre>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>sa_item</th>
+      <td><p>a <code>"sa_item"</code> object.</p></td>
+    </tr>
+    <tr>
+      <th>spec</th>
+      <td><p>the object where to extract the new specification.</p></td>
+    </tr>
+    </table>
+
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>a new <code>"sa_item"</code> with the new specification</p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='no'>sa_x13</span> <span class='kw'>&lt;-</span> <span class='fu'>jx13</span>(<span class='no'>ipi_c_eu</span>[, <span class='st'>"FR"</span>])
+<span class='no'>sa_ts</span> <span class='kw'>&lt;-</span> <span class='fu'>jtramoseats</span>(<span class='no'>ipi_c_eu</span>[, <span class='st'>"FR"</span>])
+
+<span class='no'>wk</span> <span class='kw'>&lt;-</span> <span class='fu'>new_workspace</span>()
+<span class='no'>mp1</span> <span class='kw'>&lt;-</span> <span class='fu'>new_multiprocessing</span>(<span class='no'>wk</span>, <span class='st'>"sa1"</span>)
+<span class='fu'>add_sa_item</span>(<span class='no'>wk</span>, <span class='st'>"sa1"</span>, <span class='no'>sa_x13</span>, <span class='st'>"tramo seats"</span>)
+<span class='no'>sa1</span> <span class='kw'>&lt;-</span> <span class='fu'>get_object</span>(<span class='no'>mp1</span>, <span class='fl'>1</span>)
+
+<span class='no'>new_sa</span> <span class='kw'>&lt;-</span> <span class='fu'>set_spec</span>(<span class='no'>sa1</span>, <span class='no'>sa_ts</span>)
+<span class='co'># The first sa_item is now seasonally adjusted with TRAMO-SEATS</span>
+<span class='fu'><a href='manipulate_sa_item.html'>replace_sa_item</a></span>(<span class='no'>mp1</span>, <span class='fl'>1</span>, <span class='no'>new_sa</span>)</div></pre>
+  </div>
+  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+    <h2>Contents</h2>
+    <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#value">Value</a></li>
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
-
 </div>
-
 
 
       <footer>

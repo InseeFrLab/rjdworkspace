@@ -36,7 +36,7 @@
 
 
 <meta property="og:title" content="Manipulate SaItems — manipulate_sa_item" />
-<meta property="og:description" content="Functions to remove/replace/add a SAItem from/to a multiprocessing" />
+<meta property="og:description" content="Functions to remove/replace/add a sa_item from/to a multiprocessing." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -77,7 +77,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fa fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -86,9 +86,48 @@
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li>
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    JDemetra+
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://github.com/jdemetra/jdemetra-app/releases">Download JDemetra+</a>
+    </li>
+    <li>
+      <a href="https://jdemetradocumentation.github.io/JDemetra-documentation/">JDemetra+ documentation</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Around JDemetra+ and R
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://github.com/jdemetra/rjdemetra">RJDemetra</a>
+    </li>
+    <li>
+      <a href="https://github.com/AQLT/ggdemetra">ggdemetra</a>
+    </li>
+    <li>
+      <a href="https://github.com/AQLT/rjdqa">rjdqa</a>
+    </li>
+    <li>
+      <a href="https://github.com/AQLT/rjwsacruncher">rjwsacruncher</a>
+    </li>
+    <li>
+      <a href="https://github.com/AQLT/rjdmarkdown">rjdmarkdown</a>
+    </li>
+  </ul>
+</li>
+<li>
   <a href="https://github.com/AQLT/rjdworkspace">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fa fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -111,40 +150,56 @@
     </div>
 
     <div class="ref-description">
-    <p>Functions to remove/replace/add a SAItem from/to a multiprocessing</p>
+    <p>Functions to remove/replace/add a <code>sa_item</code> from/to a multiprocessing.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>remove_sa_item</span>(<span class='no'>x</span>, <span class='kw'>pos</span> <span class='kw'>=</span> <span class='fl'>1</span>)
+    <pre class="usage"><span class='fu'>remove_sa_item</span>(<span class='no'>mp</span>, <span class='kw'>pos</span> <span class='kw'>=</span> <span class='fl'>1</span>)
 
-<span class='fu'>remove_all_sa_item</span>(<span class='no'>x</span>)
+<span class='fu'>remove_all_sa_item</span>(<span class='no'>mp</span>)
 
-<span class='fu'>replace_sa_item</span>(<span class='no'>x</span>, <span class='kw'>pos</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='no'>sa_item</span>)
+<span class='fu'>replace_sa_item</span>(<span class='no'>mp</span>, <span class='kw'>pos</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='no'>sa_item</span>)
 
-<span class='fu'>add_new_sa_item</span>(<span class='no'>x</span>, <span class='no'>sa_item</span>)</pre>
+<span class='fu'>add_new_sa_item</span>(<span class='no'>mp</span>, <span class='no'>sa_item</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
+      <th>mp</th>
       <td><p>the multiprocessing.</p></td>
     </tr>
     <tr>
       <th>pos</th>
-      <td><p>the index of the SaItem to remove or to replace.</p></td>
+      <td><p>the index of the <code>sa_item</code> to remove or to replace.</p></td>
     </tr>
     <tr>
       <th>sa_item</th>
-      <td><p>SaItem object.</p></td>
+      <td><p><code>sa_item</code> object.</p></td>
     </tr>
     </table>
 
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='no'>sa_x13</span> <span class='kw'>&lt;-</span> <span class='fu'>jx13</span>(<span class='no'>ipi_c_eu</span>[, <span class='st'>"FR"</span>])
+<span class='no'>sa_ts</span> <span class='kw'>&lt;-</span> <span class='fu'>jtramoseats</span>(<span class='no'>ipi_c_eu</span>[, <span class='st'>"FR"</span>])
+
+<span class='no'>wk</span> <span class='kw'>&lt;-</span> <span class='fu'>new_workspace</span>()
+<span class='no'>mp1</span> <span class='kw'>&lt;-</span> <span class='fu'>new_multiprocessing</span>(<span class='no'>wk</span>, <span class='st'>"sa1"</span>)
+<span class='fu'>add_sa_item</span>(<span class='no'>wk</span>, <span class='st'>"sa1"</span>, <span class='no'>sa_x13</span>, <span class='st'>"X13"</span>)
+<span class='fu'>add_sa_item</span>(<span class='no'>wk</span>, <span class='st'>"sa1"</span>, <span class='no'>sa_ts</span>, <span class='st'>"TramoSeats"</span>)
+
+<span class='no'>sa1</span> <span class='kw'>&lt;-</span> <span class='fu'>get_object</span>(<span class='no'>mp1</span>, <span class='fl'>1</span>)
+
+<span class='fu'>remove_sa_item</span>(<span class='no'>mp1</span>, <span class='fl'>1</span>) <span class='co'># Remove the first model</span>
+<span class='fu'>add_new_sa_item</span>(<span class='no'>mp1</span>, <span class='no'>sa1</span>) <span class='co'># Add the model at the end</span>
+<span class='co'># To replace the first sa_item by "sa1"</span>
+<span class='fu'>replace_sa_item</span>(<span class='no'>mp1</span>, <span class='fl'>1</span>, <span class='no'>sa1</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>
