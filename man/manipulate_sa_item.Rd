@@ -8,21 +8,37 @@
 \alias{add_new_sa_item}
 \title{Manipulate SaItems}
 \usage{
-remove_sa_item(x, pos = 1)
+remove_sa_item(mp, pos = 1)
 
-remove_all_sa_item(x)
+remove_all_sa_item(mp)
 
-replace_sa_item(x, pos = 1, sa_item)
+replace_sa_item(mp, pos = 1, sa_item)
 
-add_new_sa_item(x, sa_item)
+add_new_sa_item(mp, sa_item)
 }
 \arguments{
-\item{x}{the multiprocessing.}
+\item{mp}{the multiprocessing.}
 
-\item{pos}{the index of the SaItem to remove or to replace.}
+\item{pos}{the index of the \code{sa_item} to remove or to replace.}
 
-\item{sa_item}{SaItem object.}
+\item{sa_item}{\code{sa_item} object.}
 }
 \description{
-Functions to remove/replace/add a SAItem from/to a multiprocessing
+Functions to remove/replace/add a \code{sa_item} from/to a multiprocessing.
+}
+\examples{
+sa_x13 <- jx13(ipi_c_eu[, "FR"])
+sa_ts <- jtramoseats(ipi_c_eu[, "FR"])
+
+wk <- new_workspace()
+mp1 <- new_multiprocessing(wk, "sa1")
+add_sa_item(wk, "sa1", sa_x13, "X13")
+add_sa_item(wk, "sa1", sa_ts, "TramoSeats")
+
+sa1 <- get_object(mp1, 1)
+
+remove_sa_item(mp1, 1) # Remove the first model
+add_new_sa_item(mp1, sa1) # Add the model at the end
+# To replace the first sa_item by "sa1"
+replace_sa_item(mp1, 1, sa1)
 }

@@ -4,13 +4,14 @@ Title: Manipulate 'JDemetra+' workspaces
 Version: 0.1.0
 Authors@R: c(
   person("Alain", "Quartier-la-Tente", role = c("aut", "cre"),
-                 email = "alain.quartier@yahoo.fr"))
+                 email = "alain.quartier@yahoo.fr",
+                 comment = c(ORCID = "0000-0001-7890-3857")))
 Description: Set of tools to manipualte the 'JDemetra+' workspaces.
 Depends:
-    R (>= 3.1.1)
-Imports:
-    rJava (>= 0.9-8),
+    R (>= 3.1.1),
     RJDemetra
+Imports:
+    rJava (>= 0.9-8)
 License: EUPL
 URL: https://github.com/AQLT/rjdworkspace
 LazyData: TRUE
