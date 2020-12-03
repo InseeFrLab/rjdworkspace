@@ -11,9 +11,19 @@ Status](https://img.shields.io/travis/AQLT/rjdworkspace.svg?logo=travis)](https:
 
 rjdworkspace gives a set of tools to manipulate `JDemetra+` workspaces.
 It depends on the .jar files of
-[RJDemetra](https://github.com/nbbrd/rjdemetra). In particular it allows
-to update the metadata of a workspace from those contained in another
-one with the `update_metadata()` function.
+[RJDemetra](https://github.com/nbbrd/rjdemetra) and extend some
+functions. In particular, rjdworkspace allows to:
+
+-   update the metadata of a workspace from those contained in another
+    one (`update_metadata()`, `update_metadata_roughly()`) or update the
+    metadata of a SaItem with the metadata contained in another SaItem
+    (`set_metadata()`) ;  
+-   replace, remove or add a SaItem in a workspace (`remove_sa_item()`,
+    `remove_all_sa_item()`, `replace_sa_item()`, `add_new_sa_item()`);  
+-   get and set the comment of a SaItem (`get_comment()`,
+    `set_comment()`);
+-   set the specification of a model contains in a SaItem
+    (`set_spec()`).
 
 ## Installation
 
