@@ -53,4 +53,5 @@ reference:
   - '`get_comment`'
   - '`set_comment`'
   - '`update_metadata`'
+  - '`set_metadata`'
   

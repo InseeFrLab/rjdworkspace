@@ -51,13 +51,17 @@ update_metadata <- function(path_workspace1, path_workspace2,
             warning(sprintf('At least 2 SaItem called "%s" were founded in the workspace1: the first object will be used',sa_name))
 
           sa_wk1 <- RJDemetra::get_object(mp_wk1, sa_wk1_i[1])
-
-          sa_def1 <- .jcall(sa_wk1, "Ldemetra/datatypes/sa/SaItemType;", "getSaDefinition")
-          jts1 <- .jcall(sa_def1, "Ldemetra/datatypes/Ts;", "getTs")
-
-          sa_def2 <- .jcall(sa_wk2, "Ldemetra/datatypes/sa/SaItemType;", "getSaDefinition")
-          jts2 <- .jcall(sa_def2, "Ldemetra/datatypes/Ts;", "getTs")
-          
+          new_sa_item <- set_metadata(sa_to = sa_wk2,
+                                      sa_from = sa_wk1)
+          replace_sa_item(mp = mp_wk2, sa_item = new_sa_item,
+                          pos = i_sa)
+# 
+#           sa_def1 <- .jcall(sa_wk1, "Ldemetra/datatypes/sa/SaItemType;", "getSaDefinition")
+#           jts1 <- .jcall(sa_def1, "Ldemetra/datatypes/Ts;", "getTs")
+# 
+#           sa_def2 <- .jcall(sa_wk2, "Ldemetra/datatypes/sa/SaItemType;", "getSaDefinition")
+#           jts2 <- .jcall(sa_def2, "Ldemetra/datatypes/Ts;", "getTs")
+#           
           # builder_ts <- jts2$toBuilder()
           # builder_ts$metaData(jts1$getMetaData())
           # jts_temp <- builder_ts$build()
@@ -65,14 +69,25 @@ update_metadata <- function(path_workspace1, path_workspace2,
           # builder_sa$ts(jts_temp)
           # builder_sa$metaData(sa_def1$getMetaData())
           # sa_def_temp <- builder_sa$build()
+# 
+#           jts_temp <- builder_from_ts(jts2, metaData =  jts1$getMetaData())
+#           sa_def_temp <- builder_from_sa(sa_def2, ts = jts_temp,
+#                                          metaData = sa_def1$getMetaData())
+#           
+#           new_sa_item <- .jnew("ec/tstoolkit/jdr/ws/SaItem", sa_def_temp)
+#           replace_sa_item(mp = mp_wk2, sa_item = new_sa_item,
+#                           pos = i_sa)
+#           sa_wk2 <- RJDemetra::get_object(mp_wk2, i_sa)
+#           sa_wk1 <- RJDemetra::get_object(mp_wk1, i_sa)
+          # builder_ts <- jts2$toBuilder()
+          # builder_ts$metaData(jts1$getMetaData())
+          # jts_temp <- builder_ts$build()
+          # 
+          # builder_sa <- sa_def2$toBuilder()
+          # builder_sa$ts(jts_temp)
+          # builder_sa$metaData(sa_def1$getMetaData())
+          # sa_def_temp <- builder_sa$build()
 
-          jts_temp <- builder_from_ts(jts2, metaData =  jts1$getMetaData())
-          sa_def_temp <- builder_from_sa(sa_def2, ts = jts_temp,
-                                         metaData = sa_def1$getMetaData())
-          
-          new_sa_item <- .jnew("ec/tstoolkit/jdr/ws/SaItem", sa_def_temp)
-          replace_sa_item(mp = mp_wk2, sa_item = new_sa_item,
-                          pos = i_sa)
 
         }else{
           warning(sprintf('The SaItem "%s" is not found in the workspace1',sa_name))
@@ -100,12 +115,6 @@ update_metadata_roughly <- function(path_workspace1, path_workspace2,
     for(i_sa in seq_len(RJDemetra::count(mp_wk2))){
       sa_wk2 <- RJDemetra::get_object(mp_wk2, i_sa)
       sa_wk1 <- RJDemetra::get_object(mp_wk1, i_sa)
-      sa_def1 <- .jcall(sa_wk1, "Ldemetra/datatypes/sa/SaItemType;", "getSaDefinition")
-      jts1 <- .jcall(sa_def1, "Ldemetra/datatypes/Ts;", "getTs")
-
-      sa_def2 <- .jcall(sa_wk2, "Ldemetra/datatypes/sa/SaItemType;", "getSaDefinition")
-      jts2 <- .jcall(sa_def2, "Ldemetra/datatypes/Ts;", "getTs")
-
       # builder_ts <- jts2$toBuilder()
       # builder_ts$metaData(jts1$getMetaData())
       # jts_temp <- builder_ts$build()
@@ -114,11 +123,8 @@ update_metadata_roughly <- function(path_workspace1, path_workspace2,
       # builder_sa$ts(jts_temp)
       # builder_sa$metaData(sa_def1$getMetaData())
       # sa_def_temp <- builder_sa$build()
-
-      jts_temp <- builder_from_ts(jts2, metaData =  jts1$getMetaData())
-      sa_def_temp <- builder_from_sa(sa_def1, ts = jts_temp,
-                                     metaData = sa_def1$getMetaData())
-      new_sa_item <- .jnew("ec/tstoolkit/jdr/ws/SaItem", sa_def_temp)
+      new_sa_item <- set_metadata(sa_to = sa_wk2,
+                                  sa_from = sa_wk1)
       replace_sa_item(mp = mp_wk2, sa_item = new_sa_item,
                       pos = i_sa)
     }
@@ -126,6 +132,27 @@ update_metadata_roughly <- function(path_workspace1, path_workspace2,
   RJDemetra::save_workspace(wk2, path_new_workspace)
 }
 
+#' Set the metadata of a SaItem
+#' 
+#' Function to set the name of a \code{"sa_item"} from the one contained in another \code{"sa_item"}.
+#' 
+#' @param sa_to the \code{"sa_item"} object to modify.
+#' @param sa_from the \code{"sa_item"} object where to get the metadata.
+#' 
+#' @return a new \code{"sa_item"} with the model of \code{sa_to} and the metadata of\code{sa_to}.
+#' @export
+set_metadata <- function(sa_to, sa_from){
+  sa_def_from <- .jcall(sa_from, "Ldemetra/datatypes/sa/SaItemType;", "getSaDefinition")
+  jts_from <- .jcall(sa_def_from, "Ldemetra/datatypes/Ts;", "getTs")
+  
+  sa_def_to <- .jcall(sa_to, "Ldemetra/datatypes/sa/SaItemType;", "getSaDefinition")
+  jts_to <- .jcall(sa_def_to, "Ldemetra/datatypes/Ts;", "getTs")
+  
+  jts_update <- builder_from_ts(jts_to, metaData =  jts_from$getMetaData())
+  sa_def_update <- builder_from_sa(sa_def_to, ts = jts_update,
+                                   metaData = sa_def_from$getMetaData())
+  .jnew("ec/tstoolkit/jdr/ws/SaItem", sa_def_update)
+}
 
 #' Extract comments
 #' 
