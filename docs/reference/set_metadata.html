@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Extract comments — get_comment • rjdworkspace</title>
+<title>Set the metadata of a SaItem — set_metadata • rjdworkspace</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Extract comments — get_comment" />
-<meta property="og:description" content="Function to extract the comments of a workspace" />
+<meta property="og:title" content="Set the metadata of a SaItem — set_metadata" />
+<meta property="og:description" content="Function to set the name of a &quot;sa_item&quot; from the one contained in another &quot;sa_item&quot;." />
 
 
 
@@ -147,26 +147,33 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Extract comments</h1>
+    <h1>Set the metadata of a SaItem</h1>
     <small class="dont-index">Source: <a href='https://github.com/AQLT/rjdworkspace/blob/master/R/metadata.R'><code>R/metadata.R</code></a></small>
-    <div class="hidden name"><code>get_comment.Rd</code></div>
+    <div class="hidden name"><code>set_metadata.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Function to extract the comments of a workspace</p>
+    <p>Function to set the name of a <code>"sa_item"</code> from the one contained in another <code>"sa_item"</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_comment</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>set_metadata</span><span class='op'>(</span><span class='va'>sa_to</span>, <span class='va'>sa_from</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>the object where to get the comments.</p></td>
+      <th>sa_to</th>
+      <td><p>the <code>"sa_item"</code> object to modify.</p></td>
+    </tr>
+    <tr>
+      <th>sa_from</th>
+      <td><p>the <code>"sa_item"</code> object where to get the metadata.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>a new <code>"sa_item"</code> with the model of <code>sa_to</code> and the metadata of<code>sa_to</code>.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
