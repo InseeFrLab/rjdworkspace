@@ -40,7 +40,7 @@ navbar:
         href: https://github.com/AQLT/rjdmarkdown
     github:
       icon: fa-github fa-lg
-      href: https://github.com/AQLT/rjdworkspace
+      href: https://github.com/InseeFrLab/rjdworkspace
 reference:
 - title: Manipulate sa_item
   desc: Functions to manipulate sa_item objects
