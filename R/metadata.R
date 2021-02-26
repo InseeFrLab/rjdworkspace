@@ -1,17 +1,17 @@
 #' Update the metadata from a workspace
 #'
-#' Functions to update the metadata of a workspace by those contained in another
+#' Functions to update the metadata of a workspace by those contained in another one
 #'
-#' @param path_workspace1 Path to the workspace that contains the metadata.
-#' @param path_workspace2 Path to the workspace to update metadata.
+#' @param path_workspace1 Path to the workspace that contains the new metadata.
+#' @param path_workspace2 Path to the workspace to update.
 #' @param path_new_workspace Path to the new workspace.
 #'
 #'
 #' @details \code{update_metadata()} checks the names of the multiprocessings and the SaItem of
 #' the two workspaces to update metadata. \code{update_metadata_roughly()} does not do any
-#' checking: the metadata of the first SaItem of the first multiprocessings
+#' checking: the metadata of the first SaItem of the first multiprocessing
 #' of the \code{workspace2} is updated with the metadata of the first SaItem of the
-#' first multiprocessings of the \code{workspace2}.
+#' first multiprocessings of the \code{workspace1}.
 #'
 #' @examples \dontrun{
 #' path_workspace1 <- "D:/test_metadata/reference.xml"
@@ -137,9 +137,9 @@ update_metadata_roughly <- function(path_workspace1, path_workspace2,
 #' Function to set the name of a \code{"sa_item"} from the one contained in another \code{"sa_item"}.
 #' 
 #' @param sa_to the \code{"sa_item"} object to modify.
-#' @param sa_from the \code{"sa_item"} object where to get the metadata.
+#' @param sa_from the \code{"sa_item"} object from which the desired metadata is retrieved.
 #' 
-#' @return a new \code{"sa_item"} with the model of \code{sa_to} and the metadata of\code{sa_to}.
+#' @return a new \code{"sa_item"} with the model of \code{sa_to} and the metadata of\code{sa_from}.
 #' @export
 set_metadata <- function(sa_to, sa_from){
   sa_def_from <- .jcall(sa_from, "Ldemetra/datatypes/sa/SaItemType;", "getSaDefinition")
@@ -158,7 +158,7 @@ set_metadata <- function(sa_to, sa_from){
 #' 
 #' Function to extract the comments of a workspace
 #' 
-#' @param x the object where to get the comments.
+#' @param x the object from which the comments are retrieved.
 #' 
 #' @export
 get_comment <- function(x){
@@ -185,7 +185,7 @@ get_comment.sa_item <- function(x){
 #' 
 #' Function to change the comments of a sa_item object
 #' 
-#' @param x the sa_item where to change the comments.
+#' @param x the sa_item of which the comments will be changed.
 #' @param comment the new comment.
 #' 
 #' @return a new sa_item.

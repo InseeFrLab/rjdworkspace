@@ -1,22 +1,25 @@
-#' Change the input time series from a SaItem
+#' Change the input time series of a SaItem
 #'
-#' Function change the input time series from a SaItem
+#' Function to change the input time series of a SaItem
 #'
 #' @param ts the new \code{\link[stats]{ts}} object.
 #' @param sa_item the \code{sa_item} to modify.
 #'
 #' @return a \code{sa_item}
 #' @examples 
+#' # Definition of the original time series
 #' sa_x13 <- jx13(ipi_c_eu[, "FR"])
 #' 
 #' wk <- new_workspace()
 #' mp1 <- new_multiprocessing(wk, "sa1")
+#' # Addition of the series to the workspace and seasonal adjustment with the X13 model
 #' add_sa_item(wk, "sa1", sa_x13, "X13")
+#' # Retrieving the adjusted series
 #' sa1 <- get_object(mp1, 1)
 #' 
-#' # To create a new sa_item change the input time series
+#' # Creation of a new sa_item and change of the input time series
 #' new_sa_item <- set_ts(sa1, ipi_c_eu[, "BE"])
-#' # To replace the first model by the new one
+#' # Replacement of the series in the workspace
 #' replace_sa_item(mp1, 1, new_sa_item)
 #' @export
 set_ts <- function(sa_item, ts){
