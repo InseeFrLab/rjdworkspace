@@ -3,9 +3,17 @@ Type: Package
 Title: Manipulate 'JDemetra+' workspaces
 Version: 0.1.0
 Authors@R: c(
-  person("Alain", "Quartier-la-Tente", role = c("aut", "cre"),
-                 email = "alain.quartier@yahoo.fr",
-                 comment = c(ORCID = "0000-0001-7890-3857")))
+  person(given = "Alain",,
+         family = "Quartier-la-Tente",
+         role = c("aut", "cre"),
+         email = "alain.quartier@yahoo.fr",
+         comment = c(ORCID = "0000-0001-7890-3857")),
+  person(given = "Institut national de la statistique et des études économiques",
+         role = "cph",
+         email = c("alice.tchang@insee.fr","anna.smyk@insee.fr")
+         comment = "https://www.insee.fr/")
+                 
+                 )
 Description: Set of tools to manipualte the 'JDemetra+' workspaces.
 Depends:
     R (>= 3.1.1),
@@ -13,8 +21,8 @@ Depends:
 Imports:
     rJava (>= 0.9-8)
 License: EUPL
-URL: https://github.com/AQLT/rjdworkspace
+URL: https://github.com/InseeFrLab/rjdworkspace
 LazyData: TRUE
-BugReports: https://github.com/AQLT/rjdworkspace/issues
+BugReports: https://github.com/InseeFrLab/rjdworkspace/issues
 Encoding: UTF-8
 RoxygenNote: 7.1.1
