@@ -14,7 +14,7 @@ It depends on the .jar files of
 [RJDemetra](https://github.com/nbbrd/rjdemetra) and extends some
 functions. In particular, rjdworkspace allows to:
 
-  - update the metadata of a workspace with those contained in another
+  - update all metadata of a workspace with those contained in another
     one (`update_metadata()`, `update_metadata_roughly()`) or update the
     metadata of a SaItem with the metadata contained in another SaItem
     (`set_metadata()`) ;  

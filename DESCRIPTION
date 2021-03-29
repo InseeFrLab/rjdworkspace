@@ -3,14 +3,14 @@ Type: Package
 Title: Manipulate 'JDemetra+' workspaces
 Version: 0.1.0
 Authors@R: c(
-  person(given = "Alain",,
+  person(given = "Alain",
          family = "Quartier-la-Tente",
          role = c("aut", "cre"),
          email = "alain.quartier@yahoo.fr",
          comment = c(ORCID = "0000-0001-7890-3857")),
   person(given = "Institut national de la statistique et des études économiques",
          role = "cph",
-         email = c("alice.tchang@insee.fr","anna.smyk@insee.fr")
+         email = c("alice.tchang@insee.fr","anna.smyk@insee.fr"),
          comment = "https://www.insee.fr/")
                  
                  )
