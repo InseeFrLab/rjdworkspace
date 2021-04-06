@@ -47,11 +47,12 @@ reference:
   contents:
   - '`change_ts`'
   - '`manipulate_sa_item`'
+  - '`replace_series`'
 - title: Manipulate Metadata
-  desc: Functions to update metadata and manipulate commentes
+  desc: Functions to update metadata and manipulate comments
   contents:
   - '`get_comment`'
   - '`set_comment`'
   - '`update_metadata`'
   - '`set_metadata`'
-  
+

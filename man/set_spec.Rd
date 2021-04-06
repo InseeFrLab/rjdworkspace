@@ -9,7 +9,7 @@ set_spec(sa_item, spec)
 \arguments{
 \item{sa_item}{a \code{"sa_item"} object.}
 
-\item{spec}{the object where to extract the new specification.}
+\item{spec}{the object into which the new specification is extracted/stored.}
 }
 \value{
 a new \code{"sa_item"} with the new specification

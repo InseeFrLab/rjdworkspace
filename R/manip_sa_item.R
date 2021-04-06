@@ -103,7 +103,7 @@ set_name <- function(sa_item, name){
 #' Function to set the specification of a \code{"sa_item"}.
 #' 
 #' @param sa_item a \code{"sa_item"} object.
-#' @param spec the object in which the new specification is extracted/stored.
+#' @param spec the object into which the new specification is extracted/stored.
 #' 
 #' @examples 
 #' sa_x13 <- jx13(ipi_c_eu[, "FR"])

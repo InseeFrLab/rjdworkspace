@@ -2,7 +2,7 @@
 % Please edit documentation in R/set_ts.R
 \name{set_ts}
 \alias{set_ts}
-\title{Change the input time series from a SaItem}
+\title{Change the input time series of a SaItem}
 \usage{
 set_ts(sa_item, ts)
 }
@@ -15,18 +15,21 @@ set_ts(sa_item, ts)
 a \code{sa_item}
 }
 \description{
-Function change the input time series from a SaItem
+Function to change the input time series of a SaItem
 }
 \examples{
+# Definition of the original time series
 sa_x13 <- jx13(ipi_c_eu[, "FR"])
 
 wk <- new_workspace()
 mp1 <- new_multiprocessing(wk, "sa1")
+# Addition of the series to the workspace and seasonal adjustment with the X13 model
 add_sa_item(wk, "sa1", sa_x13, "X13")
+# Retrieving the adjusted series
 sa1 <- get_object(mp1, 1)
 
-# To create a new sa_item change the input time series
+# Creation of a new sa_item and change of the input time series
 new_sa_item <- set_ts(sa1, ipi_c_eu[, "BE"])
-# To replace the first model by the new one
+# Replacement of the series in the workspace
 replace_sa_item(mp1, 1, new_sa_item)
 }
