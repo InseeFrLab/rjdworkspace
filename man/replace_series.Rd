@@ -8,8 +8,7 @@
 This function allows to update a selection of series. It is the partial version of the update_metadata function,
 of the rjdworkspace package.}
 \usage{
-replace_series(ws1, ws2, mp_name, selected_series,
-  print_indications = FALSE)
+replace_series(ws1, ws2, mp_name, selected_series, print_indications = FALSE)
 
 verif_duplicates(s)
 
@@ -29,8 +28,6 @@ verif_ws_duplicates(ws, print_indications = FALSE)
 \item{s}{a list of characters}
 
 \item{ws}{The workspace to scan}
-
-\item{print_indications}{A boolean to print indications on the processing status}
 }
 \value{
 the updated \code{workspace}
