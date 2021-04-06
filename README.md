@@ -3,8 +3,6 @@
 
 # rjdworskpace
 
-[![Travis Build
-Status](https://img.shields.io/travis/AQLT/rjdworkspace.svg?logo=travis)](https://travis-ci.org/AQLT/rjdworkspace)
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/rjdworkspace)](https://cran.r-project.org/package=rjdworkspace)
 
 ## Overview
@@ -19,7 +17,8 @@ functions. In particular, rjdworkspace allows to:
     metadata of a SaItem with the metadata contained in another SaItem
     (`set_metadata()`) ;  
   - replace, remove or add a SaItem in a workspace (`remove_sa_item()`,
-    `remove_all_sa_item()`, `replace_sa_item()`, `add_new_sa_item()`);  
+    `remove_all_sa_item()`, `replace_sa_item()`, `replace_series()`,
+    `add_new_sa_item()`);  
   - get and set the comment of a SaItem (`get_comment()`,
     `set_comment()`);
   - set the specification of a model contained in a SaItem

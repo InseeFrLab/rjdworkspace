@@ -1,9 +1,6 @@
-#' Tools to build the main functions of this package
-#' 
-#' 
+
 #' @importFrom stats frequency
 #' 
-#' To convert a time series object from the R format to Java
 ts_r2jd <- function(s){
   freq <- frequency(s)
   start <- start(s)
@@ -14,7 +11,7 @@ ts_r2jd <- function(s){
   return(ts)
 }
 
-#' To create a new R sa_item by updating a Java sa_item with Java elements
+
 builder_from_sa <- function(sa_def,
                             ts,
                             pointSpec,
@@ -97,7 +94,6 @@ builder_from_sa <- function(sa_def,
   return(builder_sa$build())
 }
 
-#' To update a Java time series with Java elements
 
 builder_from_ts <- function(jts,
                             data,

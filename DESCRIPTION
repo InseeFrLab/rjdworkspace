@@ -11,9 +11,7 @@ Authors@R: c(
   person(given = "Institut national de la statistique et des études économiques",
          role = "cph",
          email = c("alice.tchang@insee.fr","anna.smyk@insee.fr"),
-         comment = "https://www.insee.fr/")
-                 
-                 )
+         comment = "https://www.insee.fr/"))
 Description: Set of tools to manipualte the 'JDemetra+' workspaces.
 Depends:
     R (>= 3.1.1),

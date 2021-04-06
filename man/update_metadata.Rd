@@ -7,24 +7,25 @@
 \usage{
 update_metadata(path_workspace1, path_workspace2, path_new_workspace)
 
-update_metadata_roughly(path_workspace1, path_workspace2, path_new_workspace)
+update_metadata_roughly(path_workspace1, path_workspace2,
+  path_new_workspace)
 }
 \arguments{
-\item{path_workspace1}{Path to the workspace that contains the metadata.}
+\item{path_workspace1}{Path to the workspace that contains the new metadata.}
 
-\item{path_workspace2}{Path to the workspace to update metadata.}
+\item{path_workspace2}{Path to the workspace to update.}
 
 \item{path_new_workspace}{Path to the new workspace.}
 }
 \description{
-Functions to update the metadata of a workspace by those contained in another
+Functions to update the metadata of a workspace by those contained in another one
 }
 \details{
 \code{update_metadata()} checks the names of the multiprocessings and the SaItem of
 the two workspaces to update metadata. \code{update_metadata_roughly()} does not do any
-checking: the metadata of the first SaItem of the first multiprocessings
+checking: the metadata of the first SaItem of the first multiprocessing
 of the \code{workspace2} is updated with the metadata of the first SaItem of the
-first multiprocessings of the \code{workspace2}.
+first multiprocessings of the \code{workspace1}.
 }
 \examples{
 \dontrun{

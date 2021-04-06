@@ -7,7 +7,7 @@
 get_comment(x)
 }
 \arguments{
-\item{x}{the object where to get the comments.}
+\item{x}{the object from which the comments are retrieved.}
 }
 \description{
 Function to extract the comments of a workspace
