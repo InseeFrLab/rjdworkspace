@@ -6,15 +6,13 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Change the input time series from a SaItem — set_ts • rjdworkspace</title>
-
+<title>Change the input time series of a SaItem — set_ts • rjdworkspace</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
 <!-- bootstrap-toc -->
@@ -38,9 +36,10 @@
 
 
 
+<meta property="og:title" content="Change the input time series of a SaItem — set_ts" />
 
-<meta property="og:title" content="Change the input time series from a SaItem — set_ts" />
-<meta property="og:description" content="Function change the input time series from a SaItem" />
+<meta property="og:description" content="Function to change the input time series of a SaItem" />
+
 
 
 
@@ -88,6 +87,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
+      
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -129,7 +129,7 @@
   </ul>
 </li>
 <li>
-  <a href="https://github.com/AQLT/rjdworkspace">
+  <a href="https://github.com/InseeFrLab/rjdworkspace">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -147,17 +147,19 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Change the input time series from a SaItem</h1>
-    <small class="dont-index">Source: <a href='https://github.com/AQLT/rjdworkspace/blob/master/R/set_ts.R'><code>R/set_ts.R</code></a></small>
+    <h1>Change the input time series of a SaItem</h1>
+    <small class="dont-index">Source: <a href='https://github.com/InseeFrLab/rjdworkspace/blob/master/R/set_ts.R'><code>R/set_ts.R</code></a></small>
     <div class="hidden name"><code>set_ts.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Function change the input time series from a SaItem</p>
+    
+    <p>Function to change the input time series of a SaItem</p>
+    
     </div>
 
     <pre class="usage"><span class='fu'>set_ts</span><span class='op'>(</span><span class='va'>sa_item</span>, <span class='va'>ts</span><span class='op'>)</span></pre>
-
+    
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -170,22 +172,26 @@
       <td><p>the new <code><a href='https://rdrr.io/r/stats/ts.html'>ts</a></code> object.</p></td>
     </tr>
     </table>
-
+    
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>a <code>sa_item</code></p>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>sa_x13</span> <span class='op'>&lt;-</span> <span class='fu'>jx13</span><span class='op'>(</span><span class='va'>ipi_c_eu</span><span class='op'>[</span>, <span class='st'>"FR"</span><span class='op'>]</span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='co'># Definition of the original time series</span>
+<span class='va'>sa_x13</span> <span class='op'>&lt;-</span> <span class='fu'>jx13</span><span class='op'>(</span><span class='va'>ipi_c_eu</span><span class='op'>[</span>, <span class='st'>"FR"</span><span class='op'>]</span><span class='op'>)</span>
 
 <span class='va'>wk</span> <span class='op'>&lt;-</span> <span class='fu'>new_workspace</span><span class='op'>(</span><span class='op'>)</span>
 <span class='va'>mp1</span> <span class='op'>&lt;-</span> <span class='fu'>new_multiprocessing</span><span class='op'>(</span><span class='va'>wk</span>, <span class='st'>"sa1"</span><span class='op'>)</span>
+<span class='co'># Addition of the series to the workspace and seasonal adjustment with the X13 model</span>
 <span class='fu'>add_sa_item</span><span class='op'>(</span><span class='va'>wk</span>, <span class='st'>"sa1"</span>, <span class='va'>sa_x13</span>, <span class='st'>"X13"</span><span class='op'>)</span>
+<span class='co'># Retrieving the adjusted series</span>
 <span class='va'>sa1</span> <span class='op'>&lt;-</span> <span class='fu'>get_object</span><span class='op'>(</span><span class='va'>mp1</span>, <span class='fl'>1</span><span class='op'>)</span>
 
-<span class='co'># To create a new sa_item change the input time series</span>
+<span class='co'># Creation of a new sa_item and change of the input time series</span>
 <span class='va'>new_sa_item</span> <span class='op'>&lt;-</span> <span class='fu'>set_ts</span><span class='op'>(</span><span class='va'>sa1</span>, <span class='va'>ipi_c_eu</span><span class='op'>[</span>, <span class='st'>"BE"</span><span class='op'>]</span><span class='op'>)</span>
-<span class='co'># To replace the first model by the new one</span>
+<span class='co'># Replacement of the series in the workspace</span>
 <span class='fu'><a href='manipulate_sa_item.html'>replace_sa_item</a></span><span class='op'>(</span><span class='va'>mp1</span>, <span class='fl'>1</span>, <span class='va'>new_sa_item</span><span class='op'>)</span>
 </div></pre>
   </div>

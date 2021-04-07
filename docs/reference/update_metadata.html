@@ -8,13 +8,11 @@
 
 <title>Update the metadata from a workspace — update_metadata • rjdworkspace</title>
 
-
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
 <!-- bootstrap-toc -->
@@ -38,9 +36,10 @@
 
 
 
-
 <meta property="og:title" content="Update the metadata from a workspace — update_metadata" />
-<meta property="og:description" content="Functions to update the metadata of a workspace by those contained in another" />
+
+<meta property="og:description" content="Functions to update the metadata of a workspace by those contained in another one" />
+
 
 
 
@@ -88,6 +87,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
+      
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -129,7 +129,7 @@
   </ul>
 </li>
 <li>
-  <a href="https://github.com/AQLT/rjdworkspace">
+  <a href="https://github.com/InseeFrLab/rjdworkspace">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -148,42 +148,45 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Update the metadata from a workspace</h1>
-    <small class="dont-index">Source: <a href='https://github.com/AQLT/rjdworkspace/blob/master/R/metadata.R'><code>R/metadata.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/InseeFrLab/rjdworkspace/blob/master/R/metadata.R'><code>R/metadata.R</code></a></small>
     <div class="hidden name"><code>update_metadata.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Functions to update the metadata of a workspace by those contained in another</p>
+    
+    <p>Functions to update the metadata of a workspace by those contained in another one</p>
+    
     </div>
 
     <pre class="usage"><span class='fu'>update_metadata</span><span class='op'>(</span><span class='va'>path_workspace1</span>, <span class='va'>path_workspace2</span>, <span class='va'>path_new_workspace</span><span class='op'>)</span>
 
 <span class='fu'>update_metadata_roughly</span><span class='op'>(</span><span class='va'>path_workspace1</span>, <span class='va'>path_workspace2</span>, <span class='va'>path_new_workspace</span><span class='op'>)</span></pre>
-
+    
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>path_workspace1</th>
-      <td><p>Path to the workspace that contains the metadata.</p></td>
+      <td><p>Path to the workspace that contains the new metadata.</p></td>
     </tr>
     <tr>
       <th>path_workspace2</th>
-      <td><p>Path to the workspace to update metadata.</p></td>
+      <td><p>Path to the workspace to update.</p></td>
     </tr>
     <tr>
       <th>path_new_workspace</th>
       <td><p>Path to the new workspace.</p></td>
     </tr>
     </table>
-
+    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p><code>update_metadata()</code> checks the names of the multiprocessings and the SaItem of
 the two workspaces to update metadata. <code>update_metadata_roughly()</code> does not do any
-checking: the metadata of the first SaItem of the first multiprocessings
+checking: the metadata of the first SaItem of the first multiprocessing
 of the <code>workspace2</code> is updated with the metadata of the first SaItem of the
-first multiprocessings of the <code>workspace2</code>.</p>
+first multiprocessings of the <code>workspace1</code>.</p>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
