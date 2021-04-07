@@ -8,13 +8,11 @@
 
 <title>Set the metadata of a SaItem — set_metadata • rjdworkspace</title>
 
-
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
 <!-- bootstrap-toc -->
@@ -38,9 +36,10 @@
 
 
 
-
 <meta property="og:title" content="Set the metadata of a SaItem — set_metadata" />
+
 <meta property="og:description" content="Function to set the name of a &quot;sa_item&quot; from the one contained in another &quot;sa_item&quot;." />
+
 
 
 
@@ -88,6 +87,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
+      
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -129,7 +129,7 @@
   </ul>
 </li>
 <li>
-  <a href="https://github.com/AQLT/rjdworkspace">
+  <a href="https://github.com/InseeFrLab/rjdworkspace">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -148,16 +148,18 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Set the metadata of a SaItem</h1>
-    <small class="dont-index">Source: <a href='https://github.com/AQLT/rjdworkspace/blob/master/R/metadata.R'><code>R/metadata.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/InseeFrLab/rjdworkspace/blob/master/R/metadata.R'><code>R/metadata.R</code></a></small>
     <div class="hidden name"><code>set_metadata.Rd</code></div>
     </div>
 
     <div class="ref-description">
+    
     <p>Function to set the name of a <code>"sa_item"</code> from the one contained in another <code>"sa_item"</code>.</p>
+    
     </div>
 
     <pre class="usage"><span class='fu'>set_metadata</span><span class='op'>(</span><span class='va'>sa_to</span>, <span class='va'>sa_from</span><span class='op'>)</span></pre>
-
+    
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -167,13 +169,14 @@
     </tr>
     <tr>
       <th>sa_from</th>
-      <td><p>the <code>"sa_item"</code> object where to get the metadata.</p></td>
+      <td><p>the <code>"sa_item"</code> object from which the desired metadata is retrieved.</p></td>
     </tr>
     </table>
-
+    
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a new <code>"sa_item"</code> with the model of <code>sa_to</code> and the metadata of<code>sa_to</code>.</p>
+    <p>a new <code>"sa_item"</code> with the model of <code>sa_to</code> and the metadata of<code>sa_from</code>.</p>
+    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
