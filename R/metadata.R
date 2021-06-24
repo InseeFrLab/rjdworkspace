@@ -2,42 +2,46 @@
 #'
 #' Functions to update the metadata of a workspace by those contained in another one
 #'
-#' @param path_workspace1 Path to the workspace that contains the new metadata.
-#' @param path_workspace2 Path to the workspace to update.
-#' @param path_new_workspace Path to the new workspace.
+#' @param workspace1 Workspace that contains the new metadata.
+#' @param workspace2 Workspace to update.
 #'
 #'
-#' @details \code{update_metadata()} checks the names of the multiprocessings and the SaItem of
-#' the two workspaces to update metadata. \code{update_metadata_roughly()} does not do any
-#' checking: the metadata of the first SaItem of the first multiprocessing
-#' of the \code{workspace2} is updated with the metadata of the first SaItem of the
-#' first multiprocessings of the \code{workspace1}.
+#' @details \code{update_metadata()} checks the multiprocessings and SaItems' names within
+#' the two workspaces before updating workspace2's metadata. \code{update_metadata_roughly()} does not do any
+#' checks: \code{workspace2}'s first multiprocessing's first SaItem metadata 
+#' is updated with \code{workspace1}'s first multiprocessing's first SaItem metadata.
+#' Both functions create and return a new workspace containing the updated series.
 #'
 #' @examples \dontrun{
-#' path_workspace1 <- "D:/test_metadata/reference.xml"
-#' path_workspace2 <- "D:/test_metadata/r_wk.xml"
-#' path_new_workspace <- "D:/test_metadata/r_wk_metadata.xml"
-#' update_metadata_roughly(path_workspace1, path_workspace2, path_new_workspace)
-#' update_metadata(path_workspace1, path_workspace2, path_new_workspace)
+#' workspace1_ <- load_workspace("D:/test_metadata/reference.xml")
+#' workspace1  <- compute(workspace1_)
+#' workspace2_ <- load_workspace("D:/test_metadata/ws_wk.xml")
+#' workspace2  <- compute(workspace2_)
+#' 
+#' updated_workspace <- update_metadata_roughly(workspace1, workspace2)
+#' save_workspace(updated_workspace, "D:/test_metadata/ws_wk_metadata.xml")
+#' 
+#' updated_workspace <- update_metadata(workspace1, workspace2)
+#' save_workspace(updated_workspace, "D:/test_metadata/ws_wk_metadata.xml")
 #' }
 #'
 #' @name update_metadata
 #' @rdname update_metadata
 #' @export
-update_metadata <- function(path_workspace1, path_workspace2,
-                            path_new_workspace){
-  wk1 <- RJDemetra::load_workspace(path_workspace1)
-  wk2 <- RJDemetra::load_workspace(path_workspace2)
-  all_mp_wk1 <- RJDemetra::get_all_objects(wk1)
+update_metadata <- function(workspace1, workspace2,
+                            updated_workspace){
+  # wk1 <- RJDemetra::load_workspace(workspace1)
+  # wk2 <- RJDemetra::load_workspace(workspace2)
+  all_mp_wk1 <- RJDemetra::get_all_objects(workspace1)
   all_mp_wk1_names <- names(all_mp_wk1)
 
-  for(i_mp in seq_len(RJDemetra::count(wk2))){
-    mp_wk2 <- RJDemetra::get_object(wk2, i_mp)
+  for(i_mp in seq_len(RJDemetra::count(workspace2))){
+    mp_wk2 <- RJDemetra::get_object(workspace2, i_mp)
     mp_name <- RJDemetra::get_name(mp_wk2)
     mp_wk1_i <- which(all_mp_wk1_names %in% mp_name)
     if(length(mp_wk1_i) > 0){
       if(length(mp_wk1_i) > 1)
-        warning(sprintf('At least 2 multiprocessing called "%s" were founded in the workspace1: the first object will be used', mp_name))
+        warning(sprintf('At least 2 multiprocessing called "%s" were found in the workspace1: the first object will be used', mp_name))
 
       mp_wk1 <- all_mp_wk1[[mp_wk1_i[1]]]
       all_sa_wk1_names <- names(RJDemetra::get_all_objects(mp_wk1))
@@ -48,7 +52,7 @@ update_metadata <- function(path_workspace1, path_workspace2,
         sa_wk1_i <- which(all_sa_wk1_names %in% sa_name)
         if(length(sa_wk1_i) > 0){
           if(length(sa_wk1_i) > 1)
-            warning(sprintf('At least 2 SaItem called "%s" were founded in the workspace1: the first object will be used',sa_name))
+            warning(sprintf('At least 2 SaItem called "%s" were found in the workspace1: the first object will be used',sa_name))
 
           sa_wk1 <- RJDemetra::get_object(mp_wk1, sa_wk1_i[1])
           new_sa_item <- set_metadata(sa_to = sa_wk2,
@@ -98,19 +102,18 @@ update_metadata <- function(path_workspace1, path_workspace2,
       warning(sprintf('The multiprocessing "%s" is not found in the workspace1',mp_name))
     }
   }
-  RJDemetra::save_workspace(wk2, path_new_workspace)
+  return(workspace2)
 }
 #' @name update_metadata
 #' @rdname update_metadata
 #' @export
-update_metadata_roughly <- function(path_workspace1, path_workspace2,
-                                    path_new_workspace){
-  wk1 <- RJDemetra::load_workspace(path_workspace1)
-  wk2 <- RJDemetra::load_workspace(path_workspace2)
+update_metadata_roughly <- function(workspace1, workspace2,){
+  # wk1 <- RJDemetra::load_workspace(workspace1)
+  # wk2 <- RJDemetra::load_workspace(workspace2)
 
-  for(i_mp in seq_len(RJDemetra::count(wk2))){
-    mp_wk2 <- RJDemetra::get_object(wk2, i_mp)
-    mp_wk1 <- RJDemetra::get_object(wk1, i_mp)
+  for(i_mp in seq_len(RJDemetra::count(workspace2))){
+    mp_wk2 <- RJDemetra::get_object(workspace2, i_mp)
+    mp_wk1 <- RJDemetra::get_object(workspace1, i_mp)
 
     for(i_sa in seq_len(RJDemetra::count(mp_wk2))){
       sa_wk2 <- RJDemetra::get_object(mp_wk2, i_sa)
@@ -129,7 +132,7 @@ update_metadata_roughly <- function(path_workspace1, path_workspace2,
                       pos = i_sa)
     }
   }
-  RJDemetra::save_workspace(wk2, path_new_workspace)
+  return(workspace2)
 }
 
 #' Set the metadata of a SaItem
