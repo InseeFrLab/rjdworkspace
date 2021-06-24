@@ -28,8 +28,7 @@
 #' @name update_metadata
 #' @rdname update_metadata
 #' @export
-update_metadata <- function(workspace1, workspace2,
-                            updated_workspace){
+update_metadata <- function(workspace1, workspace2){
   # wk1 <- RJDemetra::load_workspace(workspace1)
   # wk2 <- RJDemetra::load_workspace(workspace2)
   all_mp_wk1 <- RJDemetra::get_all_objects(workspace1)
@@ -107,7 +106,7 @@ update_metadata <- function(workspace1, workspace2,
 #' @name update_metadata
 #' @rdname update_metadata
 #' @export
-update_metadata_roughly <- function(workspace1, workspace2,){
+update_metadata_roughly <- function(workspace1, workspace2){
   # wk1 <- RJDemetra::load_workspace(workspace1)
   # wk2 <- RJDemetra::load_workspace(workspace2)
 
@@ -142,7 +141,7 @@ update_metadata_roughly <- function(workspace1, workspace2,){
 #' @param sa_to the \code{"sa_item"} object to modify.
 #' @param sa_from the \code{"sa_item"} object from which the desired metadata is retrieved.
 #' 
-#' @return a new \code{"sa_item"} with the model of \code{sa_to} and the metadata of\code{sa_from}.
+#' @return a new \code{"sa_item"} with the model of \code{sa_to} and the metadata of \code{sa_from}.
 #' @export
 set_metadata <- function(sa_to, sa_from){
   sa_def_from <- .jcall(sa_from, "Ldemetra/datatypes/sa/SaItemType;", "getSaDefinition")
