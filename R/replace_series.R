@@ -116,12 +116,12 @@ replace_series <- function(ws1, ws2, mp_name, selected_series, print_indications
       if (print_indications) {print(get_name(replacing_series))}
       
       # Replacement of the series by its updated version (change made in the reference workspace)
-      replace_sa_item(mp1, replacing_series, pos_table$pos_series1[i])
+      replace_sa_item(mp1, pos_table$pos_series1[i], replacing_series)
       
       if (print_indications) {print("ok")}
     }
     
-    print(paste("Series updating done for the", sap, "SAP."))
+    print(paste0("Series updating done for the SAP ", mp_name,"."))
     
     return(ws1)
     
