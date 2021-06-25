@@ -1,10 +1,10 @@
 #' Manipulate SaItems
 #'
-#' Functions to remove/replace/add a \code{sa_item} from/to a multiprocessing.
+#' Functions to remove/replace/add a `sa_item` from/to a multiprocessing.
 #'
 #' @param mp the multiprocessing.
-#' @param pos the index of the \code{sa_item} to remove or to replace.
-#' @param sa_item \code{sa_item} object.
+#' @param pos the index of the `sa_item` to remove or to replace.
+#' @param sa_item `sa_item` object.
 #'
 #' @name manipulate_sa_item
 #' @rdname manipulate_sa_item
@@ -69,9 +69,9 @@ add_new_sa_item <- function(mp, sa_item){
 
 #' Set the name of a SaItem
 #' 
-#' Function to set the name of a \code{"sa_item"}.
+#' Function to set the name of a `"sa_item"`.
 #' 
-#' @param sa_item a \code{"sa_item"} object.
+#' @param sa_item a `"sa_item"` object.
 #' @param name the new name.
 #' 
 #' @examples 
@@ -87,7 +87,7 @@ add_new_sa_item <- function(mp, sa_item){
 #' # The first sa_item of mp1 is now "X13"
 #' RJDemetra::get_name(get_object(mp1, 1))
 #' 
-#' @return a new \code{"sa_item"} with the new name.
+#' @return a new `"sa_item"` with the new name.
 #' @export
 set_name <- function(sa_item, name){
   sa_def <- .jcall(sa_item, "Ldemetra/datatypes/sa/SaItemType;", "getSaDefinition")
@@ -100,9 +100,9 @@ set_name <- function(sa_item, name){
 }
 #' Set the specification of a SaItem
 #' 
-#' Function to set the specification of a \code{"sa_item"}.
+#' Function to set the specification of a `"sa_item"`.
 #' 
-#' @param sa_item a \code{"sa_item"} object.
+#' @param sa_item a `"sa_item"` object.
 #' @param spec the object into which the new specification is extracted/stored.
 #' 
 #' @examples 
@@ -118,7 +118,7 @@ set_name <- function(sa_item, name){
 #' # The first sa_item is now seasonally adjusted with TRAMO-SEATS
 #' replace_sa_item(mp1, 1, new_sa)
 #' 
-#' @return a new \code{"sa_item"} with the new specification
+#' @return a new `"sa_item"` with the new specification
 #' @export
 set_spec <- function(sa_item, spec){
   sa_def <- .jcall(sa_item, "Ldemetra/datatypes/sa/SaItemType;", "getSaDefinition")

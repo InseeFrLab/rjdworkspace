@@ -9,7 +9,7 @@ set_ts(sa_item, ts)
 \arguments{
 \item{sa_item}{the \code{sa_item} to modify.}
 
-\item{ts}{the new \code{\link[stats]{ts}} object.}
+\item{ts}{the new \code{\link[stats:ts]{stats::ts()}} object.}
 }
 \value{
 a \code{sa_item}

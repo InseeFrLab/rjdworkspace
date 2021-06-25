@@ -2,10 +2,10 @@
 #'
 #' Function to change the input time series of a SaItem
 #'
-#' @param ts the new \code{\link[stats]{ts}} object.
-#' @param sa_item the \code{sa_item} to modify.
+#' @param ts the new [stats::ts()] object.
+#' @param sa_item the `sa_item` to modify.
 #'
-#' @return a \code{sa_item}
+#' @return a `sa_item`
 #' @examples 
 #' # Definition of the original time series
 #' sa_x13 <- jx13(ipi_c_eu[, "FR"])
