@@ -1,6 +1,6 @@
 #' Partial update of a workspace metadata
 #'
-#' \code{replace_series()} allows to update a selection of series by the same-named series 
+#' `replace_series()` allows to update a selection of series by the same-named series 
 #' from another workspace. When only the metadata differs, it is the partial version of the update_metadata function.
 #'
 #' 
@@ -10,11 +10,11 @@
 #' @param mp_name The name of the multiprocessing containing the series to update (optional)
 #' @param print_indications A boolean to print indications on the processing status (optional)
 #' 
-#' @details If the argument \code{mp_name} is unspecified, the update will be performed using 
+#' @details If the argument `mp_name` is unspecified, the update will be performed using 
 #' the workspaces' first SAProcessing.
 #'
 #' @rdname replace_series
-#' @return the updated \code{workspace}
+#' @return the updated `workspace`
 #' @examples \dontrun{replace_series(ws1, ws2, "SAProcessing-1", c("serie1", "serie2"), TRUE)}
 #' @export
 #'
@@ -73,12 +73,13 @@ replace_series <- function(ws1, ws2, selected_series, mp_name=NA, print_indicati
   if(print_indications){print(paste0("pos_mp1=",pos_mp1))}
   
   # End of the program if the SAP can't be found in one of the workspaces
-  if(is.null(pos_mp1)||is.na(pos_mp1)){
+  # ie. an unexisting SAP was specified
+  if(sum(pos_mp1)==0||is.null(pos_mp1)||is.na(pos_mp1)){
     print("The chosen SAP couldn't be found in the first workspace.")
     return(FALSE)
   }
   
-  if(is.null(pos_mp2)){
+  if(sum(pos_mp2)==0||is.null(pos_mp2)||is.na(pos_mp2)){
     print("The chosen SAP couldn't be found in the second workspace.")
     return(FALSE)
   }
@@ -155,8 +156,8 @@ replace_series <- function(ws1, ws2, selected_series, mp_name=NA, print_indicati
 #' Generic function to identify and return the duplicates in a list
 #' 
 #' @details
-#' \code{verif_duplicates()} identifies and returns the duplicates in a list 
-#' \code{verif_ws_duplicates()} identifies duplicated series in a SAProcessing (SAP) 
+#' `verif_duplicates()` identifies and returns the duplicates in a list 
+#' `verif_ws_duplicates()` identifies duplicated series in a SAProcessing (SAP) 
 #' and SAProcessings in a workspace
 #' 
 #' @param s a list of characters

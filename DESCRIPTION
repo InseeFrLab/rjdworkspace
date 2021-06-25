@@ -1,7 +1,7 @@
 Package: rjdworkspace
 Type: Package
 Title: Manipulate 'JDemetra+' workspaces
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: c(
   person(given = "Alain",
          family = "Quartier-la-Tente",
@@ -24,3 +24,4 @@ LazyData: TRUE
 BugReports: https://github.com/InseeFrLab/rjdworkspace/issues
 Encoding: UTF-8
 RoxygenNote: 7.1.1
+Roxygen: list(markdown = TRUE)

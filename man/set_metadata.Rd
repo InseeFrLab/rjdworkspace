@@ -12,7 +12,7 @@ set_metadata(sa_to, sa_from)
 \item{sa_from}{the \code{"sa_item"} object from which the desired metadata is retrieved.}
 }
 \value{
-a new \code{"sa_item"} with the model of \code{sa_to} and the metadata of\code{sa_from}.
+a new \code{"sa_item"} with the model of \code{sa_to} and the metadata of \code{sa_from}.
 }
 \description{
 Function to set the name of a \code{"sa_item"} from the one contained in another \code{"sa_item"}.

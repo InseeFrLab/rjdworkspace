@@ -6,10 +6,10 @@
 #' @param workspace2 Workspace to update.
 #'
 #'
-#' @details \code{update_metadata()} checks the multiprocessings and SaItems' names within
-#' the two workspaces before updating workspace2's metadata. \code{update_metadata_roughly()} does not do any
-#' checks: \code{workspace2}'s first multiprocessing's first SaItem metadata 
-#' is updated with \code{workspace1}'s first multiprocessing's first SaItem metadata.
+#' @details `update_metadata()` checks the multiprocessings and SaItems' names within
+#' the two workspaces before updating workspace2's metadata. `update_metadata_roughly()` does not do any
+#' checks: `workspace2`'s first multiprocessing's first SaItem metadata 
+#' is updated with `workspace1`'s first multiprocessing's first SaItem metadata.
 #' Both functions create and return a new workspace containing the updated series.
 #'
 #' @examples \dontrun{
@@ -136,12 +136,12 @@ update_metadata_roughly <- function(workspace1, workspace2){
 
 #' Set the metadata of a SaItem
 #' 
-#' Function to set the name of a \code{"sa_item"} from the one contained in another \code{"sa_item"}.
+#' Function to set the name of a `"sa_item"` from the one contained in another `"sa_item"`.
 #' 
-#' @param sa_to the \code{"sa_item"} object to modify.
-#' @param sa_from the \code{"sa_item"} object from which the desired metadata is retrieved.
+#' @param sa_to the `"sa_item"` object to modify.
+#' @param sa_from the `"sa_item"` object from which the desired metadata is retrieved.
 #' 
-#' @return a new \code{"sa_item"} with the model of \code{sa_to} and the metadata of \code{sa_from}.
+#' @return a new `"sa_item"` with the model of `sa_to` and the metadata of `sa_from`.
 #' @export
 set_metadata <- function(sa_to, sa_from){
   sa_def_from <- .jcall(sa_from, "Ldemetra/datatypes/sa/SaItemType;", "getSaDefinition")

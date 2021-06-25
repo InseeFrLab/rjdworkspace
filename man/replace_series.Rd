@@ -4,11 +4,15 @@
 \alias{replace_series}
 \alias{verif_duplicates}
 \alias{verif_ws_duplicates}
-\title{Function to automate the replacement of selected series and their metadata by the same series from another workspace
-This function allows to update a selection of series. It is the partial version of the update_metadata function,
-of the rjdworkspace package.}
+\title{Partial update of a workspace metadata}
 \usage{
-replace_series(ws1, ws2, mp_name, selected_series, print_indications = FALSE)
+replace_series(
+  ws1,
+  ws2,
+  selected_series,
+  mp_name = NA,
+  print_indications = FALSE
+)
 
 verif_duplicates(s)
 
@@ -19,9 +23,9 @@ verif_ws_duplicates(ws, print_indications = FALSE)
 
 \item{ws2}{The workspace containing the most up-to-date version of the selected_series series}
 
-\item{mp_name}{The name of the multiprocessing containing the series to update}
-
 \item{selected_series}{The vector containing the series-to-update's names.}
+
+\item{mp_name}{The name of the multiprocessing containing the series to update (optional)}
 
 \item{print_indications}{A boolean to print indications on the processing status}
 
@@ -32,20 +36,24 @@ verif_ws_duplicates(ws, print_indications = FALSE)
 \value{
 the updated \code{workspace}
 
-If there are no duplicates, the function returns an empty data frame. 
+If there are no duplicates, the function returns an empty data frame.
 Otherwise, it returns a data frame giving the name and number of duplicates found within the argument (list).
 
 a list containing the name and number of occurences of duplicated SAPs and series
 }
 \description{
-Function to automate the replacement of selected series and their metadata by the same series from another workspace
-This function allows to update a selection of series. It is the partial version of the update_metadata function,
-of the rjdworkspace package.
+\code{replace_series()} allows to update a selection of series by the same-named series
+from another workspace. When only the metadata differs, it is the partial version of the update_metadata function.
 
-Auxiliary functions
 Generic function to identify and return the duplicates in a list
+}
+\details{
+If the argument \code{mp_name} is unspecified, the update will be performed using
+the workspaces' first SAProcessing.
 
-Function to identify duplicated series in a SAProcessing (SAP) or of SAProcessings in a workspace
+\code{verif_duplicates()} identifies and returns the duplicates in a list
+\code{verif_ws_duplicates()} identifies duplicated series in a SAProcessing (SAP)
+and SAProcessings in a workspace
 }
 \examples{
 \dontrun{replace_series(ws1, ws2, "SAProcessing-1", c("serie1", "serie2"), TRUE)}
