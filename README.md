@@ -16,9 +16,11 @@ functions. In particular, rjdworkspace allows to:
     one (`update_metadata()`, `update_metadata_roughly()`) or update the
     metadata of a SaItem with the metadata contained in another SaItem
     (`set_metadata()`) ;  
-  - replace, remove or add a SaItem in a workspace (`remove_sa_item()`,
+  - replace, remove or add series in a workspace (`remove_sa_item()`,
     `remove_all_sa_item()`, `replace_sa_item()`, `replace_series()`,
     `add_new_sa_item()`);  
+  - copy\&paste series from a workspace to another one
+    (`transfer_series()`)
   - get and set the comment of a SaItem (`get_comment()`,
     `set_comment()`);
   - set the specification of a model contained in a SaItem
