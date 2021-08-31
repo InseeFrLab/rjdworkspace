@@ -115,10 +115,10 @@ replace_series <- function(ws1, ws2, selected_series, mp_name=NA, print_indicati
     pos_table$pos_series2[i] <- which(selected_series[i] == names_series2)
   }
   
-  verif <- pos_table[is.na(pos_table$pos_series1)||is.na(pos_table$pos_series2),]
+  verif <- pos_table[sum(pos_table$pos_series1)==0||sum(pos_table$pos_series2)==0,]
   if (nrow(verif) != 0){
     print("Attention, the following series are missing in at least one SAP: fix it and recompile the program!")
-    return(verif)
+    return(verif$selected_series)
   } else {
     
     # Retrieving both SAPs that will be used (possibly identically named)
@@ -131,12 +131,12 @@ replace_series <- function(ws1, ws2, selected_series, mp_name=NA, print_indicati
       if (print_indications) {print(paste("Series", i))}
       
       # The "up-to-date" series version
-      replacing_series <- RJDemetra::get_object(mp2, pos_table$pos_series2[i])
+      replacement_series <- RJDemetra::get_object(mp2, pos_table$pos_series2[i])
       
-      if (print_indications) {print(get_name(replacing_series))}
+      if (print_indications) {print(get_name(replacement_series))}
       
       # Replacement of the series by its updated version (change made in the reference workspace)
-      replace_sa_item(mp1, pos_table$pos_series1[i], replacing_series)
+      replace_sa_item(mp1, pos_table$pos_series1[i], replacement_series)
       
       if (print_indications) {print("ok")}
     }

@@ -1,3 +1,5 @@
+#' Transfer_series
+#' 
 #' To copy&paste series from one workspace to another
 #'
 #' @param ws1 The workspace to add series to
@@ -129,14 +131,14 @@ transfer_series <- function(ws1, ws2, mp_to=NA, mp_from=NA, print_indications=FA
       if (print_indications) {print(paste("Series", i))}
       
       # The "up-to-date" series version
-      replacing_series <- RJDemetra::get_object(mp2, pos_table$pos_series2[i])
-      series_name <- get_name(replacing_series)
+      replacement_series <- RJDemetra::get_object(mp2, pos_table$pos_series2[i])
+      series_name <- get_name(replacement_series)
       
       if (print_indications) {print(series_name)}
       
       # Replacement of the series by its updated version (change made in the reference workspace)
-      #add_sa_item(ws1, mp_to, replacing_series, series_name)
-      add_new_sa_item(mp1, replacing_series)
+      #add_sa_item(ws1, mp_to, replacement_series, series_name)
+      add_new_sa_item(mp1, replacement_series)
       
       if (print_indications) {print("ok")}
     }
