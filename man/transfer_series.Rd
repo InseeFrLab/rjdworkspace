@@ -2,7 +2,7 @@
 % Please edit documentation in R/transfer_series.R
 \name{transfer_series}
 \alias{transfer_series}
-\title{To copy&paste series from one workspace to another}
+\title{Transfer_series}
 \usage{
 transfer_series(ws1, ws2, mp_to = NA, mp_from = NA, print_indications = FALSE)
 }

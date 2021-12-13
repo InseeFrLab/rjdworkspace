@@ -7,8 +7,8 @@
 \title{Partial update of a workspace metadata}
 \usage{
 replace_series(
-  ws1,
-  ws2,
+  ws_1,
+  ws_2,
   selected_series,
   mp_name = NA,
   print_indications = FALSE
@@ -19,10 +19,6 @@ verif_duplicates(s)
 verif_ws_duplicates(ws, print_indications = FALSE)
 }
 \arguments{
-\item{ws1}{The workspace to update}
-
-\item{ws2}{The workspace containing the most up-to-date version of the selected_series series}
-
 \item{selected_series}{The vector containing the series-to-update's names.}
 
 \item{mp_name}{The name of the multiprocessing containing the series to update (optional)}
@@ -32,6 +28,10 @@ verif_ws_duplicates(ws, print_indications = FALSE)
 \item{s}{a list of characters}
 
 \item{ws}{The workspace to scan}
+
+\item{ws1}{The workspace to update}
+
+\item{ws2}{The workspace containing the most up-to-date version of the selected_series series}
 }
 \value{
 the updated \code{workspace}
