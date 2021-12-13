@@ -43,10 +43,11 @@ transfer_series <- function(ws1, ws2, mp_to=NA, mp_from=NA, print_indications=FA
   }
   
   # When both workspaces aren't empty:
+
+  # Retrieving all SAPs and their names
   # "sap" refers to all SAPs of each workspace
   # "mp" refers to the specified "mp_name" SAP to update
   
-  # Retrieving all SAPs and their names
   saps1 <- RJDemetra::get_all_objects(ws1)
   names_saps1 <- names(saps1)
   

@@ -12,18 +12,17 @@
 #' is updated with `workspace1`'s first multiprocessing's first SaItem metadata.
 #' Both functions create and return a new workspace containing the updated series.
 #'
-#' @examples \dontrun{
-#' workspace1_ <- load_workspace("D:/test_metadata/reference.xml")
-#' workspace1  <- compute(workspace1_)
-#' workspace2_ <- load_workspace("D:/test_metadata/ws_wk.xml")
-#' workspace2  <- compute(workspace2_)
+#' @examples 
+#' workspace1 <- load_workspace("D:/test_metadata/reference.xml")
+#' compute(workspace1)
+#' workspace2 <- load_workspace("D:/test_metadata/ws_wk.xml")
+#' compute(workspace2)
 #' 
 #' updated_workspace <- update_metadata_roughly(workspace1, workspace2)
 #' save_workspace(updated_workspace, "D:/test_metadata/ws_wk_metadata.xml")
 #' 
 #' updated_workspace <- update_metadata(workspace1, workspace2)
 #' save_workspace(updated_workspace, "D:/test_metadata/ws_wk_metadata.xml")
-#' }
 #'
 #' @name update_metadata
 #' @rdname update_metadata
@@ -208,16 +207,108 @@ set_comment.sa_item <- function(x, comment){
   jmap$putAll(metadata)
   jmap$put("comment", comment)
   
-  # builder_ts <- jts$toBuilder()
-  # builder_ts$metaData(jts$getMetaData())
-  # jts_temp <- builder_ts$build()
-  # builder_sa <- sa_def$toBuilder()
-  # builder_sa$ts(jts)
-  # builder_sa$metaData(jmap)
-  #sa_def_temp <- builder_sa$build()
   sa_def_temp <- builder_from_sa(sa_def,
                                  metaData = jmap)
   new_sa_item <- .jnew("ec/tstoolkit/jdr/ws/SaItem", sa_def_temp)
   new_sa_item
 }
 
+
+#' Update the path to the raw series file
+#' 
+#' Function to change the path to the raw series file in a workspace
+#' 
+#' @param ws_path the path to the workspace
+#' @param raw_data_path the path to the raw data file
+#' @param param the number of lines between a series name and the path to its raw file in the xml file. The default value is 8.
+#' @param print_log a boolean to indicate whether to print progress indications.
+#' 
+#' @return the eventual list of series from the workspace that weren't found in the raw series file
+#' 
+#' @details - The paths' translation into ASCII is done by the function.
+#' - The function operates on a workspace's first SAProcessing (ie. on a whole workspace when it contains one SAP).
+#' - The raw series file must be a csv file.
+#' - The paths must be "full" (as opposed to relative to the setwd directory, for example).
+#' 
+#' @examples 
+#' # Minimal syntax
+#' update_path("my_folder_path/my_workspace.xml","my_folder_path/raw_data_file.csv")
+#' # Customisation of the param parameter
+#' update_path("my_folder_path/my_workspace.xml","my_folder_path/raw_data_file.csv",5,TRUE)
+
+#' @export
+
+update_path <- function(ws_path, raw_data_path, param=8, print_log = FALSE){
+  
+  # Verification that the ws_path leads to a valid workspace 
+  ws <- load_workspace(ws_path)
+  compute(ws)
+  if(!inherits(ws, "workspace")){stop("There is an error in the workspace path")}
+  # print(ws)
+  
+  # If the default value of param is used and only print_log is indicated,
+  # The logical parameter is re-attributed to print_logical and the default value (of 8), to param
+  if(is.logical(param)){print_log <- param ; param=8}
+  
+  # Conversion of the raw data path into ASCII/JD+ format (folder separators: / or \\)
+  raw_data_path_JD5<-gsub(":","%3A", raw_data_path)
+  raw_data_path_JD4<-gsub("/","%5C", raw_data_path_JD5)
+  raw_data_path_JD3<-gsub("\\\\","%5C", raw_data_path_JD4)
+  raw_data_path_JD2<-gsub(" ","+", raw_data_path_JD3)
+  raw_data_path_JD1<-gsub(c("_a1"),c(""), raw_data_path_JD2)
+  raw_data_path_JD<-gsub(c("_a2"),c(""), raw_data_path_JD1)
+  raw_data_path_JD
+  
+  # Extraction of the path to the workspace main folder
+  ws_folder <- gsub("\\.xml$","",ws_path)
+  
+  # Retrieval of the xml file(s) within the SAProcessing sub-directory
+  fic_xml<- list.files(sprintf("%s/SAProcessing",ws_folder),pattern = "\\.xml$")
+  if(print_log){print(fic_xml)}
+  # "SAProcessing-1.xml"
+  
+  # Complete path to the xml file(s) within the SAProcessing sub-directory
+  ch_fic_xml<-paste0(sprintf("%s/SAProcessing/",ws_folder),fic_xml)
+  ch_fic_xml
+  # "my_workspace/SAProcessing/SAProcessing-1.xml"
+  
+  # Import of said xml file(s)
+  fic_xml<-readLines(ch_fic_xml)
+  
+  # Retrieval of the series' names from the csv file
+  raw_data<-read.csv2(raw_data_path)
+  series_names_csv<-colnames(raw_data)[-1]# date removal
+  series_names_csv
+  
+  # And from the workspace
+  series_names_ws <- names(get_all_objects(get_all_objects(ws)[[1]]))
+  
+  # Series in the workspace that aren't in the csv file
+  untreated_series <- series_names_ws[!(series_names_ws %in% series_names_csv)]
+  
+  # For each series in the workspace:
+  for (i in seq(1,length(series_names_ws))){
+    # i=1
+    series_i <- series_names_ws[i]
+    # if it is in the csv file
+    if(series_i %in% series_names_csv){
+      if(print_log){print(paste0(i,"  ",series_i))}
+      # We retrieve the position of the line containing the serie's name (<ts name="C4511"> for ex) in the xml file
+      # +8 or +param  = position of the line containing the path to the raw data file 
+      pos_path<-grep(paste0('"',series_i,'"'),fic_xml,fixed = TRUE)+param
+      
+      # We extract the path to the raw data file
+      chain1<-unlist(str_split(fic_xml[pos_path],"file="))
+      chain2<-unlist(str_split(chain1[2],".csv"))
+      # We insert the new raw data file path and put "the line back in place"
+      fic_xml[pos_path]<-paste0(chain1[1],"file=",raw_data_path_JD,chain2[2])
+    }
+  }
+  # We save the updated xml file 
+  writeLines(fic_xml,ch_fic_xml)
+  print("Update completed")
+  
+  if(length(untreated_series) != 0){
+    print("The following series of the workspace aren't in the csv file:")
+    return(untreated_series)}
+}

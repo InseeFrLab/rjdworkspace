@@ -18,11 +18,11 @@
 #' @examples \dontrun{replace_series(ws1, ws2, "SAProcessing-1", c("serie1", "serie2"), TRUE)}
 #' @export
 #'
-replace_series <- function(ws1, ws2, selected_series, mp_name=NA, print_indications=FALSE){
+replace_series <- function(ws_1, ws_2, selected_series, mp_name=NA, print_indications=FALSE){
   
   # Verification of the parameters type
-  if(!inherits(ws1, "workspace")){stop("The first argument must be a workspace")}
-  if(!inherits(ws2, "workspace")){stop("The second argument must be a workspace")}
+  if(!inherits(ws_1, "workspace")){stop("The first argument must be a workspace")}
+  if(!inherits(ws_2, "workspace")){stop("The second argument must be a workspace")}
   if(is.null(selected_series)){stop("The selected_series list is empty!")}
   else {
     if(!is.character(selected_series)){stop("The selected_series list must contain characters (the series names).")}
@@ -35,26 +35,27 @@ replace_series <- function(ws1, ws2, selected_series, mp_name=NA, print_indicati
     mp_name <- NA}
   
   # Check that the workspaces aren't empty
-  if(is.null(count(ws1))){
+  if(is.null(count(ws_1))){
     warning("Attention, the first workspace is empty!")
     return(FALSE)
   }
   
-  if(is.null(count(ws2))){
+  if(is.null(count(ws_2))){
     warning("Attention, the second workspace is empty!")
     return(FALSE)
   }
   
   # When both workspaces aren't empty:
-  # "sap" refers to all SAPs of each workspace
-  # "mp" refers to the specified "mp_name" SAP to update
   
   # Retrieving all SAPs and their names
+  # "sap" refers to all SAPs of each workspace
+  # "mp" refers to the specified "mp_name" SAP to update
   saps1 <- RJDemetra::get_all_objects(ws1)
   names_saps1 <- names(saps1)
   
   saps2 <- RJDemetra::get_all_objects(ws2)
   names_saps2 <- names(saps2)
+  
   
   # Verification that both workspaces contain the SAP to be updated
   # and storage of its position in each workspace

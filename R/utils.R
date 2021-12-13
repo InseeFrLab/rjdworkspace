@@ -132,3 +132,24 @@ builder_from_ts <- function(jts,
   return(builder_ts$build())
 }
 
+
+clone_ws <- function(ws1){
+  if(!inherits(ws1, "workspace")) stop("The argument must be a workspace")
+  # Clone initialisation
+  clone <- new_workspace()
+  # SAP extraction
+  sap <- get_all_objects(ws1)
+  # series extraction and addition to the clone
+  for(mp in sap){
+    # mp <- sap[[1]]
+    nom_mp <- get_name(mp)
+    new_multiprocessing(clone, nom_mp)
+    # a <- get_all_objects(clone)
+    series <- get_all_objects(mp)
+    lapply(series,function(s){add_sa_item(clone,nom_mp, get_model(s,ws1), get_name(s))
+      # names(series) == names(get_all_objects(mp))
+                            }
+          )
+  }
+  return(clone)
+}
