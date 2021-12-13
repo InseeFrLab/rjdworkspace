@@ -25,17 +25,15 @@ is updated with \code{workspace1}'s first multiprocessing's first SaItem metadat
 Both functions create and return a new workspace containing the updated series.
 }
 \examples{
-\dontrun{
-workspace1_ <- load_workspace("D:/test_metadata/reference.xml")
-workspace1  <- compute(workspace1_)
-workspace2_ <- load_workspace("D:/test_metadata/ws_wk.xml")
-workspace2  <- compute(workspace2_)
+workspace1 <- load_workspace("D:/test_metadata/reference.xml")
+compute(workspace1)
+workspace2 <- load_workspace("D:/test_metadata/ws_wk.xml")
+compute(workspace2)
 
 updated_workspace <- update_metadata_roughly(workspace1, workspace2)
 save_workspace(updated_workspace, "D:/test_metadata/ws_wk_metadata.xml")
 
 updated_workspace <- update_metadata(workspace1, workspace2)
 save_workspace(updated_workspace, "D:/test_metadata/ws_wk_metadata.xml")
-}
 
 }
