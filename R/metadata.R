@@ -12,7 +12,7 @@
 #' is updated with `workspace1`'s first multiprocessing's first SaItem metadata.
 #' Both functions create and return a new workspace containing the updated series.
 #'
-#' @examples 
+#' @examples \donttest{
 #' workspace1 <- load_workspace("D:/test_metadata/reference.xml")
 #' compute(workspace1)
 #' workspace2 <- load_workspace("D:/test_metadata/ws_wk.xml")
@@ -23,6 +23,7 @@
 #' 
 #' updated_workspace <- update_metadata(workspace1, workspace2)
 #' save_workspace(updated_workspace, "D:/test_metadata/ws_wk_metadata.xml")
+#' }
 #'
 #' @name update_metadata
 #' @rdname update_metadata
@@ -230,11 +231,12 @@ set_comment.sa_item <- function(x, comment){
 #' - The raw series file must be a csv file.
 #' - The paths must be "full" (as opposed to relative to the setwd directory, for example).
 #' 
-#' @examples 
+#' @examples \donttest{
 #' # Minimal syntax
 #' update_path("my_folder_path/my_workspace.xml","my_folder_path/raw_data_file.csv")
 #' # Customisation of the param parameter
 #' update_path("my_folder_path/my_workspace.xml","my_folder_path/raw_data_file.csv",5,TRUE)
+#' }
 
 #' @export
 
