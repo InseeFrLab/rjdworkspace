@@ -30,8 +30,10 @@ Function to change the path to the raw series file in a workspace
 }
 }
 \examples{
+\donttest{
 # Minimal syntax
 update_path("my_folder_path/my_workspace.xml","my_folder_path/raw_data_file.csv")
 # Customisation of the param parameter
 update_path("my_folder_path/my_workspace.xml","my_folder_path/raw_data_file.csv",5,TRUE)
+}
 }
