@@ -16,6 +16,7 @@ Description: Set of tools to manipualte the 'JDemetra+' workspaces.
 Depends:
     R (>= 3.1.1),
     RJDemetra
+    stringr
 Imports:
     rJava (>= 0.9-8)
 License: EUPL
