@@ -18,11 +18,11 @@
 #' @examples \dontrun{replace_series(ws1, ws2, "SAProcessing-1", c("serie1", "serie2"), TRUE)}
 #' @export
 #'
-replace_series <- function(ws_1, ws_2, selected_series, mp_name=NA, print_indications=FALSE){
+replace_series <- function(ws1, ws2, selected_series, mp_name=NA, print_indications=FALSE){
   
   # Verification of the parameters type
-  if(!inherits(ws_1, "workspace")){stop("The first argument must be a workspace")}
-  if(!inherits(ws_2, "workspace")){stop("The second argument must be a workspace")}
+  if(!inherits(ws1, "workspace")){stop("The first argument must be a workspace")}
+  if(!inherits(ws2, "workspace")){stop("The second argument must be a workspace")}
   if(is.null(selected_series)){stop("The selected_series list is empty!")}
   else {
     if(!is.character(selected_series)){stop("The selected_series list must contain characters (the series names).")}
@@ -35,12 +35,12 @@ replace_series <- function(ws_1, ws_2, selected_series, mp_name=NA, print_indica
     mp_name <- NA}
   
   # Check that the workspaces aren't empty
-  if(is.null(count(ws_1))){
+  if(is.null(count(ws1))){
     warning("Attention, the first workspace is empty!")
     return(FALSE)
   }
   
-  if(is.null(count(ws_2))){
+  if(is.null(count(ws2))){
     warning("Attention, the second workspace is empty!")
     return(FALSE)
   }
@@ -111,15 +111,27 @@ replace_series <- function(ws_1, ws_2, selected_series, mp_name=NA, print_indica
   pos_table <- data.frame(selected_series,  rep(NA,L),  rep(NA,L))
   names(pos_table) <- c("selected_series", "pos_series1", "pos_series2")
   
-  for (i in seq_len(L)){
-    pos_table$pos_series1[i] <- which(selected_series[i] == names_series1)
-    pos_table$pos_series2[i] <- which(selected_series[i] == names_series2)
+  for (i in seq_len(L)) {
+    if(!(selected_series[i] %in% names_series1)){  
+      pos_table$pos_series1[i] <- 0
+      print(paste0("Attention, series ",selected_series[i]," is not in the first workspace's SAP `",names_saps1,"`"))
+    } else { pos_table$pos_series1[i] <- which(selected_series[i] == names_series1)}
+    
+    if(!(selected_series[i] %in% names_series2)){ 
+      pos_table$pos_series2[i] <- 0
+      print(paste0("Attention, series ",selected_series[i]," is not in the second workspace's SAP `",names_saps1,"`"))
+    } else {pos_table$pos_series2[i] <- which(selected_series[i] == names_series2)}
   }
   
-  verif <- pos_table[sum(pos_table$pos_series1)==0||sum(pos_table$pos_series2)==0,]
-  if (nrow(verif) != 0){
-    print("Attention, the following series are missing in at least one SAP: fix it and recompile the program!")
-    return(verif$selected_series)
+  # If a series is absent from at least one workspace/SAP:
+  # Its name is stored
+  verif <- unique(c(pos_table[pos_table$pos_series1 == 0,]$selected_series, pos_table[pos_table$pos_series2 ==  0,]$selected_series))
+  
+  # It is returned by the function
+  if (length(verif) != 0) {
+    print("The replacement wasn't performed: fix the selected_series vector or the workspace(s) and recompile!")
+    return(invisible(verif))
+  # Otherwise, if all is good:
   } else {
     
     # Retrieving both SAPs that will be used (possibly identically named)
@@ -146,7 +158,7 @@ replace_series <- function(ws_1, ws_2, selected_series, mp_name=NA, print_indica
     else{print(paste0("Series updating done for the SAP ", mp_name,"."))
     }
     
-    return(ws1)
+    return(invisible(ws1))
     
   }
 }
