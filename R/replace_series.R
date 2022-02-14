@@ -10,12 +10,13 @@
 #' @param mp_name The name of the multiprocessing containing the series to update (optional)
 #' @param print_indications A boolean to print indications on the processing status (optional)
 #' 
-#' @details If the argument `mp_name` is unspecified, the update will be performed using 
-#' the workspaces' first SAProcessing.
+#' @details If the argument `mp_name` is unspecified, the update will be performed using the workspaces' first SAProcessing. 
+#' If a series is specified in the selected_series vector is missing in a workspace, no replacement will be performed and the function will 
+#' return the list of missing series. Otherwise, if all is well, the function returns the workspace ws1 updated.
 #'
 #' @rdname replace_series
 #' @return the updated `workspace`
-#' @examples \dontrun{replace_series(ws1, ws2, "SAProcessing-1", c("serie1", "serie2"), TRUE)}
+#' @examples \dontrun{replace_series(ws1, ws2, "SAProcessing-1", c("series1", "series2"), TRUE)}
 #' @export
 #'
 replace_series <- function(ws1, ws2, selected_series, mp_name=NA, print_indications=FALSE){
