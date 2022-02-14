@@ -15,7 +15,7 @@ Authors@R: c(
 Description: Set of tools to manipualte the 'JDemetra+' workspaces.
 Depends:
     R (>= 3.1.1),
-    RJDemetra
+    RJDemetra,
     stringr
 Imports:
     rJava (>= 0.9-8)
