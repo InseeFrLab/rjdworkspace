@@ -278,7 +278,7 @@ update_path <- function(ws_path, raw_data_path, param=8, print_log = FALSE){
   fic_xml<-readLines(ch_fic_xml)
   
   # Retrieval of the series' names from the csv file
-  raw_data<-read.csv2(raw_data_path)
+  raw_data<-read.csv2(raw_data_path, check.names = FALSE)
   series_names_csv<-colnames(raw_data)[-1]# date removal
   series_names_csv
   
