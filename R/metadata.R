@@ -59,11 +59,11 @@ update_metadata <- function(workspace1, workspace2) {
           replace_sa_item(mp = mp_wk2, sa_item = new_sa_item,
                           pos = i_sa)
 # 
-#           sa_def1 <- .jcall(sa_wk1, "Ldemetra/datatypes/sa/SaItemType;", "getSaDefinition")
-#           jts1 <- .jcall(sa_def1, "Ldemetra/datatypes/Ts;", "getTs")
+#           sa_def1 <- .jcall(sa_wk1, "Ljd2/datatypes/sa/SaItemType;", "getSaDefinition")
+#           jts1 <- .jcall(sa_def1, "Ljd2/datatypes/Ts;", "getTs")
 # 
-#           sa_def2 <- .jcall(sa_wk2, "Ldemetra/datatypes/sa/SaItemType;", "getSaDefinition")
-#           jts2 <- .jcall(sa_def2, "Ldemetra/datatypes/Ts;", "getTs")
+#           sa_def2 <- .jcall(sa_wk2, "Ljd2/datatypes/sa/SaItemType;", "getSaDefinition")
+#           jts2 <- .jcall(sa_def2, "Ljd2/datatypes/Ts;", "getTs")
 #           
           # builder_ts <- jts2$toBuilder()
           # builder_ts$metaData(jts1$getMetaData())
@@ -144,11 +144,11 @@ update_metadata_roughly <- function(workspace1, workspace2) {
 #' @return a new `"sa_item"` with the model of `sa_to` and the metadata of `sa_from`.
 #' @export
 set_metadata <- function(sa_to, sa_from) {
-  sa_def_from <- .jcall(sa_from, "Ldemetra/datatypes/sa/SaItemType;", "getSaDefinition")
-  jts_from <- .jcall(sa_def_from, "Ldemetra/datatypes/Ts;", "getTs")
+  sa_def_from <- .jcall(sa_from, "Ljd2/datatypes/sa/SaItemType;", "getSaDefinition")
+  jts_from <- .jcall(sa_def_from, "Ljd2/datatypes/Ts;", "getTs")
   
-  sa_def_to <- .jcall(sa_to, "Ldemetra/datatypes/sa/SaItemType;", "getSaDefinition")
-  jts_to <- .jcall(sa_def_to, "Ldemetra/datatypes/Ts;", "getTs")
+  sa_def_to <- .jcall(sa_to, "Ljd2/datatypes/sa/SaItemType;", "getSaDefinition")
+  jts_to <- .jcall(sa_def_to, "Ljd2/datatypes/Ts;", "getTs")
   
   jts_update <- builder_from_ts(jts_to, metaData =  jts_from$getMetaData())
   sa_def_update <- builder_from_sa(sa_def_to, ts = jts_update,
@@ -178,7 +178,7 @@ get_comment.multiprocessing <- function(x) {
 }
 #' @export
 get_comment.sa_item <- function(x) {
-  sa_def <- .jcall(x, "Ldemetra/datatypes/sa/SaItemType;", "getSaDefinition")
+  sa_def <- .jcall(x, "Ljd2/datatypes/sa/SaItemType;", "getSaDefinition")
   metadata <- sa_def$getMetaData()
   metadata$get("comment")
 }
@@ -198,8 +198,8 @@ set_comment <- function(x, comment) {
 }
 #' @export
 set_comment.sa_item <- function(x, comment) {
-  sa_def <- .jcall(x, "Ldemetra/datatypes/sa/SaItemType;", "getSaDefinition")
-  jts <- .jcall(sa_def, "Ldemetra/datatypes/Ts;", "getTs")
+  sa_def <- .jcall(x, "Ljd2/datatypes/sa/SaItemType;", "getSaDefinition")
+  jts <- .jcall(sa_def, "Ljd2/datatypes/Ts;", "getTs")
   
   metadata <- sa_def$getMetaData()
   
@@ -278,7 +278,7 @@ update_path <- function(ws_path, raw_data_path, param=8, print_log = FALSE) {
   fic_xml<-readLines(ch_fic_xml)
   
   # Retrieval of the series' names from the csv file
-  raw_data<-read.csv2(raw_data_path, check.names = FALSE)
+  raw_data<-utils::read.csv2(raw_data_path, check.names = FALSE)
   series_names_csv<-colnames(raw_data)[-1]# date removal
   series_names_csv
   
@@ -300,8 +300,8 @@ update_path <- function(ws_path, raw_data_path, param=8, print_log = FALSE) {
       pos_path<-grep(paste0('"',series_i,'"'),fic_xml,fixed = TRUE)+param
       
       # We extract the path to the raw data file
-      chain1<-unlist(str_split(fic_xml[pos_path],"file="))
-      chain2<-unlist(str_split(chain1[2],".csv"))
+      chain1<-unlist(stringr::str_split(fic_xml[pos_path],"file="))
+      chain2<-unlist(stringr::str_split(chain1[2],".csv"))
       # We insert the new raw data file path and put "the line back in place"
       fic_xml[pos_path]<-paste0(chain1[1],"file=",raw_data_path_JD,chain2[2])
     }

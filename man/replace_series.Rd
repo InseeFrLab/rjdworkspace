@@ -7,8 +7,8 @@
 \title{Partial update of a workspace metadata}
 \usage{
 replace_series(
-  ws_1,
-  ws_2,
+  ws1,
+  ws2,
   selected_series,
   mp_name = NA,
   print_indications = FALSE
@@ -19,6 +19,10 @@ verif_duplicates(s)
 verif_ws_duplicates(ws, print_indications = FALSE)
 }
 \arguments{
+\item{ws1}{The workspace to update}
+
+\item{ws2}{The workspace containing the most up-to-date version of the selected_series series}
+
 \item{selected_series}{The vector containing the series-to-update's names.}
 
 \item{mp_name}{The name of the multiprocessing containing the series to update (optional)}
@@ -28,10 +32,6 @@ verif_ws_duplicates(ws, print_indications = FALSE)
 \item{s}{a list of characters}
 
 \item{ws}{The workspace to scan}
-
-\item{ws1}{The workspace to update}
-
-\item{ws2}{The workspace containing the most up-to-date version of the selected_series series}
 }
 \value{
 the updated \code{workspace}
@@ -48,15 +48,16 @@ from another workspace. When only the metadata differs, it is the partial versio
 Generic function to identify and return the duplicates in a list
 }
 \details{
-If the argument \code{mp_name} is unspecified, the update will be performed using
-the workspaces' first SAProcessing.
+If the argument \code{mp_name} is unspecified, the update will be performed using the workspaces' first SAProcessing.
+If a series is specified in the selected_series vector is missing in a workspace, no replacement will be performed and the function will
+return the list of missing series. Otherwise, if all is well, the function returns the workspace ws1 updated.
 
 \code{verif_duplicates()} identifies and returns the duplicates in a list
 \code{verif_ws_duplicates()} identifies duplicated series in a SAProcessing (SAP)
 and SAProcessings in a workspace
 }
 \examples{
-\dontrun{replace_series(ws1, ws2, "SAProcessing-1", c("serie1", "serie2"), TRUE)}
+\dontrun{replace_series(ws1, ws2, "SAProcessing-1", c("series1", "series2"), TRUE)}
 \dontrun{
 s <- c("a","b","a","c","a","c")
 result <- verif_duplicates(s)

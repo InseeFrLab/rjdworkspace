@@ -90,8 +90,8 @@ add_new_sa_item <- function(mp, sa_item) {
 #' @return a new `"sa_item"` with the new name.
 #' @export
 set_name <- function(sa_item, name) {
-  sa_def <- .jcall(sa_item, "Ldemetra/datatypes/sa/SaItemType;", "getSaDefinition")
-  jts <- .jcall(sa_def, "Ldemetra/datatypes/Ts;", "getTs")
+  sa_def <- .jcall(sa_item, "Ljd2/datatypes/sa/SaItemType;", "getSaDefinition")
+  jts <- .jcall(sa_def, "Ljd2/datatypes/Ts;", "getTs")
   
   jts_temp <- builder_from_ts(jts, name = name)
   sa_item <- builder_from_sa(sa_def, name = name)
@@ -121,7 +121,7 @@ set_name <- function(sa_item, name) {
 #' @return a new `"sa_item"` with the new specification
 #' @export
 set_spec <- function(sa_item, spec) {
-  sa_def <- .jcall(sa_item, "Ldemetra/datatypes/sa/SaItemType;", "getSaDefinition")
+  sa_def <- .jcall(sa_item, "Ljd2/datatypes/sa/SaItemType;", "getSaDefinition")
   
   sa_item <- builder_from_sa(sa_def, estimationSpec = RJDemetra::get_jspec(spec))
   new_sa_item <- .jnew("ec/tstoolkit/jdr/ws/SaItem", sa_item)

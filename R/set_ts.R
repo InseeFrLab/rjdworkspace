@@ -23,8 +23,8 @@
 #' replace_sa_item(mp1, 1, new_sa_item)
 #' @export
 set_ts <- function(sa_item, ts) {
-  sa_def <- .jcall(sa_item, "Ldemetra/datatypes/sa/SaItemType;", "getSaDefinition")
-  jts <- .jcall(sa_def, "Ldemetra/datatypes/Ts;", "getTs")
+  sa_def <- .jcall(sa_item, "Ljd2/datatypes/sa/SaItemType;", "getSaDefinition")
+  jts <- .jcall(sa_def, "Ljd2/datatypes/Ts;", "getTs")
   
   # builder_ts <- jts$toBuilder()
   # builder_ts$data(ts_r2jd(ts))
