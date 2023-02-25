@@ -22,7 +22,7 @@
 #' # Replacement of the series in the workspace
 #' replace_sa_item(mp1, 1, new_sa_item)
 #' @export
-set_ts <- function(sa_item, ts){
+set_ts <- function(sa_item, ts) {
   sa_def <- .jcall(sa_item, "Ldemetra/datatypes/sa/SaItemType;", "getSaDefinition")
   jts <- .jcall(sa_def, "Ldemetra/datatypes/Ts;", "getTs")
   

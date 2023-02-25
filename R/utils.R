@@ -1,7 +1,7 @@
 
 #' @importFrom stats frequency
 #' 
-ts_r2jd <- function(s){
+ts_r2jd <- function(s) {
   freq <- frequency(s)
   start <- start(s)
   jd_freq <- .jcall("ec/tstoolkit/timeseries/simplets/TsFrequency", "Lec/tstoolkit/timeseries/simplets/TsFrequency;", "valueOf", as.integer(freq))
@@ -23,70 +23,70 @@ builder_from_sa <- function(sa_def,
                             quality,
                             warnings,
                             name,
-                            metaData){
+                            metaData) {
   builder_sa <- sa_def$toBuilder()
   
-  if(!missing(ts)){
+  if (!missing(ts)) {
     builder_sa$ts(ts)
   }else{
     builder_sa$ts(sa_def$getTs())
   }
   
-  if(!missing(pointSpec)){
+  if (!missing(pointSpec)) {
     builder_sa$pointSpec(pointSpec)
   }else{
     builder_sa$pointSpec(sa_def$getPointSpec())
   }
   
-  if(!missing(estimationSpec)){
+  if (!missing(estimationSpec)) {
     builder_sa$estimationSpec(estimationSpec)
   }else{
     builder_sa$estimationSpec(sa_def$getEstimationSpec())
   }
   
-  if(!missing(domainSpec)){
+  if (!missing(domainSpec)) {
     builder_sa$domainSpec(domainSpec)
   }else{
     builder_sa$domainSpec(sa_def$getDomainSpec())
   }
   
-  if(!missing(estimationPolicy)){
+  if (!missing(estimationPolicy)) {
     builder_sa$estimationPolicy(estimationPolicy)
   }else{
     builder_sa$estimationPolicy(sa_def$getEstimationPolicy())
   }
   
-  if(!missing(status)){
+  if (!missing(status)) {
     builder_sa$status(status)
   }else{
     builder_sa$status(sa_def$getStatus())
   }
   
-  if(!missing(priority)){
+  if (!missing(priority)) {
     builder_sa$priority(priority)
   }else{
     builder_sa$priority(sa_def$getPriority())
   }
   
-  if(!missing(quality)){
+  if (!missing(quality)) {
     builder_sa$quality(quality)
   }else{
     builder_sa$quality(sa_def$getQuality())
   }
   
-  if(!missing(warnings)){
+  if (!missing(warnings)) {
     builder_sa$warnings(warnings)
   }else{
     builder_sa$warnings(sa_def$getWarnings())
   }
   
-  if(!missing(name)){
+  if (!missing(name)) {
     builder_sa$name(name)
   }else{
     builder_sa$name(sa_def$getName())
   }
   
-  if(!missing(metaData)){
+  if (!missing(metaData)) {
     builder_sa$metaData(metaData)
   }else{
     builder_sa$metaData(sa_def$getMetaData())
@@ -101,7 +101,7 @@ builder_from_ts <- function(jts,
                             moniker,
                             name,
                             type
-                            ){
+                            ) {
   builder_ts <- jts$toBuilder()
   
   if (!missing(data)) {
@@ -133,20 +133,20 @@ builder_from_ts <- function(jts,
 }
 
 
-clone_ws <- function(ws1){
-  if(!inherits(ws1, "workspace")) stop("The argument must be a workspace")
+clone_ws <- function(ws1) {
+  if (!inherits(ws1, "workspace")) stop("The argument must be a workspace")
   # Clone initialisation
   clone <- new_workspace()
   # SAP extraction
   sap <- get_all_objects(ws1)
   # series extraction and addition to the clone
-  for(mp in sap){
+  for (mp in sap) {
     # mp <- sap[[1]]
     nom_mp <- get_name(mp)
     new_multiprocessing(clone, nom_mp)
     # a <- get_all_objects(clone)
     series <- get_all_objects(mp)
-    lapply(series,function(s){add_sa_item(clone,nom_mp, get_model(s,ws1), get_name(s))
+    lapply(series,function(s) {add_sa_item(clone,nom_mp, get_model(s,ws1), get_name(s))
       # names(series) == names(get_all_objects(mp))
                             }
           )

@@ -24,8 +24,8 @@
 #' # To replace the first sa_item by "sa1"
 #' replace_sa_item(mp1, 1, sa1)
 #' @export
-remove_sa_item <- function(mp, pos = 1){
-  if(!inherits(mp, "multiprocessing"))
+remove_sa_item <- function(mp, pos = 1) {
+  if (!inherits(mp, "multiprocessing"))
     stop("x must be a multiprocessing")
   
   item <- .jcall(mp, "Ljava/util/List;", "getItems")
@@ -35,8 +35,8 @@ remove_sa_item <- function(mp, pos = 1){
 #' @name manipulate_sa_item
 #' @rdname manipulate_sa_item
 #' @export
-remove_all_sa_item <- function(mp){
-  if(!inherits(mp, "multiprocessing"))
+remove_all_sa_item <- function(mp) {
+  if (!inherits(mp, "multiprocessing"))
     stop("x must be a multiprocessing")
   item <- .jcall(mp, "Ljava/util/List;", "getItems")
   item$removeAll()
@@ -45,11 +45,11 @@ remove_all_sa_item <- function(mp){
 #' @name manipulate_sa_item
 #' @rdname manipulate_sa_item
 #' @export
-replace_sa_item <- function(mp, pos = 1, sa_item){
-  if(!inherits(mp, "multiprocessing"))
+replace_sa_item <- function(mp, pos = 1, sa_item) {
+  if (!inherits(mp, "multiprocessing"))
     stop("x must be a multiprocessing")
   item <- .jcall(mp, "Ljava/util/List;", "getItems")
-  if(inherits(sa_item, "sa_item"))
+  if (inherits(sa_item, "sa_item"))
     class(sa_item) <- "jobjRef"
   item$set(as.integer(pos - 1), sa_item)
   return(invisible(TRUE))
@@ -58,11 +58,11 @@ replace_sa_item <- function(mp, pos = 1, sa_item){
 #' @name manipulate_sa_item
 #' @rdname manipulate_sa_item
 #' @export
-add_new_sa_item <- function(mp, sa_item){
-  if(!inherits(mp, "multiprocessing"))
+add_new_sa_item <- function(mp, sa_item) {
+  if (!inherits(mp, "multiprocessing"))
     stop("x must be a multiprocessing")
   item <- .jcall(mp, "Ljava/util/List;", "getItems")
-  if(inherits(sa_item, "sa_item"))
+  if (inherits(sa_item, "sa_item"))
     class(sa_item) <- "jobjRef"
   return(invisible(item$add(sa_item)))
 }
@@ -89,7 +89,7 @@ add_new_sa_item <- function(mp, sa_item){
 #' 
 #' @return a new `"sa_item"` with the new name.
 #' @export
-set_name <- function(sa_item, name){
+set_name <- function(sa_item, name) {
   sa_def <- .jcall(sa_item, "Ldemetra/datatypes/sa/SaItemType;", "getSaDefinition")
   jts <- .jcall(sa_def, "Ldemetra/datatypes/Ts;", "getTs")
   
@@ -120,7 +120,7 @@ set_name <- function(sa_item, name){
 #' 
 #' @return a new `"sa_item"` with the new specification
 #' @export
-set_spec <- function(sa_item, spec){
+set_spec <- function(sa_item, spec) {
   sa_def <- .jcall(sa_item, "Ldemetra/datatypes/sa/SaItemType;", "getSaDefinition")
   
   sa_item <- builder_from_sa(sa_def, estimationSpec = RJDemetra::get_jspec(spec))

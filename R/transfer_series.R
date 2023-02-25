@@ -18,26 +18,26 @@
 #' @export
 #'
 #'
-transfer_series <- function(ws1, ws2, mp_to=NA, mp_from=NA, print_indications=FALSE){
+transfer_series <- function(ws1, ws2, mp_to=NA, mp_from=NA, print_indications=FALSE) {
   
   # Verification of the parameters type
-  if(!inherits(ws1, "workspace")){stop("The first argument must be a workspace")}
-  if(!inherits(ws2, "workspace")){stop("The second argument must be a workspace")}
+  if (!inherits(ws1, "workspace")) {stop("The first argument must be a workspace")}
+  if (!inherits(ws2, "workspace")) {stop("The second argument must be a workspace")}
   
   # if no SAProcessing name is specified but "print_indications" is
   # ie. if mp_to is TRUE or FALSE
-  if(!is.na(mp_to)&inherits(mp_to,"logical")){
+  if (!is.na(mp_to)&inherits(mp_to,"logical")) {
     print_indications <- mp_to 
     mp_to <- NA}
   
   
   # Check that the workspaces aren't empty
-  if(is.null(count(ws1))){
+  if (is.null(count(ws1))) {
     warning("Attention, the first workspace is empty!")
     return(FALSE)
   }
   
-  if(is.null(count(ws2))){
+  if (is.null(count(ws2))) {
     warning("Attention, the second workspace is empty!")
     return(FALSE)
   }
@@ -63,31 +63,31 @@ transfer_series <- function(ws1, ws2, mp_to=NA, mp_from=NA, print_indications=FA
   
   
   # otherwise, we retrieve the SAP's position in each workspace 
-  if(!is.na(mp_to)){pos_mp1 <- which(names_saps1 == mp_to)}
-  if(!is.na(mp_from)){pos_mp2 <- which(names_saps2 == mp_from)}
+  if (!is.na(mp_to)) {pos_mp1 <- which(names_saps1 == mp_to)}
+  if (!is.na(mp_from)) {pos_mp2 <- which(names_saps2 == mp_from)}
   
-  if(print_indications){print(paste0("pos_mp1=",pos_mp1, " and pos_mp2=",pos_mp2))}
+  if (print_indications) {print(paste0("pos_mp1=",pos_mp1, " and pos_mp2=",pos_mp2))}
   
   
   # End of the program if the SAP can't be found in one of the workspaces
   # ie. an unexisting SAP was specified
-  if(sum(pos_mp1)==0||is.null(pos_mp1)||is.na(pos_mp1)){
+  if (sum(pos_mp1)==0||is.null(pos_mp1)||is.na(pos_mp1)) {
     print("The chosen SAP couldn't be found in the first workspace.")
     return(FALSE)
   }
   
-  if(sum(pos_mp2)==0||is.null(pos_mp2)||is.na(pos_mp2)){
+  if (sum(pos_mp2)==0||is.null(pos_mp2)||is.na(pos_mp2)) {
     print("The chosen SAP couldn't be found in the second workspace.")
     return(FALSE)
   }
   
   # If a corresponding SAP is found in both workspaces, verification that they are both non empty
-  if (is.null(count(saps1[[pos_mp1]]))){
+  if (is.null(count(saps1[[pos_mp1]]))) {
     print("The chosen SAP of the first workspace is empty.")
     return(FALSE)
   }
   
-  if (is.null(count(saps2[[pos_mp2]]))){
+  if (is.null(count(saps2[[pos_mp2]]))) {
     print("The chosen SAP of the second workspace is empty.")
     return(FALSE)
   }
@@ -111,12 +111,12 @@ transfer_series <- function(ws1, ws2, mp_to=NA, mp_from=NA, print_indications=FA
   pos_table <- data.frame(selected_series, rep(NA,L))
   names(pos_table) <- c("selected_series", "pos_series2")
   
-  for (i in seq_len(L)){
+  for (i in seq_len(L)) {
     pos_table$pos_series2[i] <- which(selected_series[i] == names_series2)
   }
   
   verif <- pos_table[sum(pos_table$pos_series2)==0,]
-  if (nrow(verif) != 0){
+  if (nrow(verif) != 0) {
     print("Attention, the following series are missing in the ws2: fix it and recompile the program!")
     return(verif$selected_series)
     
@@ -127,7 +127,7 @@ transfer_series <- function(ws1, ws2, mp_to=NA, mp_from=NA, print_indications=FA
     mp2 <- saps2[[pos_mp2]]
     
     # Replacement of all series specified in the "selected_series" vector
-    for (i in seq_len(L)){
+    for (i in seq_len(L)) {
       #i=1
       if (print_indications) {print(paste("Series", i))}
       
