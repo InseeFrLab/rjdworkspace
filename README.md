@@ -61,3 +61,4 @@ version.
 # Install development version from GitHub
 remotes::install_github("InseeFrLab/rjdworkspace")
 ```
+
