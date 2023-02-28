@@ -18,6 +18,9 @@ a new \code{"sa_item"} with the new specification
 Function to set the specification of a \code{"sa_item"}.
 }
 \examples{
+
+library("RJDemetra")
+
 sa_x13 <- jx13(ipi_c_eu[, "FR"])
 sa_ts <- jtramoseats(ipi_c_eu[, "FR"])
 

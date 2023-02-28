@@ -18,6 +18,9 @@ a new \code{"sa_item"} with the new name.
 Function to set the name of a \code{"sa_item"}.
 }
 \examples{
+
+library("RJDemetra")
+ 
 sa_x13 <- jx13(ipi_c_eu[, "FR"])
 
 wk <- new_workspace()
@@ -28,6 +31,6 @@ sa1 <- get_object(mp1, 1)
 new_sa <- set_name(sa1, "X13")
 replace_sa_item(mp1, 1, new_sa)
 # The first sa_item of mp1 is now "X13"
-RJDemetra::get_name(get_object(mp1, 1))
+get_name(get_object(mp1, 1))
 
 }

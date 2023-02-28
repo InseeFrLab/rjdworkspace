@@ -27,6 +27,9 @@ add_new_sa_item(mp, sa_item)
 Functions to remove/replace/add a \code{sa_item} from/to a multiprocessing.
 }
 \examples{
+
+library("RJDemetra")
+
 sa_x13 <- jx13(ipi_c_eu[, "FR"])
 sa_ts <- jtramoseats(ipi_c_eu[, "FR"])
 

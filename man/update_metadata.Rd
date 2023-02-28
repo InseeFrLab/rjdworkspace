@@ -25,17 +25,25 @@ is updated with \code{workspace1}'s first multiprocessing's first SaItem metadat
 Both functions create and return a new workspace containing the updated series.
 }
 \examples{
-\donttest{
-workspace1 <- load_workspace("D:/test_metadata/reference.xml")
-compute(workspace1)
-workspace2 <- load_workspace("D:/test_metadata/ws_wk.xml")
-compute(workspace2)
 
-updated_workspace <- update_metadata_roughly(workspace1, workspace2)
-save_workspace(updated_workspace, "D:/test_metadata/ws_wk_metadata.xml")
+library("RJDemetra")
 
-updated_workspace <- update_metadata(workspace1, workspace2)
-save_workspace(updated_workspace, "D:/test_metadata/ws_wk_metadata.xml")
-}
+path_to_ws1 <- file.path(system.file("extdata", package = "rjdworkspace"),
+                         "WS/ws_example_1.xml")
+path_to_ws2 <- file.path(system.file("extdata", package = "rjdworkspace"),
+                         "WS/ws_example_2.xml")
+ 
+ws_1 <- load_workspace(path_to_ws1)
+compute(ws_1)
+ws_2 <- load_workspace(path_to_ws2)
+compute(ws_2)
+
+updated_workspace <- update_metadata_roughly(workspace1 = ws_1, workspace2 = ws_2)
+path_to_output <- file.path(tempfile(), "ws_update_meta_roughly.xml")
+save_workspace(workspace = updated_workspace, file = path_to_output)
+
+updated_workspace <- update_metadata(workspace1 = ws_1, workspace2 = ws_2)
+path_to_output <- file.path(tempfile(), "ws_update_meta.xml")
+save_workspace(workspace = updated_workspace, file = path_to_output)
 
 }

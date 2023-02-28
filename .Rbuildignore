@@ -9,3 +9,5 @@
 ^pkgdown$
 ^doc$
 cran-comments.md
+^\.github$
+^LICENCE_en$

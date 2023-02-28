@@ -18,6 +18,9 @@ a \code{sa_item}
 Function to change the input time series of a SaItem
 }
 \examples{
+
+library("RJDemetra")
+
 # Definition of the original time series
 sa_x13 <- jx13(ipi_c_eu[, "FR"])
 
