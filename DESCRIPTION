@@ -19,7 +19,7 @@ Imports:
     rJava (>= 0.9-8),
     RJDemetra,
     stringr
-License: EUPL + file LICENCE
+License: EUPL
 URL: https://github.com/InseeFrLab/rjdworkspace
 LazyData: TRUE
 BugReports: https://github.com/InseeFrLab/rjdworkspace/issues
