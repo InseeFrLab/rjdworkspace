@@ -12,18 +12,29 @@
 #' is updated with `workspace1`'s first multiprocessing's first SaItem metadata.
 #' Both functions create and return a new workspace containing the updated series.
 #'
-#' @examples \donttest{
-#' workspace1 <- load_workspace("D:/test_metadata/reference.xml")
+#' @examples
+#' 
+#' library("RJDemetra")
+#' 
+#' path_to_ws1 <- file.path(system.file("extdata", package = "rjdworkspace"),
+#'                          "WS/ws_example_1.xml")
+#' path_to_ws2 <- file.path(system.file("extdata", package = "rjdworkspace"),
+#'                          "WS/ws_example_2.xml")
+#' 
+#' write(path_to_ws1, "Z:/temp.csv")
+#' 
+#' ws_1 <- load_workspace(path_to_ws1)
 #' compute(workspace1)
-#' workspace2 <- load_workspace("D:/test_metadata/ws_wk.xml")
+#' ws_2 <- load_workspace(path_to_ws2)
 #' compute(workspace2)
 #' 
-#' updated_workspace <- update_metadata_roughly(workspace1, workspace2)
-#' save_workspace(updated_workspace, "D:/test_metadata/ws_wk_metadata.xml")
+#' updated_workspace <- update_metadata_roughly(workspace1 = ws_1, workspace2 = ws_2)
+#' path_to_output <- file.path(tempfile(), "ws_update_meta_roughly.xml")
+#' save_workspace(workspace = updated_workspace, file = path_to_output)
 #' 
 #' updated_workspace <- update_metadata(workspace1, workspace2)
-#' save_workspace(updated_workspace, "D:/test_metadata/ws_wk_metadata.xml")
-#' }
+#' path_to_output <- file.path(tempfile(), "ws_update_meta.xml")
+#' save_workspace(workspace = updated_workspace, file = path_to_output)
 #'
 #' @name update_metadata
 #' @rdname update_metadata
@@ -228,12 +239,17 @@ set_comment.sa_item <- function(x, comment) {
 #' - The raw series file must be a csv file.
 #' - The paths must be "full" (as opposed to relative to the setwd directory, for example).
 #' 
-#' @examples \donttest{
+#' @examples
+#' 
+#' path_to_ws <- file.path(system.file("extdata", package = "rjdworkspace"),
+#'                         "WS/ws_example_path.xml")
+#'                         
+#' path_to_raw_data <- file.path(system.file("extdata", package = "rjdworkspace"),
+#'                               "data_file.csv")
+#'                               
 #' # Minimal syntax
-#' update_path("my_folder_path/my_workspace.xml","my_folder_path/raw_data_file.csv")
-#' # Customisation of the param parameter
-#' update_path("my_folder_path/my_workspace.xml","my_folder_path/raw_data_file.csv",5,TRUE)
-#' }
+#' update_path(ws_path = path_to_ws, raw_data_path = path_to_raw_data)
+#' 
 
 #' @export
 

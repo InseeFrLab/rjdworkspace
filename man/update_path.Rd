@@ -30,10 +30,14 @@ Function to change the path to the raw series file in a workspace
 }
 }
 \examples{
-\donttest{
+
+path_to_ws <- file.path(system.file("extdata", package = "rjdworkspace"),
+                        "WS/ws_example_path.xml")
+                        
+path_to_raw_data <- file.path(system.file("extdata", package = "rjdworkspace"),
+                              "data_file.csv")
+                              
 # Minimal syntax
-update_path("my_folder_path/my_workspace.xml","my_folder_path/raw_data_file.csv")
-# Customisation of the param parameter
-update_path("my_folder_path/my_workspace.xml","my_folder_path/raw_data_file.csv",5,TRUE)
-}
+update_path(ws_path = path_to_ws, raw_data_path = path_to_raw_data)
+
 }
