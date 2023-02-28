@@ -7,6 +7,9 @@
 #'
 #' @return a `sa_item`
 #' @examples 
+#' 
+#' library("RJDemetra")
+#' 
 #' # Definition of the original time series
 #' sa_x13 <- jx13(ipi_c_eu[, "FR"])
 #' 

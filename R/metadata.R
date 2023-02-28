@@ -29,109 +29,106 @@
 #' @rdname update_metadata
 #' @export
 update_metadata <- function(workspace1, workspace2) {
-  # wk1 <- RJDemetra::load_workspace(workspace1)
-  # wk2 <- RJDemetra::load_workspace(workspace2)
-  all_mp_wk1 <- RJDemetra::get_all_objects(workspace1)
-  all_mp_wk1_names <- names(all_mp_wk1)
-
-  for (i_mp in seq_len(RJDemetra::count(workspace2))) {
-    mp_wk2 <- RJDemetra::get_object(workspace2, i_mp)
-    mp_name <- RJDemetra::get_name(mp_wk2)
-    mp_wk1_i <- which(all_mp_wk1_names %in% mp_name)
-    if (length(mp_wk1_i) > 0) {
-      if (length(mp_wk1_i) > 1)
-        warning(sprintf('At least 2 multiprocessing called "%s" were found in the workspace1: the first object will be used', mp_name))
-
-      mp_wk1 <- all_mp_wk1[[mp_wk1_i[1]]]
-      all_sa_wk1_names <- names(RJDemetra::get_all_objects(mp_wk1))
-      for (i_sa in seq_len(RJDemetra::count(mp_wk2))) {
-        # i_sa <- 2
-        sa_wk2 <- RJDemetra::get_object(mp_wk2, i_sa)
-        sa_name <- RJDemetra::get_name(sa_wk2)
-        sa_wk1_i <- which(all_sa_wk1_names %in% sa_name)
-        if (length(sa_wk1_i) > 0) {
-          if (length(sa_wk1_i) > 1)
-            warning(sprintf('At least 2 SaItem called "%s" were found in the workspace1: the first object will be used',sa_name))
-
-          sa_wk1 <- RJDemetra::get_object(mp_wk1, sa_wk1_i[1])
-          new_sa_item <- set_metadata(sa_to = sa_wk2,
-                                      sa_from = sa_wk1)
-          replace_sa_item(mp = mp_wk2, sa_item = new_sa_item,
-                          pos = i_sa)
-# 
-#           sa_def1 <- .jcall(sa_wk1, "Ljd2/datatypes/sa/SaItemType;", "getSaDefinition")
-#           jts1 <- .jcall(sa_def1, "Ljd2/datatypes/Ts;", "getTs")
-# 
-#           sa_def2 <- .jcall(sa_wk2, "Ljd2/datatypes/sa/SaItemType;", "getSaDefinition")
-#           jts2 <- .jcall(sa_def2, "Ljd2/datatypes/Ts;", "getTs")
-#           
-          # builder_ts <- jts2$toBuilder()
-          # builder_ts$metaData(jts1$getMetaData())
-          # jts_temp <- builder_ts$build()
-          # builder_sa <- sa_def2$toBuilder()
-          # builder_sa$ts(jts_temp)
-          # builder_sa$metaData(sa_def1$getMetaData())
-          # sa_def_temp <- builder_sa$build()
-# 
-#           jts_temp <- builder_from_ts(jts2, metaData =  jts1$getMetaData())
-#           sa_def_temp <- builder_from_sa(sa_def2, ts = jts_temp,
-#                                          metaData = sa_def1$getMetaData())
-#           
-#           new_sa_item <- .jnew("ec/tstoolkit/jdr/ws/SaItem", sa_def_temp)
-#           replace_sa_item(mp = mp_wk2, sa_item = new_sa_item,
-#                           pos = i_sa)
-#           sa_wk2 <- RJDemetra::get_object(mp_wk2, i_sa)
-#           sa_wk1 <- RJDemetra::get_object(mp_wk1, i_sa)
-          # builder_ts <- jts2$toBuilder()
-          # builder_ts$metaData(jts1$getMetaData())
-          # jts_temp <- builder_ts$build()
-          # 
-          # builder_sa <- sa_def2$toBuilder()
-          # builder_sa$ts(jts_temp)
-          # builder_sa$metaData(sa_def1$getMetaData())
-          # sa_def_temp <- builder_sa$build()
-
-
-        }else{
-          warning(sprintf('The SaItem "%s" is not found in the workspace1',sa_name))
+    # wk1 <- RJDemetra::load_workspace(workspace1)
+    # wk2 <- RJDemetra::load_workspace(workspace2)
+    all_mp_wk1 <- RJDemetra::get_all_objects(workspace1)
+    all_mp_wk1_names <- names(all_mp_wk1)
+    
+    for (i_mp in seq_len(RJDemetra::count(workspace2))) {
+        mp_wk2 <- RJDemetra::get_object(workspace2, i_mp)
+        mp_name <- RJDemetra::get_name(mp_wk2)
+        mp_wk1_i <- which(all_mp_wk1_names %in% mp_name)
+        if (length(mp_wk1_i) > 0) {
+            if (length(mp_wk1_i) > 1)
+                warning(sprintf('At least 2 multiprocessing called "%s" were found in the workspace1: the first object will be used', mp_name))
+            
+            mp_wk1 <- all_mp_wk1[[mp_wk1_i[1]]]
+            all_sa_wk1_names <- names(RJDemetra::get_all_objects(mp_wk1))
+            for (i_sa in seq_len(RJDemetra::count(mp_wk2))) {
+                # i_sa <- 2
+                sa_wk2 <- RJDemetra::get_object(mp_wk2, i_sa)
+                sa_name <- RJDemetra::get_name(sa_wk2)
+                sa_wk1_i <- which(all_sa_wk1_names %in% sa_name)
+                if (length(sa_wk1_i) > 0) {
+                    if (length(sa_wk1_i) > 1)
+                        warning(sprintf('At least 2 SaItem called "%s" were found in the workspace1: the first object will be used',sa_name))
+                    
+                    sa_wk1 <- RJDemetra::get_object(mp_wk1, sa_wk1_i[1])
+                    new_sa_item <- set_metadata(sa_to = sa_wk2,
+                                                sa_from = sa_wk1)
+                    replace_sa_item(mp = mp_wk2, sa_item = new_sa_item,
+                                    pos = i_sa)
+                    
+                    # sa_def1 <- .jcall(sa_wk1, "Ljd2/datatypes/sa/SaItemType;", "getSaDefinition")
+                    # jts1 <- .jcall(sa_def1, "Ljd2/datatypes/Ts;", "getTs")
+                    # 
+                    # sa_def2 <- .jcall(sa_wk2, "Ljd2/datatypes/sa/SaItemType;", "getSaDefinition")
+                    # jts2 <- .jcall(sa_def2, "Ljd2/datatypes/Ts;", "getTs")
+                    # 
+                    # builder_ts <- jts2$toBuilder()
+                    # builder_ts$metaData(jts1$getMetaData())
+                    # jts_temp <- builder_ts$build()
+                    # builder_sa <- sa_def2$toBuilder()
+                    # builder_sa$ts(jts_temp)
+                    # builder_sa$metaData(sa_def1$getMetaData())
+                    # sa_def_temp <- builder_sa$build()
+                    # 
+                    # jts_temp <- builder_from_ts(jts2, metaData =  jts1$getMetaData())
+                    # sa_def_temp <- builder_from_sa(sa_def2, ts = jts_temp,
+                    #                                metaData = sa_def1$getMetaData())
+                    # 
+                    # new_sa_item <- .jnew("ec/tstoolkit/jdr/ws/SaItem", sa_def_temp)
+                    # replace_sa_item(mp = mp_wk2, sa_item = new_sa_item,
+                    #                 pos = i_sa)
+                    # sa_wk2 <- RJDemetra::get_object(mp_wk2, i_sa)
+                    # sa_wk1 <- RJDemetra::get_object(mp_wk1, i_sa)
+                    # builder_ts <- jts2$toBuilder()
+                    # builder_ts$metaData(jts1$getMetaData())
+                    # jts_temp <- builder_ts$build()
+                    # 
+                    # builder_sa <- sa_def2$toBuilder()
+                    # builder_sa$ts(jts_temp)
+                    # builder_sa$metaData(sa_def1$getMetaData())
+                    # sa_def_temp <- builder_sa$build()
+                    
+                } else {
+                    warning(sprintf('The SaItem "%s" is not found in the workspace1',sa_name))
+                }
+            }
+            
+        } else {
+            warning(sprintf('The multiprocessing "%s" is not found in the workspace1',mp_name))
         }
-      }
-
-    }else{
-      warning(sprintf('The multiprocessing "%s" is not found in the workspace1',mp_name))
     }
-  }
-  return(workspace2)
+    return(workspace2)
 }
 #' @name update_metadata
 #' @rdname update_metadata
 #' @export
 update_metadata_roughly <- function(workspace1, workspace2) {
-  # wk1 <- RJDemetra::load_workspace(workspace1)
-  # wk2 <- RJDemetra::load_workspace(workspace2)
-
-  for (i_mp in seq_len(RJDemetra::count(workspace2))) {
-    mp_wk2 <- RJDemetra::get_object(workspace2, i_mp)
-    mp_wk1 <- RJDemetra::get_object(workspace1, i_mp)
-
-    for (i_sa in seq_len(RJDemetra::count(mp_wk2))) {
-      sa_wk2 <- RJDemetra::get_object(mp_wk2, i_sa)
-      sa_wk1 <- RJDemetra::get_object(mp_wk1, i_sa)
-      # builder_ts <- jts2$toBuilder()
-      # builder_ts$metaData(jts1$getMetaData())
-      # jts_temp <- builder_ts$build()
-      # 
-      # builder_sa <- sa_def2$toBuilder()
-      # builder_sa$ts(jts_temp)
-      # builder_sa$metaData(sa_def1$getMetaData())
-      # sa_def_temp <- builder_sa$build()
-      new_sa_item <- set_metadata(sa_to = sa_wk2,
-                                  sa_from = sa_wk1)
-      replace_sa_item(mp = mp_wk2, sa_item = new_sa_item,
-                      pos = i_sa)
+    # wk1 <- RJDemetra::load_workspace(workspace1)
+    # wk2 <- RJDemetra::load_workspace(workspace2)
+    
+    for (i_mp in seq_len(RJDemetra::count(workspace2))) {
+        mp_wk2 <- RJDemetra::get_object(workspace2, i_mp)
+        mp_wk1 <- RJDemetra::get_object(workspace1, i_mp)
+        
+        for (i_sa in seq_len(RJDemetra::count(mp_wk2))) {
+            sa_wk2 <- RJDemetra::get_object(mp_wk2, i_sa)
+            sa_wk1 <- RJDemetra::get_object(mp_wk1, i_sa)
+            # builder_ts <- jts2$toBuilder()
+            # builder_ts$metaData(jts1$getMetaData())
+            # jts_temp <- builder_ts$build()
+            # 
+            # builder_sa <- sa_def2$toBuilder()
+            # builder_sa$ts(jts_temp)
+            # builder_sa$metaData(sa_def1$getMetaData())
+            # sa_def_temp <- builder_sa$build()
+            new_sa_item <- set_metadata(sa_to = sa_wk2, sa_from = sa_wk1)
+            replace_sa_item(mp = mp_wk2, sa_item = new_sa_item, pos = i_sa)
+        }
     }
-  }
-  return(workspace2)
+    return(workspace2)
 }
 
 #' Set the metadata of a SaItem
@@ -144,16 +141,16 @@ update_metadata_roughly <- function(workspace1, workspace2) {
 #' @return a new `"sa_item"` with the model of `sa_to` and the metadata of `sa_from`.
 #' @export
 set_metadata <- function(sa_to, sa_from) {
-  sa_def_from <- .jcall(sa_from, "Ljd2/datatypes/sa/SaItemType;", "getSaDefinition")
-  jts_from <- .jcall(sa_def_from, "Ljd2/datatypes/Ts;", "getTs")
-  
-  sa_def_to <- .jcall(sa_to, "Ljd2/datatypes/sa/SaItemType;", "getSaDefinition")
-  jts_to <- .jcall(sa_def_to, "Ljd2/datatypes/Ts;", "getTs")
-  
-  jts_update <- builder_from_ts(jts_to, metaData =  jts_from$getMetaData())
-  sa_def_update <- builder_from_sa(sa_def_to, ts = jts_update,
-                                   metaData = sa_def_from$getMetaData())
-  .jnew("ec/tstoolkit/jdr/ws/SaItem", sa_def_update)
+    sa_def_from <- .jcall(sa_from, "Ljd2/datatypes/sa/SaItemType;", "getSaDefinition")
+    jts_from <- .jcall(sa_def_from, "Ljd2/datatypes/Ts;", "getTs")
+    
+    sa_def_to <- .jcall(sa_to, "Ljd2/datatypes/sa/SaItemType;", "getSaDefinition")
+    jts_to <- .jcall(sa_def_to, "Ljd2/datatypes/Ts;", "getTs")
+    
+    jts_update <- builder_from_ts(jts_to, metaData = jts_from$getMetaData())
+    sa_def_update <- builder_from_sa(sa_def_to, ts = jts_update,
+                                     metaData = sa_def_from$getMetaData())
+    .jnew("ec/tstoolkit/jdr/ws/SaItem", sa_def_update)
 }
 
 #' Extract comments
@@ -164,23 +161,23 @@ set_metadata <- function(sa_to, sa_from) {
 #' 
 #' @export
 get_comment <- function(x) {
-  UseMethod("get_comment", x)
+    UseMethod("get_comment", x)
 }
 #' @export
 get_comment.workspace <- function(x) {
-  multiprocessings <- RJDemetra::get_all_objects(x)
-  lapply(multiprocessings, get_comment)
+    multiprocessings <- RJDemetra::get_all_objects(x)
+    lapply(multiprocessings, get_comment)
 }
 #' @export
 get_comment.multiprocessing <- function(x) {
-  all_sa_objects <- RJDemetra::get_all_objects(x)
-  lapply(all_sa_objects, get_comment)
+    all_sa_objects <- RJDemetra::get_all_objects(x)
+    lapply(all_sa_objects, get_comment)
 }
 #' @export
 get_comment.sa_item <- function(x) {
-  sa_def <- .jcall(x, "Ljd2/datatypes/sa/SaItemType;", "getSaDefinition")
-  metadata <- sa_def$getMetaData()
-  metadata$get("comment")
+    sa_def <- .jcall(x, "Ljd2/datatypes/sa/SaItemType;", "getSaDefinition")
+    metadata <- sa_def$getMetaData()
+    metadata$get("comment")
 }
 
 #' Change comment
@@ -194,24 +191,24 @@ get_comment.sa_item <- function(x) {
 #' 
 #' @export
 set_comment <- function(x, comment) {
-  UseMethod("set_comment", x)
+    UseMethod("set_comment", x)
 }
 #' @export
 set_comment.sa_item <- function(x, comment) {
-  sa_def <- .jcall(x, "Ljd2/datatypes/sa/SaItemType;", "getSaDefinition")
-  jts <- .jcall(sa_def, "Ljd2/datatypes/Ts;", "getTs")
-  
-  metadata <- sa_def$getMetaData()
-  
-  jmap<-.jnew("java/util/LinkedHashMap")
-  jmap <- .jcast(jmap, "java/util/Map")
-  jmap$putAll(metadata)
-  jmap$put("comment", comment)
-  
-  sa_def_temp <- builder_from_sa(sa_def,
-                                 metaData = jmap)
-  new_sa_item <- .jnew("ec/tstoolkit/jdr/ws/SaItem", sa_def_temp)
-  new_sa_item
+    sa_def <- .jcall(x, "Ljd2/datatypes/sa/SaItemType;", "getSaDefinition")
+    jts <- .jcall(sa_def, "Ljd2/datatypes/Ts;", "getTs")
+    
+    metadata <- sa_def$getMetaData()
+    
+    jmap <- .jnew("java/util/LinkedHashMap")
+    jmap <- .jcast(jmap, "java/util/Map")
+    jmap$putAll(metadata)
+    jmap$put("comment", comment)
+    
+    sa_def_temp <- builder_from_sa(sa_def,
+                                   metaData = jmap)
+    new_sa_item <- .jnew("ec/tstoolkit/jdr/ws/SaItem", sa_def_temp)
+    new_sa_item
 }
 
 
@@ -240,77 +237,88 @@ set_comment.sa_item <- function(x, comment) {
 
 #' @export
 
-update_path <- function(ws_path, raw_data_path, param=8, print_log = FALSE) {
-  
-  # Verification that the ws_path leads to a valid workspace 
-  ws <- load_workspace(ws_path)
-  compute(ws)
-  if (!inherits(ws, "workspace")) {stop("There is an error in the workspace path")}
-  # print(ws)
-  
-  # If the default value of param is used and only print_log is indicated,
-  # The logical parameter is re-attributed to print_logical and the default value (of 8), to param
-  if (is.logical(param)) {print_log <- param ; param=8}
-  
-  # Conversion of the raw data path into ASCII/JD+ format (folder separators: / or \\)
-  raw_data_path_JD5<-gsub(":","%3A", raw_data_path)
-  raw_data_path_JD4<-gsub("/","%5C", raw_data_path_JD5)
-  raw_data_path_JD3<-gsub("\\\\","%5C", raw_data_path_JD4)
-  raw_data_path_JD2<-gsub(" ","+", raw_data_path_JD3)
-  raw_data_path_JD1<-gsub(c("_a1"),c(""), raw_data_path_JD2)
-  raw_data_path_JD<-gsub(c("_a2"),c(""), raw_data_path_JD1)
-  raw_data_path_JD
-  
-  # Extraction of the path to the workspace main folder
-  ws_folder <- gsub("\\.xml$","",ws_path)
-  
-  # Retrieval of the xml file(s) within the SAProcessing sub-directory
-  fic_xml<- list.files(sprintf("%s/SAProcessing",ws_folder),pattern = "\\.xml$")
-  if (print_log) {print(fic_xml)}
-  # "SAProcessing-1.xml"
-  
-  # Complete path to the xml file(s) within the SAProcessing sub-directory
-  ch_fic_xml<-paste0(sprintf("%s/SAProcessing/",ws_folder),fic_xml)
-  ch_fic_xml
-  # "my_workspace/SAProcessing/SAProcessing-1.xml"
-  
-  # Import of said xml file(s)
-  fic_xml<-readLines(ch_fic_xml)
-  
-  # Retrieval of the series' names from the csv file
-  raw_data<-utils::read.csv2(raw_data_path, check.names = FALSE)
-  series_names_csv<-colnames(raw_data)[-1]# date removal
-  series_names_csv
-  
-  # And from the workspace
-  series_names_ws <- names(get_all_objects(get_all_objects(ws)[[1]]))
-  
-  # Series in the workspace that aren't in the csv file
-  untreated_series <- series_names_ws[!(series_names_ws %in% series_names_csv)]
-  
-  # For each series in the workspace:
-  for (i in seq(1,length(series_names_ws))) {
-    # i=1
-    series_i <- series_names_ws[i]
-    # if it is in the csv file
-    if (series_i %in% series_names_csv) {
-      if (print_log) {print(paste0(i,"  ",series_i))}
-      # We retrieve the position of the line containing the serie's name (<ts name="C4511"> for ex) in the xml file
-      # +8 or +param  = position of the line containing the path to the raw data file 
-      pos_path<-grep(paste0('"',series_i,'"'),fic_xml,fixed = TRUE)+param
-      
-      # We extract the path to the raw data file
-      chain1<-unlist(stringr::str_split(fic_xml[pos_path],"file="))
-      chain2<-unlist(stringr::str_split(chain1[2],".csv"))
-      # We insert the new raw data file path and put "the line back in place"
-      fic_xml[pos_path]<-paste0(chain1[1],"file=",raw_data_path_JD,chain2[2])
+update_path <- function(ws_path, raw_data_path, param = 8, print_log = FALSE) {
+    
+    # Verification that the ws_path leads to a valid workspace 
+    ws <- load_workspace(ws_path)
+    compute(ws)
+    if (!inherits(ws, "workspace")) {
+        stop("There is an error in the workspace path")
     }
-  }
-  # We save the updated xml file 
-  writeLines(fic_xml,ch_fic_xml)
-  print("Update completed")
-  
-  if (length(untreated_series) != 0) {
-    print("The following series of the workspace aren't in the csv file:")
-    return(untreated_series)}
+    # print(ws)
+    
+    # If the default value of param is used and only print_log is indicated,
+    # The logical parameter is re-attributed to print_logical and the default value (of 8), to param
+    if (is.logical(param)) {
+        print_log <- param
+        param = 8
+    }
+    
+    # Conversion of the raw data path into ASCII/JD+ format (folder separators: / or \\)
+    raw_data_path_JD5 <- gsub(":", "%3A", raw_data_path)
+    raw_data_path_JD4 <- gsub("/", "%5C", raw_data_path_JD5)
+    raw_data_path_JD3 <- gsub("\\\\", "%5C", raw_data_path_JD4)
+    raw_data_path_JD2 <- gsub(" ", "+", raw_data_path_JD3)
+    raw_data_path_JD1 <- gsub("_a1", "", raw_data_path_JD2)
+    raw_data_path_JD <- gsub("_a2", "", raw_data_path_JD1)
+    raw_data_path_JD
+    
+    # Extraction of the path to the workspace main folder
+    ws_folder <- gsub("\\.xml$", "", ws_path)
+    
+    # Retrieval of the xml file(s) within the SAProcessing sub-directory
+    fic_xml<- list.files(sprintf("%s/SAProcessing", ws_folder), 
+                         pattern = "\\.xml$")
+    if (print_log) {
+        print(fic_xml)
+    }
+    # "SAProcessing-1.xml"
+    
+    # Complete path to the xml file(s) within the SAProcessing sub-directory
+    ch_fic_xml <- paste0(sprintf("%s/SAProcessing/", ws_folder), fic_xml)
+    ch_fic_xml
+    # "my_worksp ace/SAProcessing/SAProcessing-1.xml"
+    
+    # Import of said xml file(s)
+    fic_xml <- readLines(ch_fic_xml)
+    
+    # Retrieval of the series' names from the csv file
+    raw_data <- utils::read.csv2(raw_data_path, check.names = FALSE)
+    series_names_csv <- colnames(raw_data)[-1]# date removal
+    series_names_csv
+    
+    # And from the workspace
+    series_names_ws <- names(get_all_objects(get_all_objects(ws)[[1]]))
+    
+    # Series in the workspace that aren't in the csv file
+    untreated_series <- series_names_ws[!(series_names_ws %in% series_names_csv)]
+    
+    # For each series in the workspace:
+    for (i in seq(1, length(series_names_ws))) {
+        # i=1
+        series_i <- series_names_ws[i]
+        # if it is in the csv file
+        if (series_i %in% series_names_csv) {
+            if (print_log) {
+                print(paste0(i, "  ", series_i))
+            }
+            # We retrieve the position of the line containing the serie's name (<ts name="C4511"> for ex) in the xml file
+            # +8 or +param  = position of the line containing the path to the raw data file 
+            pos_path <- grep(paste0('"', series_i, '"'), fic_xml, fixed = TRUE) + param
+            
+            # We extract the path to the raw data file
+            chain1 <- unlist(stringr::str_split(fic_xml[pos_path], "file="))
+            chain2 <- unlist(stringr::str_split(chain1[2], ".csv"))
+            # We insert the new raw data file path and put "the line back in place"
+            fic_xml[pos_path] <- paste0(chain1[1], "file=", raw_data_path_JD,chain2[2])
+        }
+    }
+    # We save the updated xml file 
+    writeLines(fic_xml, ch_fic_xml)
+    print("Update completed")
+    
+    if (length(untreated_series) != 0) {
+        print("The following series of the workspace aren't in the csv file:")
+        return(untreated_series)
+    }
 }

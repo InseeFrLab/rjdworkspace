@@ -3,7 +3,7 @@ $(function() {
   // register a handler to move the focus to the search bar
   // upon pressing shift + "/" (i.e. "?")
   $(document).on('keydown', function(e) {
-    if (e.shiftKey && e.keyCode == 191) {
+    if (e.shiftKey && e.keyCode==191) {
       e.preventDefault();
       $("#search-input").focus();
     }
@@ -30,7 +30,7 @@ $(function() {
             continue;
           }
 
-          if (currentParam[0] == paramKey) {
+          if (currentParam[0]==paramKey) {
             keyword = decodeURIComponent(currentParam[1].replace(/\+/g, "%20"));
           }
         }
