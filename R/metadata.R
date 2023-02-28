@@ -20,9 +20,7 @@
 #'                          "WS/ws_example_1.xml")
 #' path_to_ws2 <- file.path(system.file("extdata", package = "rjdworkspace"),
 #'                          "WS/ws_example_2.xml")
-#' 
-#' write(path_to_ws1, "Z:/temp.csv")
-#' 
+#'  
 #' ws_1 <- load_workspace(path_to_ws1)
 #' compute(ws_1)
 #' ws_2 <- load_workspace(path_to_ws2)
