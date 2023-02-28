@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<informationSet xmlns="ec/tss.core">
+    <item name="metadata">
+        <subset>
+            <item name="timestamp">
+                <string>28 févr. 2023 18:29:29</string>
+            </item>
+        </subset>
+    </item>
+    <item name="sa1">
+        <subset>
+            <item name="ts">
+                <ts name="V1">
+                    <freq>12</freq>
+                    <firstYear>2000</firstYear>
+                    <firstPeriod>1</firstPeriod>
+                    <data>34333.57144 34169.11828 34277.19809 34233.36432 34273.84953 34210.57008 34231.0476 34378.76638 34500.50114 34359.32599 34510.63266 34322.83875 34393.20727 34261.50999 34368.06107 34307.66191 34328.10213 34266.86053 34287.40314 34439.63277 34562.85599 34442.54252 34566.34467 34381.39753 34454.37028 34302.48427 34418.43742 34334.61862 34359.55523 34300.8809 34321.66089 34465.51133 34574.68021 34452.59518 34550.97002 34354.44083 34434.58168 34289.05928 34410.35393 34322.64667 34348.91987 34285.82178 34335.74895 34478.72685 34597.79283 34454.69746 34558.45738 34369.19346 34434.34667 34299.21165 34427.90135 34336.01707 34342.6971 34278.35942 34319.30289 34485.602 34611.48948 34480.76664 34566.42812 34371.51819 34433.02241 34298.77635 34423.84545 34353.07557 34358.42098 34315.74513 34365.35301 34548.54992 34663.58007 34514.97105 34599.68403 34395.78109 34469.61067 34326.74107 34463.51903 34394.57773 34417.27876 34343.70942 34373.82377 34545.9121 34682.51738 34524.26445 34619.94078 34384.86624 34464.12097 34298.82553 34466.6248 34383.86346 34392.6907 34310.70679 34350.25835 34520.44882 34636.18158 34471.82647 34589.60109 34366.22341 34439.13569 34291.18775 34447.00137 34366.91341 34347.72787 34276.9301 34311.29631 34477.89102 34585.9546 34465.91037 34541.66381 34337.03878 34363.34111 34247.2997 34375.65813 34329.59281 34300.2025 34255.02189 34286.79637 34466.79909 34526.24988 34422.34448 34472.70284 34309.44451 34272.61321 34193.99614 34303.51622 34262.63873 34200.16723 34158.91554 34188.38864 34371.58895 34407.84531 34303.15995 34337.51819 34201.96967 34195.45444 34117.41844 34248.3001 34202.91896 34157.34009</data>
+                    <metaData>
+                        <property name="@timestamp" value="Tue Feb 28 18:27:37 CET 2023"/>
+                        <property name="@source" value="Txt"/>
+                        <property name="@id" value="demetra://tsprovider/Txt/20111201/SERIES?delimiter=SEMICOLON&amp;file=C%3A%5CUsers%5CUTZK0M%5CDocuments%5CProjets+R%5CProjets+MTS%5CPackages%5Crjdworkspace%5Cinst%5Cextdata%5Cdata_file.csv#seriesIndex=0"/>
+                    </metaData>
+                </ts>
+            </item>
+            <item name="domainspec">
+                <string>spec1</string>
+            </item>
+            <item name="pointspec">
+                <subset>
+                    <item name="algorithm">
+                        <method version="0.1.0.0">
+                            <name>x13</name>
+                            <family>Seasonal adjustment</family>
+                        </method>
+                    </item>
+                    <item name="regarima">
+                        <subset>
+                            <item name="algorithm">
+<method version="0.1.0.0">
+    <name>regarima</name>
+    <family>Modelling</family>
+</method>
+                            </item>
+                            <item name="transform">
+<subset>
+    <item name="function">
+        <string>Log</string>
+    </item>
+</subset>
+                            </item>
+                            <item name="arima">
+<subset>
+    <item name="phi">
+        <params>
+            <coef type="Estimated">
+                <value>0.9315671234946841</value>
+                <stde>0.045305911225924665</stde>
+                <tstat>20.561712551134576</tstat>
+            </coef>
+        </params>
+    </item>
+    <item name="theta">
+        <params>
+            <coef type="Estimated">
+                <value>0.6841707745544257</value>
+                <stde>0.09358000706026397</stde>
+                <tstat>7.311078466940391</tstat>
+            </coef>
+        </params>
+    </item>
+</subset>
+                            </item>
+                            <item name="automdl">
+<subset>
+    <item name="enabled">
+        <boolean>false</boolean>
+    </item>
+</subset>
+                            </item>
+                        </subset>
+                    </item>
+                    <item name="x11">
+                        <subset>
+                            <item name="mode">
+<string>Multiplicative</string>
+                            </item>
+                        </subset>
+                    </item>
+                    <item name="benchmarking">
+                        <subset/>
+                    </item>
+                </subset>
+            </item>
+            <item name="quality">
+                <string>Good</string>
+            </item>
+            <item name="policy">
+                <string>Complete</string>
+            </item>
+        </subset>
+    </item>
+    <item name="sa2">
+        <subset>
+            <item name="ts">
+                <ts name="V2">
+                    <freq>12</freq>
+                    <firstYear>2000</firstYear>
+                    <firstPeriod>1</firstPeriod>
+                    <data>12484.67693 12542.51168 12213.93142 12422.11553 12297.31538 12485.0997 12342.33103 12492.30096 12325.88413 12508.92878 12285.86258 12493.58945 12249.85992 12296.20732 11989.47682 12211.96777 12098.85988 12292.20853 12163.57611 12331.09848 12159.16733 12349.1674 12149.08269 12345.67749 12107.10961 12144.27219 11848.50417 12082.44772 11977.80321 12160.85736 12011.19531 12173.36628 12019.44632 12186.6453 11995.16467 12170.4512 11943.15204 11983.47547 11719.1339 11930.22354 11839.38926 12018.74944 11866.40724 12038.10909 11889.62211 12062.83019 11860.35965 12046.70044 11801.8761 11847.11199 11545.72687 11789.05429 11703.67702 11891.27471 11730.99442 11914.72917 11772.79742 11956.98452 11754.70962 11959.19136 11714.13067 11751.34712 11473.51348 11693.50112 11643.0896 11825.11934 11692.49053 11851.45812 11693.57665 11876.9915 11673.09098 11857.96157 11619.35688 11657.34498 11373.25635 11589.41993 11532.34755 11713.35473 11579.20453 11752.15597 11605.24222 11785.49962 11584.59033 11768.16399 11544.55846 11543.32621 11248.51142 11436.53405 11408.73111 11560.00823 11439.59072 11617.00189 11471.09102 11660.8078 11435.2082 11629.13126 11404.61184 11431.27178 11121.21575 11354.52361 11293.92918 11492.73836 11369.64514 11571.88934 11406.62848 11621.66824 11385.64693 11603.34567 11377.31713 11401.98772 11105.97078 11339.6729 11301.5789 11481.52192 11349.74362 11559.80043 11385.83365 11590.60376 11359.65419 11550.89321 11339.60275 11342.97631 11061.33132 11305.81347 11270.81825 11461.9286 11324.97735 11532.44658 11357.20487 11555.88552 11321.11182 11519.03649 11318.42668 11330.33683 11059.76449 11306.3102 11291.54682</data>
+                    <metaData>
+                        <property name="@timestamp" value="Tue Feb 28 18:27:37 CET 2023"/>
+                        <property name="@source" value="Txt"/>
+                        <property name="@id" value="demetra://tsprovider/Txt/20111201/SERIES?delimiter=SEMICOLON&amp;file=C%3A%5CUsers%5CUTZK0M%5CDocuments%5CProjets+R%5CProjets+MTS%5CPackages%5Crjdworkspace%5Cinst%5Cextdata%5Cdata_file.csv#seriesIndex=1"/>
+                    </metaData>
+                </ts>
+            </item>
+            <item name="domainspec">
+                <string>spec1</string>
+            </item>
+            <item name="pointspec">
+                <subset>
+                    <item name="algorithm">
+                        <method version="0.1.0.0">
+                            <name>x13</name>
+                            <family>Seasonal adjustment</family>
+                        </method>
+                    </item>
+                    <item name="regarima">
+                        <subset>
+                            <item name="algorithm">
+<method version="0.1.0.0">
+    <name>regarima</name>
+    <family>Modelling</family>
+</method>
+                            </item>
+                            <item name="transform">
+<subset>
+    <item name="function">
+        <string>Log</string>
+    </item>
+</subset>
+                            </item>
+                            <item name="arima">
+<subset>
+    <item name="mu">
+        <param type="Estimated">
+            <value>1.5747128066540401E-4</value>
+        </param>
+    </item>
+    <item name="phi">
+        <params>
+            <coef type="Estimated">
+                <value>0.2949737006306231</value>
+                <stde>0.08811003073258444</stde>
+                <tstat>3.3477879666830863</tstat>
+            </coef>
+            <coef type="Estimated">
+                <value>-0.28749135823869193</value>
+                <stde>0.08824117785638985</stde>
+                <tstat>-3.2580181409928186</tstat>
+            </coef>
+        </params>
+    </item>
+    <item name="bphi">
+        <params>
+            <coef type="Estimated">
+                <value>0.255029922023815</value>
+                <stde>0.08964401316081333</stde>
+                <tstat>2.8449186178926884</tstat>
+            </coef>
+        </params>
+    </item>
+</subset>
+                            </item>
+                            <item name="automdl">
+<subset>
+    <item name="enabled">
+        <boolean>false</boolean>
+    </item>
+</subset>
+                            </item>
+                        </subset>
+                    </item>
+                    <item name="x11">
+                        <subset>
+                            <item name="mode">
+<string>Multiplicative</string>
+                            </item>
+                        </subset>
+                    </item>
+                    <item name="benchmarking">
+                        <subset/>
+                    </item>
+                </subset>
+            </item>
+            <item name="quality">
+                <string>Good</string>
+            </item>
+            <item name="policy">
+                <string>Complete</string>
+            </item>
+        </subset>
+    </item>
+    <item name="sa3">
+        <subset>
+            <item name="ts">
+                <ts name="V3">
+                    <freq>12</freq>
+                    <firstYear>2000</firstYear>
+                    <firstPeriod>1</firstPeriod>
+                    <data>28680.4858 28686.70896 28706.89678 28664.78819 28688.07136 28773.63456 28699.76733 28776.84631 28648.1186 28684.24048 28652.57511 28718.46147 28633.45694 28638.52429 28629.25041 28570.54966 28512.40404 28638.23026 28559.8683 28680.64044 28592.42823 28611.71049 28685.15691 28756.2537 28690.62381 28718.24792 28733.2034 28741.85603 28704.65127 28816.09419 28786.46407 28805.73052 28774.69124 28794.79131 28906.64437 28990.32048 28916.92843 28973.43721 28997.68517 28973.08863 28920.66469 28940.79271 28843.88841 28884.08477 28951.55388 28832.84725 28890.05451 28840.31713 28783.26669 28754.05698 28714.34486 28627.0429 28591.34074 28552.16788 28577.97268 28594.75396 28746.55815 28694.31476 28794.30448 28739.85764 28766.4646 28805.1124 28818.79809 28817.04699 28721.34863 28815.24953 28769.99283 28907.39119 28971.31866 28970.33771 28949.02916 29030.41097 28892.37561 29019.28906 28916.91985 29070.23117 28942.82422 29059.62842 28857.36148 29053.37623 29006.20828 29064.17123 29004.35765 29103.28705 29005.19141 29132.21585 28993.76024 29028.70141 28808.83422 28891.92613 28754.14442 28908.07171 28785.91016 28886.23775 28825.46097 28937.16979 28873.34684 28920.5494 28875.44255 28934.03451 28840.25726 28889.20697 28849.98474 28947.75757 28922.62508 29007.36028 29019.5952 29063.15176 28974.73372 28987.42105 28983.27962 29062.07228 29008.53736 28999.73248 28981.80028 29048.39909 28993.81651 28995.65108 29014.64832 28993.74025 29011.87209 29044.6146 29079.48447 29139.21431 29080.66481 29049.67835 29025.82969 29120.9497 29062.54851 29072.50242 28987.35758 28990.19308 28946.88192 28950.40226 28825.09322 28903.91693 28896.45929</data>
+                    <metaData>
+                        <property name="@timestamp" value="Tue Feb 28 18:27:37 CET 2023"/>
+                        <property name="@source" value="Txt"/>
+                        <property name="@id" value="demetra://tsprovider/Txt/20111201/SERIES?delimiter=SEMICOLON&amp;file=C%3A%5CUsers%5CUTZK0M%5CDocuments%5CProjets+R%5CProjets+MTS%5CPackages%5Crjdworkspace%5Cinst%5Cextdata%5Cdata_file.csv#seriesIndex=2"/>
+                    </metaData>
+                </ts>
+            </item>
+            <item name="domainspec">
+                <string>spec1</string>
+            </item>
+            <item name="pointspec">
+                <subset>
+                    <item name="algorithm">
+                        <method version="0.1.0.0">
+                            <name>x13</name>
+                            <family>Seasonal adjustment</family>
+                        </method>
+                    </item>
+                    <item name="regarima">
+                        <subset>
+                            <item name="algorithm">
+<method version="0.1.0.0">
+    <name>regarima</name>
+    <family>Modelling</family>
+</method>
+                            </item>
+                            <item name="transform">
+<subset>
+    <item name="function">
+        <string>Log</string>
+    </item>
+</subset>
+                            </item>
+                            <item name="arima">
+<subset>
+    <item name="phi">
+        <params>
+            <coef type="Estimated">
+                <value>0.940467408825221</value>
+                <stde>0.04343967240437697</stde>
+                <tstat>21.649965498599382</tstat>
+            </coef>
+        </params>
+    </item>
+    <item name="theta">
+        <params>
+            <coef type="Estimated">
+                <value>0.7061400838821501</value>
+                <stde>0.09047072199181191</stde>
+                <tstat>7.8051779441536855</tstat>
+            </coef>
+        </params>
+    </item>
+    <item name="bphi">
+        <params>
+            <coef type="Estimated">
+                <value>-0.46633528389074336</value>
+                <stde>0.0808158075937187</stde>
+                <tstat>-5.770347383461508</tstat>
+            </coef>
+        </params>
+    </item>
+    <item name="bd">
+        <integer>0</integer>
+    </item>
+</subset>
+                            </item>
+                            <item name="automdl">
+<subset>
+    <item name="enabled">
+        <boolean>false</boolean>
+    </item>
+</subset>
+                            </item>
+                        </subset>
+                    </item>
+                    <item name="x11">
+                        <subset>
+                            <item name="mode">
+<string>Multiplicative</string>
+                            </item>
+                        </subset>
+                    </item>
+                    <item name="benchmarking">
+                        <subset/>
+                    </item>
+                </subset>
+            </item>
+            <item name="quality">
+                <string>Good</string>
+            </item>
+            <item name="policy">
+                <string>Complete</string>
+            </item>
+        </subset>
+    </item>
+    <item name="domainspecs">
+        <subset>
+            <item name="spec1">
+                <subset>
+                    <item name="algorithm">
+                        <method version="0.1.0.0">
+                            <name>x13</name>
+                            <family>Seasonal adjustment</family>
+                        </method>
+                    </item>
+                    <item name="regarima">
+                        <subset>
+                            <item name="algorithm">
+<method version="0.1.0.0">
+    <name>regarima</name>
+    <family>Modelling</family>
+</method>
+                            </item>
+                            <item name="transform">
+<subset>
+    <item name="function">
+        <string>Auto</string>
+    </item>
+</subset>
+                            </item>
+                            <item name="arima">
+<subset>
+    <item name="theta">
+        <params>
+            <coef/>
+        </params>
+    </item>
+    <item name="btheta">
+        <params>
+            <coef/>
+        </params>
+    </item>
+</subset>
+                            </item>
+                            <item name="automdl">
+<subset>
+    <item name="enabled">
+        <boolean>true</boolean>
+    </item>
+</subset>
+                            </item>
+                            <item name="outlier">
+<subset>
+    <item name="ao">
+        <double>0.0</double>
+    </item>
+    <item name="tc">
+        <double>0.0</double>
+    </item>
+    <item name="ls">
+        <double>0.0</double>
+    </item>
+</subset>
+                            </item>
+                        </subset>
+                    </item>
+                    <item name="x11">
+                        <subset/>
+                    </item>
+                    <item name="benchmarking">
+                        <subset/>
+                    </item>
+                </subset>
+            </item>
+        </subset>
+    </item>
+</informationSet>
