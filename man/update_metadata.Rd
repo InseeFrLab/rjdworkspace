@@ -36,15 +36,15 @@ path_to_ws2 <- file.path(system.file("extdata", package = "rjdworkspace"),
 write(path_to_ws1, "Z:/temp.csv")
 
 ws_1 <- load_workspace(path_to_ws1)
-compute(workspace1)
+compute(ws_1)
 ws_2 <- load_workspace(path_to_ws2)
-compute(workspace2)
+compute(ws_2)
 
 updated_workspace <- update_metadata_roughly(workspace1 = ws_1, workspace2 = ws_2)
 path_to_output <- file.path(tempfile(), "ws_update_meta_roughly.xml")
 save_workspace(workspace = updated_workspace, file = path_to_output)
 
-updated_workspace <- update_metadata(workspace1, workspace2)
+updated_workspace <- update_metadata(workspace1 = ws_1, workspace2 = ws_2)
 path_to_output <- file.path(tempfile(), "ws_update_meta.xml")
 save_workspace(workspace = updated_workspace, file = path_to_output)
 
