@@ -1,6 +1,6 @@
 # `rjdworkspace`
 
-[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/rjdworkspace)](https://cran.r-project.org/package=rjdworkspace)
+<!-- [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/rjdworkspace)](https://cran.r-project.org/package=rjdworkspace) -->
 
 ## Français 🇫🇷
 
