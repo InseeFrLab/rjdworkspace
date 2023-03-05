@@ -25,6 +25,7 @@
 # Installer la version en cours de développement depuis GitHub
 remotes::install_github("InseeFrLab/rjdworkspace")
 ```
+Pour un descprition plus complète des packages R pour JDemetra+ voir le document de travail Insee [Les packages R pour JDemetra+ : une aide à la désaisonnalisation[(https://www.insee.fr/fr/statistiques/5019786)
 
 ## English 🇬🇧
 
