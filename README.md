@@ -6,7 +6,7 @@
 
 ### Présentation
 
-`rjdworkspace` propose un ensemble d'outils pour manipuler les workspaces de `JDemetra+`. Ce package utilise les archives .jar Java de [`RJDemetra`](https://github.com/nbbrd/rjdemetra) en ajoutant certaines fonctionnalités. En particulier, `rjdworkspace` permet de :
+`rjdworkspace` propose un ensemble d'outils pour manipuler les workspaces de `JDemetra+`. Ce package utilise les archives .jar Java de [`RJDemetra`](https://github.com/nbbrd/rjdemetra) en y ajoutant certaines fonctionnalités. En particulier, `rjdworkspace` permet de :
 
 - mettre à jour toutes les metadata d'un workspace avec celles d'un autre (`update_metadata()`, `update_metadata_roughly()`) ou mettre à jour les metadata d'un SaItem avec les metadata d'un autre SaItem (`set_metadata()`) 
 - remplacer, supprimer ou ajouter des séries à un workspace (`remove_sa_item()`, `remove_all_sa_item()`, `replace_sa_item()`, `replace_series()`, `add_new_sa_item()`)
@@ -30,7 +30,7 @@ remotes::install_github("InseeFrLab/rjdworkspace")
 
 ### Overview
 
-`rjdworkspace` gives a set of tools to manipulate `JDemetra+` workspaces.
+`rjdworkspace` provides a set of tools designed to manipulate `JDemetra+` workspaces.
 It depends on the .jar files of
 [`RJDemetra`](https://github.com/nbbrd/rjdemetra) and extends some
 functions. In particular, `rjdworkspace` allows to:
