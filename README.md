@@ -62,4 +62,4 @@ version.
 # Install development version from GitHub
 remotes::install_github("InseeFrLab/rjdworkspace")
 ```
-
+For a more comprehensive descrption of R packages for JDemetra+ check the working paper (R Tools for JDemetra+: Seasonal adjustment made easier)[https://www.insee.fr/en/statistiques/5019812]
