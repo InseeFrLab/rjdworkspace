@@ -4,7 +4,7 @@
 
 ## Français 🇫🇷
 
-### Présentation
+### Présentation !!
 
 `rjdworkspace` propose un ensemble d'outils pour manipuler les workspaces de `JDemetra+`. Ce package utilise les archives .jar Java de [`RJDemetra`](https://github.com/nbbrd/rjdemetra) en y ajoutant certaines fonctionnalités. En particulier, `rjdworkspace` permet de :
 
