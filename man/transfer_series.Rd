@@ -4,12 +4,18 @@
 \alias{transfer_series}
 \title{Transfer_series}
 \usage{
-transfer_series(ws1, ws2, mp_to = NA, mp_from = NA, print_indications = FALSE)
+transfer_series(
+  ws_from,
+  ws_to,
+  mp_to = NA,
+  mp_from = NA,
+  print_indications = FALSE
+)
 }
 \arguments{
-\item{ws1}{The workspace to add series to}
+\item{ws_from}{The workspace containing the additionnal series}
 
-\item{ws2}{The workspace containing the additionnal series}
+\item{ws_to}{The workspace to add series to}
 
 \item{mp_to}{The name of the multiprocessing to transfer the series to}
 
@@ -18,7 +24,7 @@ transfer_series(ws1, ws2, mp_to = NA, mp_from = NA, print_indications = FALSE)
 \item{print_indications}{A boolean to print indications on the processing status (optional)}
 }
 \value{
-the \code{workspace} ws1 augmented with series present in ws2 and not already in ws1
+the \code{workspace} ws_to augmented with series present in ws_from and not already in ws_to
 }
 \description{
 To copy&paste series from one workspace to another
@@ -30,5 +36,5 @@ it refers to is not (e.g. argument \code{SAP1} instead of \code{mp_from="SAP1"})
 attributed by default to the first worskpace (\code{mp_to="SAP1"}).
 }
 \examples{
-\dontrun{replace_series(ws1, ws2, "SAProcessing-1", "MP2", TRUE)}
+\dontrun{transfer_series(ws_from, ws_to, "SAProcessing-1", "MP2", TRUE)}
 }

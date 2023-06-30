@@ -2,14 +2,13 @@
 #'
 #' Functions to update the metadata of a workspace by those contained in another one
 #'
-#' @param workspace1 Workspace that contains the new metadata.
-#' @param workspace2 Workspace to update.
-#'
+#' @param ws_from Workspace that contains the new metadata.
+#' @param ws_to Workspace to update.
 #'
 #' @details `update_metadata()` checks the multiprocessings and SaItems' names within
-#' the two workspaces before updating workspace2's metadata. `update_metadata_roughly()` does not do any
-#' checks: `workspace2`'s first multiprocessing's first SaItem metadata 
-#' is updated with `workspace1`'s first multiprocessing's first SaItem metadata.
+#' the two workspaces before updating ws_to's metadata. `update_metadata_roughly()` does not do any
+#' checks: `ws_to`'s first multiprocessing's first SaItem metadata 
+#' is updated with `ws_from`'s first multiprocessing's first SaItem metadata.
 #' Both functions create and return a new workspace containing the updated series.
 #'
 #' @examples
@@ -26,52 +25,52 @@
 #' ws_2 <- load_workspace(path_to_ws2)
 #' compute(ws_2)
 #' 
-#' updated_workspace <- update_metadata_roughly(workspace1 = ws_1, workspace2 = ws_2)
+#' updated_workspace <- update_metadata_roughly(ws_from = ws_1, ws_to = ws_2)
 #' path_to_output <- file.path(tempfile(), "ws_update_meta_roughly.xml")
 #' save_workspace(workspace = updated_workspace, file = path_to_output)
 #' 
-#' updated_workspace <- update_metadata(workspace1 = ws_1, workspace2 = ws_2)
+#' updated_workspace <- update_metadata(ws_from = ws_1, ws_to = ws_2)
 #' path_to_output <- file.path(tempfile(), "ws_update_meta.xml")
 #' save_workspace(workspace = updated_workspace, file = path_to_output)
 #'
 #' @name update_metadata
 #' @rdname update_metadata
 #' @export
-update_metadata <- function(workspace1, workspace2) {
-    # wk1 <- RJDemetra::load_workspace(workspace1)
-    # wk2 <- RJDemetra::load_workspace(workspace2)
-    all_mp_wk1 <- RJDemetra::get_all_objects(workspace1)
-    all_mp_wk1_names <- names(all_mp_wk1)
+update_metadata <- function(ws_from, ws_to) {
+    # ws1 <- RJDemetra::load_workspace(ws_from)
+    # ws2 <- RJDemetra::load_workspace(ws_to)
+    all_mp_ws_from <- RJDemetra::get_all_objects(ws_from)
+    all_mp_ws_from_names <- names(all_mp_ws_from)
     
-    for (i_mp in seq_len(RJDemetra::count(workspace2))) {
-        mp_wk2 <- RJDemetra::get_object(workspace2, i_mp)
-        mp_name <- RJDemetra::get_name(mp_wk2)
-        mp_wk1_i <- which(all_mp_wk1_names %in% mp_name)
-        if (length(mp_wk1_i) > 0) {
-            if (length(mp_wk1_i) > 1)
-                warning(sprintf('At least 2 multiprocessing called "%s" were found in the workspace1: the first object will be used', mp_name))
+    for (i_mp in seq_len(RJDemetra::count(ws_to))) {
+        mp_ws_to <- RJDemetra::get_object(ws_to, i_mp)
+        mp_name <- RJDemetra::get_name(mp_ws_to)
+        mp_ws_from_i <- which(all_mp_ws_from_names %in% mp_name)
+        if (length(mp_ws_from_i) > 0) {
+            if (length(mp_ws_from_i) > 1)
+                warning(sprintf('At least 2 multiprocessing called "%s" were found in the ws_from: the first object will be used', mp_name))
             
-            mp_wk1 <- all_mp_wk1[[mp_wk1_i[1]]]
-            all_sa_wk1_names <- names(RJDemetra::get_all_objects(mp_wk1))
-            for (i_sa in seq_len(RJDemetra::count(mp_wk2))) {
+            mp_ws_from <- all_mp_ws_from[[mp_ws_from_i[1]]]
+            all_sa_ws_from_names <- names(RJDemetra::get_all_objects(mp_ws_from))
+            for (i_sa in seq_len(RJDemetra::count(mp_ws_to))) {
                 # i_sa <- 2
-                sa_wk2 <- RJDemetra::get_object(mp_wk2, i_sa)
-                sa_name <- RJDemetra::get_name(sa_wk2)
-                sa_wk1_i <- which(all_sa_wk1_names %in% sa_name)
-                if (length(sa_wk1_i) > 0) {
-                    if (length(sa_wk1_i) > 1)
-                        warning(sprintf('At least 2 SaItem called "%s" were found in the workspace1: the first object will be used',sa_name))
+                sa_ws_to <- RJDemetra::get_object(mp_ws_to, i_sa)
+                sa_name <- RJDemetra::get_name(sa_ws_to)
+                sa_ws_from_i <- which(all_sa_ws_from_names %in% sa_name)
+                if (length(sa_ws_from_i) > 0) {
+                    if (length(sa_ws_from_i) > 1)
+                        warning(sprintf('At least 2 SaItem called "%s" were found in the ws_from: the first object will be used',sa_name))
                     
-                    sa_wk1 <- RJDemetra::get_object(mp_wk1, sa_wk1_i[1])
-                    new_sa_item <- set_metadata(sa_to = sa_wk2,
-                                                sa_from = sa_wk1)
-                    replace_sa_item(mp = mp_wk2, sa_item = new_sa_item,
+                    sa_ws_from <- RJDemetra::get_object(mp_ws_from, sa_ws_from_i[1])
+                    new_sa_item <- set_metadata(sa_to = sa_ws_to,
+                                                sa_from = sa_ws_from)
+                    replace_sa_item(mp = mp_ws_to, sa_item = new_sa_item,
                                     pos = i_sa)
                     
-                    # sa_def1 <- .jcall(sa_wk1, "Ljd2/datatypes/sa/SaItemType;", "getSaDefinition")
+                    # sa_def1 <- .jcall(sa_ws_from, "Ljd2/datatypes/sa/SaItemType;", "getSaDefinition")
                     # jts1 <- .jcall(sa_def1, "Ljd2/datatypes/Ts;", "getTs")
                     # 
-                    # sa_def2 <- .jcall(sa_wk2, "Ljd2/datatypes/sa/SaItemType;", "getSaDefinition")
+                    # sa_def2 <- .jcall(sa_ws_to, "Ljd2/datatypes/sa/SaItemType;", "getSaDefinition")
                     # jts2 <- .jcall(sa_def2, "Ljd2/datatypes/Ts;", "getTs")
                     # 
                     # builder_ts <- jts2$toBuilder()
@@ -87,10 +86,10 @@ update_metadata <- function(workspace1, workspace2) {
                     #                                metaData = sa_def1$getMetaData())
                     # 
                     # new_sa_item <- .jnew("ec/tstoolkit/jdr/ws/SaItem", sa_def_temp)
-                    # replace_sa_item(mp = mp_wk2, sa_item = new_sa_item,
+                    # replace_sa_item(mp = mp_ws_to, sa_item = new_sa_item,
                     #                 pos = i_sa)
-                    # sa_wk2 <- RJDemetra::get_object(mp_wk2, i_sa)
-                    # sa_wk1 <- RJDemetra::get_object(mp_wk1, i_sa)
+                    # sa_ws_to <- RJDemetra::get_object(mp_ws_to, i_sa)
+                    # sa_ws_from <- RJDemetra::get_object(mp_ws_from, i_sa)
                     # builder_ts <- jts2$toBuilder()
                     # builder_ts$metaData(jts1$getMetaData())
                     # jts_temp <- builder_ts$build()
@@ -101,30 +100,30 @@ update_metadata <- function(workspace1, workspace2) {
                     # sa_def_temp <- builder_sa$build()
                     
                 } else {
-                    warning(sprintf('The SaItem "%s" is not found in the workspace1',sa_name))
+                    warning(sprintf('The SaItem "%s" is not found in the ws_from',sa_name))
                 }
             }
             
         } else {
-            warning(sprintf('The multiprocessing "%s" is not found in the workspace1',mp_name))
+            warning(sprintf('The multiprocessing "%s" is not found in the ws_from',mp_name))
         }
     }
-    return(workspace2)
+    return(ws_to)
 }
 #' @name update_metadata
 #' @rdname update_metadata
 #' @export
-update_metadata_roughly <- function(workspace1, workspace2) {
-    # wk1 <- RJDemetra::load_workspace(workspace1)
-    # wk2 <- RJDemetra::load_workspace(workspace2)
+update_metadata_roughly <- function(ws_from, ws_to) {
+    # ws1 <- RJDemetra::load_workspace(ws_from)
+    # ws2 <- RJDemetra::load_workspace(ws_to)
     
-    for (i_mp in seq_len(RJDemetra::count(workspace2))) {
-        mp_wk2 <- RJDemetra::get_object(workspace2, i_mp)
-        mp_wk1 <- RJDemetra::get_object(workspace1, i_mp)
+    for (i_mp in seq_len(RJDemetra::count(ws_to))) {
+        mp_ws_to <- RJDemetra::get_object(ws_to, i_mp)
+        mp_ws_from <- RJDemetra::get_object(ws_from, i_mp)
         
-        for (i_sa in seq_len(RJDemetra::count(mp_wk2))) {
-            sa_wk2 <- RJDemetra::get_object(mp_wk2, i_sa)
-            sa_wk1 <- RJDemetra::get_object(mp_wk1, i_sa)
+        for (i_sa in seq_len(RJDemetra::count(mp_ws_to))) {
+            sa_ws_to <- RJDemetra::get_object(mp_ws_to, i_sa)
+            sa_ws_from <- RJDemetra::get_object(mp_ws_from, i_sa)
             # builder_ts <- jts2$toBuilder()
             # builder_ts$metaData(jts1$getMetaData())
             # jts_temp <- builder_ts$build()
@@ -133,23 +132,23 @@ update_metadata_roughly <- function(workspace1, workspace2) {
             # builder_sa$ts(jts_temp)
             # builder_sa$metaData(sa_def1$getMetaData())
             # sa_def_temp <- builder_sa$build()
-            new_sa_item <- set_metadata(sa_to = sa_wk2, sa_from = sa_wk1)
-            replace_sa_item(mp = mp_wk2, sa_item = new_sa_item, pos = i_sa)
+            new_sa_item <- set_metadata(sa_to = sa_ws_to, sa_from = sa_ws_from)
+            replace_sa_item(mp = mp_ws_to, sa_item = new_sa_item, pos = i_sa)
         }
     }
-    return(workspace2)
+    return(ws_to)
 }
 
 #' Set the metadata of a SaItem
 #' 
 #' Function to set the name of a `"sa_item"` from the one contained in another `"sa_item"`.
 #' 
-#' @param sa_to the `"sa_item"` object to modify.
 #' @param sa_from the `"sa_item"` object from which the desired metadata is retrieved.
+#' @param sa_to the `"sa_item"` object to modify.
 #' 
 #' @return a new `"sa_item"` with the model of `sa_to` and the metadata of `sa_from`.
 #' @export
-set_metadata <- function(sa_to, sa_from) {
+set_metadata <- function(sa_from, sa_to) {
     sa_def_from <- .jcall(sa_from, "Ljd2/datatypes/sa/SaItemType;", "getSaDefinition")
     jts_from <- .jcall(sa_def_from, "Ljd2/datatypes/Ts;", "getTs")
     
@@ -261,6 +260,8 @@ update_path <- function(ws_path, raw_data_path, param = 8, print_log = FALSE) {
     }
     # print(ws)
     
+    
+    
     # If the default value of param is used and only print_log is indicated,
     # The logical parameter is re-attributed to print_logical and the default value (of 8), to param
     if (is.logical(param)) {
@@ -281,7 +282,7 @@ update_path <- function(ws_path, raw_data_path, param = 8, print_log = FALSE) {
     ws_folder <- gsub("\\.xml$", "", ws_path)
     
     # Retrieval of the xml file(s) within the SAProcessing sub-directory
-    fic_xml<- list.files(sprintf("%s/SAProcessing", ws_folder), 
+    fic_xml <- list.files(sprintf("%s/SAProcessing", ws_folder), 
                          pattern = "\\.xml$")
     if (print_log) {
         print(fic_xml)

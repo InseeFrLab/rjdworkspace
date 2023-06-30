@@ -42,7 +42,7 @@ remove_all_sa_item <- function(mp) {
     if (!inherits(mp, "multiprocessing"))
         stop("x must be a multiprocessing")
     item <- .jcall(mp, "Ljava/util/List;", "getItems")
-    item$removeAll()
+    item$clear()
     return(invisible(TRUE))
 }
 #' @name manipulate_sa_item

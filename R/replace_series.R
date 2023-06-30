@@ -4,51 +4,46 @@
 #' from another workspace. When only the metadata differs, it is the partial version of the update_metadata function.
 #'
 #' 
-#' @param ws1 The workspace to update
-#' @param ws2 The workspace containing the most up-to-date version of the selected_series series
+#' @param ws_from The workspace containing the most up-to-date version of the selected_series series
+#' @param ws_to The workspace to update
 #' @param selected_series The vector containing the series-to-update's names.
-#' @param mp_name The name of the multiprocessing containing the series to update (optional)
+#' @param mp_from_name The name of the multiprocessing containing the series to update (optional)
+#' @param mp_to_name The name of the multiprocessing to update (optional)
 #' @param print_indications A boolean to print indications on the processing status (optional)
 #' 
-#' @details If the argument `mp_name` is unspecified, the update will be performed using the workspaces' first SAProcessing. 
+#' @details If the arguments `mp_from_name` & `mp_to_name` are unspecified, the update will be performed using the workspaces' first SAProcessing. 
 #' If a series is specified in the selected_series vector is missing in a workspace, no replacement will be performed and the function will 
-#' return the list of missing series. Otherwise, if all is well, the function returns the workspace ws1 updated.
+#' return the list of missing series. Otherwise, if all is well, the function returns the workspace ws_to updated.
 #'
 #' @rdname replace_series
 #' @return the updated `workspace`
-#' @examples \dontrun{replace_series(ws1, ws2, "SAProcessing-1", c("series1", "series2"), TRUE)}
+#' @examples \dontrun{replace_series(ws_to, ws_from, "SAProcessing-1", c("series1", "series2"), TRUE)}
 #' @export
 #'
-replace_series <- function(ws1, ws2, selected_series, mp_name=NA, print_indications=FALSE) {
+replace_series <- function(ws_from, ws_to, selected_series, mp_from_name, mp_to_name, print_indications = FALSE) {
     
     # Verification of the parameters type
-    if (!inherits(ws1, "workspace")) {
+    if (!inherits(ws_to, "workspace")) {
         stop("The first argument must be a workspace")
     }
-    if (!inherits(ws2, "workspace")) {
+    if (!inherits(ws_from, "workspace")) {
         stop("The second argument must be a workspace")}
     
-    if (is.null(selected_series)) {stop("The selected_series list is empty!")
+    if (is.null(selected_series)) {
+        stop("The selected_series list is empty!")
     } else {
         if (!is.character(selected_series)) {
             stop("The selected_series list must contain characters (the series names).")
         }
     }
     
-    # if "mp_name" isn't specified but "print_indications" is
-    # ie. if mp_name is TRUE or FALSE
-    if (!is.na(mp_name) && inherits(mp_name, "logical")) {
-        print_indications <- mp_name 
-        mp_name <- NA
-    }
-    
     # Check that the workspaces aren't empty
-    if (is.null(count(ws1))) {
+    if (is.null(count(ws_to))) {
         warning("Attention, the first workspace is empty!")
         return(FALSE)
     }
     
-    if (is.null(count(ws2))) {
+    if (is.null(count(ws_from))) {
         warning("Attention, the second workspace is empty!")
         return(FALSE)
     }
@@ -58,87 +53,91 @@ replace_series <- function(ws1, ws2, selected_series, mp_name=NA, print_indicati
     # Retrieving all SAPs and their names
     # "sap" refers to all SAPs of each workspace
     # "mp" refers to the specified "mp_name" SAP to update
-    saps1 <- RJDemetra::get_all_objects(ws1)
-    names_saps1 <- names(saps1)
+    saps_to <- RJDemetra::get_all_objects(ws_to)
+    names_saps_to <- names(saps_to)
     
-    saps2 <- RJDemetra::get_all_objects(ws2)
-    names_saps2 <- names(saps2)
+    saps_from <- RJDemetra::get_all_objects(ws_from)
+    names_saps_from <- names(saps_from)
     
     
     # Verification that both workspaces contain the SAP to be updated
     # and storage of its position in each workspace
     
     # if no SAP has been declared, the first of each workspaces will be used
-    pos_mp1 <- 1  
-    pos_mp2 <- 1
+    pos_mp_to <- 1  
+    pos_mp_from <- 1
     
     
     # otherwise, we retrieve the SAP's position in each workspace 
-    if (!is.na(mp_name)) {
-        pos_mp1 <- which(names_saps1 == mp_name)
-        pos_mp2 <- which(names_saps2 == mp_name)
+    if (!missing(mp_to_name)) {
+        pos_mp_to <- which(names_saps_to == mp_to_name)
+    }
+    if (!missing(mp_from_name)) {
+        pos_mp_from <- which(names_saps_from == mp_from_name)
     }
     
-    if (print_indications) {print(paste0("pos_mp1=",pos_mp1))}
+    if (print_indications) {
+        cat(paste0("pos_mp_to=", pos_mp_to, "pos_mp_from=", pos_mp_from, "\n"))
+    }
     
     # End of the program if the SAP can't be found in one of the workspaces
     # ie. an unexisting SAP was specified
-    if (sum(pos_mp1) == 0 || is.null(pos_mp1) || is.na(pos_mp1)) {
+    if (sum(pos_mp_to) == 0 || is.null(pos_mp_to) || is.na(pos_mp_to)) {
         print("The chosen SAP couldn't be found in the first workspace.")
         return(FALSE)
     }
     
-    if (sum(pos_mp2) == 0 || is.null(pos_mp2) || is.na(pos_mp2)) {
+    if (sum(pos_mp_from) == 0 || is.null(pos_mp_from) || is.na(pos_mp_from)) {
         print("The chosen SAP couldn't be found in the second workspace.")
         return(FALSE)
     }
     
     # If a corresponding SAP is found in both workspaces, verification that they are both non empty
-    if (is.null(count(saps1[[pos_mp1]]))) {
+    if (is.null(count(saps_to[[pos_mp_to]]))) {
         print("The chosen SAP of the first workspace is empty.")
         return(FALSE)
     }
     
-    if (is.null(count(saps2[[pos_mp2]]))) {
+    if (is.null(count(saps_from[[pos_mp_from]]))) {
         print("The chosen SAP of the second workspace is empty.")
         return(FALSE)
     }
     
     # If all is well:
     # Retrieving the SAPs series...
-    count(saps1[[pos_mp1]])
-    series_saps1 <- RJDemetra::get_all_objects(saps1[[pos_mp1]])
-    series_saps2 <- RJDemetra::get_all_objects(saps2[[pos_mp2]])
+    count(saps_to[[pos_mp_to]])
+    series_saps_to <- RJDemetra::get_all_objects(saps_to[[pos_mp_to]])
+    series_saps_from <- RJDemetra::get_all_objects(saps_from[[pos_mp_from]])
     
     # ... and their names
-    names_series1 <- names(series_saps1)
-    names_series2 <- names(series_saps2)
+    names_series_to <- names(series_saps_to)
+    names_series_from <- names(series_saps_from)
     
     # Verification that all series in the list "selected_series" are present in both SAPs
     L <- length(selected_series)
     pos_table <- data.frame(selected_series = selected_series,  
-                            pos_series1 = rep(NA, L),  
-                            pos_series2 = rep(NA, L))
+                            pos_series_to = rep(NA, L),  
+                            pos_series_from = rep(NA, L))
     
     for (i in seq_len(L)) {
-        if (!(selected_series[i] %in% names_series1)) {  
-            pos_table$pos_series1[i] <- 0
-            print(paste0("Attention, series ", selected_series[i], " is not in the first workspace's SAP `", names_saps1, "`"))
+        if (!(selected_series[i] %in% names_series_to)) {  
+            pos_table$pos_series_to[i] <- 0
+            print(paste0("Attention, series ", selected_series[i], " is not in the first workspace's SAP `", names_saps_to, "`"))
         } else { 
-            pos_table$pos_series1[i] <- which(selected_series[i] == names_series1)
+            pos_table$pos_series_to[i] <- which(selected_series[i] == names_series_to)
         }
         
-        if (!(selected_series[i] %in% names_series2)) { 
-            pos_table$pos_series2[i] <- 0
-            print(paste0("Attention, series ", selected_series[i], " is not in the second workspace's SAP `", names_saps1, "`"))
+        if (!(selected_series[i] %in% names_series_from)) { 
+            pos_table$pos_series_from[i] <- 0
+            print(paste0("Attention, series ", selected_series[i], " is not in the second workspace's SAP `", names_saps_to, "`"))
         } else {
-            pos_table$pos_series2[i] <- which(selected_series[i] == names_series2)
+            pos_table$pos_series_from[i] <- which(selected_series[i] == names_series_from)
         }
     }
     
     # If a series is absent from at least one workspace/SAP:
     # Its name is stored
-    verif <- unique(c(pos_table[pos_table$pos_series1 == 0, ]$selected_series, pos_table[pos_table$pos_series2 == 0, ]$selected_series))
+    verif <- unique(c(pos_table[pos_table$pos_series_to == 0, ]$selected_series, pos_table[pos_table$pos_series_from == 0, ]$selected_series))
     
     # It is returned by the function
     if (length(verif) != 0) {
@@ -148,8 +147,8 @@ replace_series <- function(ws1, ws2, selected_series, mp_name=NA, print_indicati
     } else {
         
         # Retrieving both SAPs that will be used (possibly identically named)
-        mp1 <- saps1[[pos_mp1]]
-        mp2 <- saps2[[pos_mp2]]
+        mp_to <- saps_to[[pos_mp_to]]
+        mp_from <- saps_from[[pos_mp_from]]
         
         # Replacement of all series specified in the "selected_series" vector
         for (i in seq_len(L)) {
@@ -159,31 +158,30 @@ replace_series <- function(ws1, ws2, selected_series, mp_name=NA, print_indicati
             }
             
             # The "up-to-date" series version
-            replacement_series <- RJDemetra::get_object(mp2, pos_table$pos_series2[i])
+            replacement_series <- RJDemetra::get_object(mp_from, pos_table$pos_series_from[i])
             
             if (print_indications) {
                 print(get_name(replacement_series))
             }
             
             # Replacement of the series by its updated version (change made in the reference workspace)
-            replace_sa_item(mp1, pos_table$pos_series1[i], replacement_series)
+            replace_sa_item(mp_to, pos_table$pos_series_to[i], replacement_series)
             
             if (print_indications) {
                 print("ok")
             }
         }
         
-        if (is.na(mp_name)) {
+        if (missing(mp_to_name)) {
             print("Update done for the first workspaces' SAProcessing.")
         } else{
-            print(paste0("Series updating done for the SAP ", mp_name, "."))
+            print(paste0("Series updating done for the SAP ", mp_to_name, "."))
         }
         
-        return(invisible(ws1))
+        return(invisible(ws_to))
         
     }
 }
-
 
 #' Auxiliary functions 
 #' 
