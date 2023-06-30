@@ -5,23 +5,23 @@
 \alias{update_metadata_roughly}
 \title{Update the metadata from a workspace}
 \usage{
-update_metadata(workspace1, workspace2)
+update_metadata(ws_from, ws_to)
 
-update_metadata_roughly(workspace1, workspace2)
+update_metadata_roughly(ws_from, ws_to)
 }
 \arguments{
-\item{workspace1}{Workspace that contains the new metadata.}
+\item{ws_from}{Workspace that contains the new metadata.}
 
-\item{workspace2}{Workspace to update.}
+\item{ws_to}{Workspace to update.}
 }
 \description{
 Functions to update the metadata of a workspace by those contained in another one
 }
 \details{
 \code{update_metadata()} checks the multiprocessings and SaItems' names within
-the two workspaces before updating workspace2's metadata. \code{update_metadata_roughly()} does not do any
-checks: \code{workspace2}'s first multiprocessing's first SaItem metadata
-is updated with \code{workspace1}'s first multiprocessing's first SaItem metadata.
+the two workspaces before updating ws_to's metadata. \code{update_metadata_roughly()} does not do any
+checks: \code{ws_to}'s first multiprocessing's first SaItem metadata
+is updated with \code{ws_from}'s first multiprocessing's first SaItem metadata.
 Both functions create and return a new workspace containing the updated series.
 }
 \examples{
@@ -38,11 +38,11 @@ compute(ws_1)
 ws_2 <- load_workspace(path_to_ws2)
 compute(ws_2)
 
-updated_workspace <- update_metadata_roughly(workspace1 = ws_1, workspace2 = ws_2)
+updated_workspace <- update_metadata_roughly(ws_from = ws_1, ws_to = ws_2)
 path_to_output <- file.path(tempfile(), "ws_update_meta_roughly.xml")
 save_workspace(workspace = updated_workspace, file = path_to_output)
 
-updated_workspace <- update_metadata(workspace1 = ws_1, workspace2 = ws_2)
+updated_workspace <- update_metadata(ws_from = ws_1, ws_to = ws_2)
 path_to_output <- file.path(tempfile(), "ws_update_meta.xml")
 save_workspace(workspace = updated_workspace, file = path_to_output)
 

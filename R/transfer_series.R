@@ -2,8 +2,8 @@
 #' 
 #' To copy&paste series from one workspace to another
 #'
-#' @param ws1 The workspace to add series to
-#' @param ws2 The workspace containing the additionnal series
+#' @param ws_from The workspace containing the additionnal series
+#' @param ws_to The workspace to add series to
 #' @param mp_to The name of the multiprocessing to transfer the series to
 #' @param mp_from The name of the multipricessing to transfer the series from
 #' @param print_indications A boolean to print indications on the processing status (optional)
@@ -13,18 +13,18 @@
 #' it refers to is not (e.g. argument `SAP1` instead of `mp_from="SAP1"`), it will be 
 #' attributed by default to the first worskpace (`mp_to="SAP1"`). 
 #'
-#' @return the `workspace` ws1 augmented with series present in ws2 and not already in ws1
-#' @examples \dontrun{replace_series(ws1, ws2, "SAProcessing-1", "MP2", TRUE)}
+#' @return the `workspace` ws_to augmented with series present in ws_from and not already in ws_to
+#' @examples \dontrun{transfer_series(ws_from, ws_to, "SAProcessing-1", "MP2", TRUE)}
 #' @export
 #'
 #'
-transfer_series <- function(ws1, ws2, mp_to=NA, mp_from=NA, print_indications=FALSE) {
+transfer_series <- function(ws_from, ws_to, mp_to = NA, mp_from = NA, print_indications = FALSE) {
     
     # Verification of the parameters type
-    if (!inherits(ws1, "workspace")) {
+    if (!inherits(ws_to, "workspace")) {
         stop("The first argument must be a workspace")
     }
-    if (!inherits(ws2, "workspace")) {
+    if (!inherits(ws_from, "workspace")) {
         stop("The second argument must be a workspace")
     }
     
@@ -37,12 +37,12 @@ transfer_series <- function(ws1, ws2, mp_to=NA, mp_from=NA, print_indications=FA
     
     
     # Check that the workspaces aren't empty
-    if (is.null(count(ws1))) {
+    if (is.null(count(ws_to))) {
         warning("Attention, the first workspace is empty!")
         return(FALSE)
     }
     
-    if (is.null(count(ws2))) {
+    if (is.null(count(ws_from))) {
         warning("Attention, the second workspace is empty!")
         return(FALSE)
     }
@@ -53,10 +53,10 @@ transfer_series <- function(ws1, ws2, mp_to=NA, mp_from=NA, print_indications=FA
     # "sap" refers to all SAPs of each workspace
     # "mp" refers to the specified "mp_name" SAP to update
     
-    saps1 <- RJDemetra::get_all_objects(ws1)
+    saps1 <- RJDemetra::get_all_objects(ws_to)
     names_saps1 <- names(saps1)
     
-    saps2 <- RJDemetra::get_all_objects(ws2)
+    saps2 <- RJDemetra::get_all_objects(ws_from)
     names_saps2 <- names(saps2)
     
     # if SAPs have been specified, verification that both workspaces contain the SAP
@@ -108,10 +108,10 @@ transfer_series <- function(ws1, ws2, mp_to=NA, mp_from=NA, print_indications=FA
     names_series1 <- names(series_saps1)
     names_series2 <- names(series_saps2)
     
-    # The list of series to transfer: the series in ws2 that are not in ws1
+    # The list of series to transfer: the series in ws_from that are not in ws_to
     selected_series <- names_series2[!(names_series2 %in% names_series1)]
     
-    # Position of these series in the ws2
+    # Position of these series in the ws_from
     L <- length(selected_series)
     pos_table <- data.frame(selected_series = selected_series, 
                             pos_series2 = rep(NA,L))
@@ -122,7 +122,7 @@ transfer_series <- function(ws1, ws2, mp_to=NA, mp_from=NA, print_indications=FA
     
     verif <- pos_table[sum(pos_table$pos_series2) == 0,]
     if (nrow(verif) != 0) {
-        print("Attention, the following series are missing in the ws2: fix it and recompile the program!")
+        print("Attention, the following series are missing in the ws_from: fix it and recompile the program!")
         return(verif$selected_series)
         
     } else {
@@ -145,7 +145,7 @@ transfer_series <- function(ws1, ws2, mp_to=NA, mp_from=NA, print_indications=FA
             }
             
             # Replacement of the series by its updated version (change made in the reference workspace)
-            #add_sa_item(ws1, mp_to, replacement_series, series_name)
+            #add_sa_item(ws_to, mp_to, replacement_series, series_name)
             add_new_sa_item(mp1, replacement_series)
             
             if (print_indications) {
@@ -155,6 +155,6 @@ transfer_series <- function(ws1, ws2, mp_to=NA, mp_from=NA, print_indications=FA
         
         print("Successful transfer")
         
-        return(ws1)
+        return(ws_to)
     }
 }

@@ -7,10 +7,11 @@
 \title{Partial update of a workspace metadata}
 \usage{
 replace_series(
-  ws1,
-  ws2,
+  ws_to,
+  ws_from,
   selected_series,
-  mp_name = NA,
+  mp_from_name,
+  mp_to_name,
   print_indications = FALSE
 )
 
@@ -19,19 +20,19 @@ verif_duplicates(s)
 verif_ws_duplicates(ws, print_indications = FALSE)
 }
 \arguments{
-\item{ws1}{The workspace to update}
+\item{ws_to}{The workspace to update}
 
-\item{ws2}{The workspace containing the most up-to-date version of the selected_series series}
+\item{ws_from}{The workspace containing the most up-to-date version of the selected_series series}
 
 \item{selected_series}{The vector containing the series-to-update's names.}
-
-\item{mp_name}{The name of the multiprocessing containing the series to update (optional)}
 
 \item{print_indications}{A boolean to print indications on the processing status}
 
 \item{s}{a list of characters}
 
 \item{ws}{The workspace to scan}
+
+\item{mp_name}{The name of the multiprocessing containing the series to update (optional)}
 }
 \value{
 the updated \code{workspace}
@@ -50,14 +51,14 @@ Generic function to identify and return the duplicates in a list
 \details{
 If the argument \code{mp_name} is unspecified, the update will be performed using the workspaces' first SAProcessing.
 If a series is specified in the selected_series vector is missing in a workspace, no replacement will be performed and the function will
-return the list of missing series. Otherwise, if all is well, the function returns the workspace ws1 updated.
+return the list of missing series. Otherwise, if all is well, the function returns the workspace ws_to updated.
 
 \code{verif_duplicates()} identifies and returns the duplicates in a list
 \code{verif_ws_duplicates()} identifies duplicated series in a SAProcessing (SAP)
 and SAProcessings in a workspace
 }
 \examples{
-\dontrun{replace_series(ws1, ws2, "SAProcessing-1", c("series1", "series2"), TRUE)}
+\dontrun{replace_series(ws_to, ws_from, "SAProcessing-1", c("series1", "series2"), TRUE)}
 \dontrun{
 s <- c("a","b","a","c","a","c")
 result <- verif_duplicates(s)
