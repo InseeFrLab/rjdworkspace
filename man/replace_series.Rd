@@ -7,8 +7,8 @@
 \title{Partial update of a workspace metadata}
 \usage{
 replace_series(
-  ws_to,
   ws_from,
+  ws_to,
   selected_series,
   mp_from_name,
   mp_to_name,
@@ -20,19 +20,21 @@ verif_duplicates(s)
 verif_ws_duplicates(ws, print_indications = FALSE)
 }
 \arguments{
-\item{ws_to}{The workspace to update}
-
 \item{ws_from}{The workspace containing the most up-to-date version of the selected_series series}
 
+\item{ws_to}{The workspace to update}
+
 \item{selected_series}{The vector containing the series-to-update's names.}
+
+\item{mp_from_name}{The name of the multiprocessing containing the series to update (optional)}
+
+\item{mp_to_name}{The name of the multiprocessing to update (optional)}
 
 \item{print_indications}{A boolean to print indications on the processing status}
 
 \item{s}{a list of characters}
 
 \item{ws}{The workspace to scan}
-
-\item{mp_name}{The name of the multiprocessing containing the series to update (optional)}
 }
 \value{
 the updated \code{workspace}
@@ -49,7 +51,7 @@ from another workspace. When only the metadata differs, it is the partial versio
 Generic function to identify and return the duplicates in a list
 }
 \details{
-If the argument \code{mp_name} is unspecified, the update will be performed using the workspaces' first SAProcessing.
+If the arguments \code{mp_from_name} & \code{mp_to_name} are unspecified, the update will be performed using the workspaces' first SAProcessing.
 If a series is specified in the selected_series vector is missing in a workspace, no replacement will be performed and the function will
 return the list of missing series. Otherwise, if all is well, the function returns the workspace ws_to updated.
 
