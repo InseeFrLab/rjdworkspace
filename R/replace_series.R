@@ -7,10 +7,11 @@
 #' @param ws_from The workspace containing the most up-to-date version of the selected_series series
 #' @param ws_to The workspace to update
 #' @param selected_series The vector containing the series-to-update's names.
-#' @param mp_name The name of the multiprocessing containing the series to update (optional)
+#' @param mp_from_name The name of the multiprocessing containing the series to update (optional)
+#' @param mp_to_name The name of the multiprocessing to update (optional)
 #' @param print_indications A boolean to print indications on the processing status (optional)
 #' 
-#' @details If the argument `mp_name` is unspecified, the update will be performed using the workspaces' first SAProcessing. 
+#' @details If the arguments `mp_from_name` & `mp_to_name` are unspecified, the update will be performed using the workspaces' first SAProcessing. 
 #' If a series is specified in the selected_series vector is missing in a workspace, no replacement will be performed and the function will 
 #' return the list of missing series. Otherwise, if all is well, the function returns the workspace ws_to updated.
 #'
@@ -19,7 +20,7 @@
 #' @examples \dontrun{replace_series(ws_to, ws_from, "SAProcessing-1", c("series1", "series2"), TRUE)}
 #' @export
 #'
-replace_series <- function(ws_to, ws_from, selected_series, mp_from_name, mp_to_name, print_indications = FALSE) {
+replace_series <- function(ws_from, ws_to, selected_series, mp_from_name, mp_to_name, print_indications = FALSE) {
     
     # Verification of the parameters type
     if (!inherits(ws_to, "workspace")) {
@@ -69,10 +70,10 @@ replace_series <- function(ws_to, ws_from, selected_series, mp_from_name, mp_to_
     
     # otherwise, we retrieve the SAP's position in each workspace 
     if (!missing(mp_to_name)) {
-        pos_mp_to <- which(names_saps_to == mp_name)
+        pos_mp_to <- which(names_saps_to == mp_to_name)
     }
     if (!missing(mp_from_name)) {
-        pos_mp_from <- which(names_saps_from == mp_name)
+        pos_mp_from <- which(names_saps_from == mp_from_name)
     }
     
     if (print_indications) {
@@ -171,10 +172,10 @@ replace_series <- function(ws_to, ws_from, selected_series, mp_from_name, mp_to_
             }
         }
         
-        if (is.na(mp_name)) {
+        if (missing(mp_to_name)) {
             print("Update done for the first workspaces' SAProcessing.")
         } else{
-            print(paste0("Series updating done for the SAP ", mp_name, "."))
+            print(paste0("Series updating done for the SAP ", mp_to_name, "."))
         }
         
         return(invisible(ws_to))
