@@ -1,7 +1,7 @@
 Package: rjdworkspace
 Type: Package
 Title: Manipulate 'JDemetra+' workspaces
-Version: 1.0.0
+Version: 1.1.0
 Authors@R: c(
   person(given = "Alain",
          family = "Quartier-la-Tente",
@@ -18,7 +18,8 @@ Depends:
 Imports:
     rJava (>= 0.9-8),
     RJDemetra,
-    stringr
+    stringr, 
+    XML
 License: EUPL
 URL: https://github.com/InseeFrLab/rjdworkspace
 LazyData: TRUE
