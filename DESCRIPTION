@@ -18,7 +18,6 @@ Depends:
 Imports:
     rJava (>= 0.9-8),
     RJDemetra,
-    stringr, 
     XML
 License: EUPL
 URL: https://github.com/InseeFrLab/rjdworkspace
