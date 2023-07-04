@@ -81,12 +81,17 @@ check_information <- function(ws_xml_path, pos_mp, pos_sa_item) {
     
     return(invisible(NULL))
 }
+
+#' Update the path to the raw series file
+#' 
 #' @description
 #' Fonction de changement de chemin (pour les données brutes)
 #' Cette fonction fonctionne pour les formats csv, xls et xlsx
 #' 
+#' Function to change the path to the raw series file in a workspace
+#' 
 #' @export
-update_path2 <- function(ws_xml_path, raw_data_path, pos_mp, pos_sa_item) {
+update_path <- function(ws_xml_path, raw_data_path, pos_mp, pos_sa_item) {
     
     if (!tools::file_ext(raw_data_path) %in% c("csv", "xls", "xlsx")) {
         stop("Les seuls formats de donnée acceptés sont csv, xls, xlsx.")
