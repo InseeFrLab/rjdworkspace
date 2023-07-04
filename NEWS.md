@@ -1,3 +1,10 @@
+# rjdworkspace 1.1.0
+
+## Changes :
+
+* add new function to update_path of **workspaces**, **SAProcessing** and specifically **Sa-items** for csv, xls and xlsx files
+
+
 # rjdworkspace 1.0.0 - Initial release.
 
 ## Changes from dev version :
