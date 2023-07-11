@@ -2,8 +2,9 @@ language: R
 cache: packages
 
 r:
-- 3.5
 - 3.6
+- 4.1
+- 4.2
 - oldrel
 - release
 - devel

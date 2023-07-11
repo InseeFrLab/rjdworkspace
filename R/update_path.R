@@ -62,7 +62,7 @@ check_information <- function(ws_xml_path, pos_mp, pos_sa_item) {
     }
     
     if ((!missing(pos_sa_item)) && missing(pos_mp)) {
-        stop("Il faut préciser un multiprocessing.")
+        stop("Il faut pr\u00e9ciser un multiprocessing.")
     }
     
     nb_sap <- ws |> get_all_objects() |> length()
@@ -94,7 +94,7 @@ check_information <- function(ws_xml_path, pos_mp, pos_sa_item) {
 update_path <- function(ws_xml_path, raw_data_path, pos_mp, pos_sa_item) {
     
     if (!tools::file_ext(raw_data_path) %in% c("csv", "xls", "xlsx")) {
-        stop("Les seuls formats de donnée acceptés sont csv, xls, xlsx.")
+        stop("Les seuls formats de donn\u00e9e accept\u00e9s sont csv, xls, xlsx.")
     }
     
     # Verification that the ws_xml_path leads to a valid workspace 
@@ -114,7 +114,7 @@ update_path <- function(ws_xml_path, raw_data_path, pos_mp, pos_sa_item) {
     }
     
     if ((!missing(pos_sa_item)) && missing(pos_mp)) {
-        stop("Il faut préciser un multiprocessing.")
+        stop("Il faut pr\u00e9ciser un multiprocessing.")
     }
     
     nb_sap <- ws |> get_all_objects() |> length()
