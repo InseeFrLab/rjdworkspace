@@ -183,9 +183,24 @@ get_comment.multiprocessing <- function(x) {
 }
 #' @export
 get_comment.sa_item <- function(x) {
-    sa_def <- .jcall(x, "Ljd2/datatypes/sa/SaItemType;", "getSaDefinition")
-    metadata <- sa_def$getMetaData()
-    metadata$get("comment")
+    sa_def <- .jcall(obj = x, 
+                     returnSig = "Ljd2/datatypes/sa/SaItemType;", 
+                     method = "getSaDefinition")
+    metadata <- .jcall(sa_def, "Ljava/util/Map;", "getMetaData")
+    jcomment <- .jcall(obj = metadata, 
+                       returnSig = "Ljava/lang/Object;", 
+                       method = "get", 
+                       .jcast(obj = .jnew("java/lang/String", "comment"), 
+                              new.class = "java/lang/Object"))
+    
+    if (is.null(jcomment)) {
+        return("")
+    } else {
+        comment <- .jcall(obj = jcomment, 
+                          returnSig = "Ljava/lang/String;", 
+                          method = "toString")
+        return(comment)
+    }
 }
 
 #' Change comment

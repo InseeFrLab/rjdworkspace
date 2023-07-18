@@ -36,6 +36,6 @@ rjdworkspace relies on RJDemetra that requires Java SE 8 or later version.
 
 ```{r gh-installation, eval = FALSE}
 # Install development version from GitHub
-# install.packages("devtools")
-devtools::install_github("InseeFrLab/rjdworkspace")
+# install.packages("remotes")
+remotes::install_github("InseeFrLab/rjdworkspace")
 ```
