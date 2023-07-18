@@ -1,3 +1,8 @@
+# rjdworkspace dev version
+
+* bug fix in `get_comment`
+
+
 # rjdworkspace 1.1.0
 
 ## Changes :
