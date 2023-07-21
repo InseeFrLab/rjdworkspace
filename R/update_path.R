@@ -1,39 +1,36 @@
 format_path_to_xml <- function(path) {
-    return(path |> 
-               normalizePath() |> 
-               gsub(pattern = ":", replacement = "%3A") |> 
-               gsub(pattern = "/", replacement = "%5C") |> 
-               gsub(pattern = "\\\\", replacement = "%5C") |> 
-               gsub(pattern = " ", replacement = "+"))
+    path_norm <- normalizePath(path)
+    formatted_path <- gsub(x = gsub(x = gsub(x = gsub(
+        x = path_norm, 
+        pattern = " ", replacement = "+"), 
+        pattern = "\\\\", replacement = "%5C"), 
+        pattern = "/", replacement = "%5C"), 
+        pattern = ":", replacement = "%3A")
+    
+    return(formatted_path)
 }
 
 update_one_xml <- function(xml_path, pos_sa_item, formated_data_path) {
     
     a <- XML::xmlParse(xml_path)
     
-    nodes_metadata <- a |> 
-        XML::xmlChildren() |> base::`[[`("informationSet") |> 
-        # Premier SA-ITEM (l'indice 1 est réservé pour les metadata du SA-processing)
-        XML::xmlChildren() |> base::`[[`(1 + pos_sa_item) |> 
-        # Metadata file
-        XML::xmlChildren() |> 
-        base::`[[`("subset") |> 
-        base::`[[`("item") |> 
-        base::`[[`("ts") |> 
-        base::`[[`("metaData") |> 
-        XML::xmlChildren()
+    node_informationSet <- XML::xmlChildren(a)[["informationSet"]]
+    # Premier SA-ITEM (l'indice 1 est réservé pour les metadata du SA-processing)
+    node_SAITEM <- XML::xmlChildren(node_informationSet)[[1 + pos_sa_item]]
+    # Metadata node
+    nodes_metadata <- XML::xmlChildren(
+        x = XML::xmlChildren(node_SAITEM)[["subset"]][["item"]][["ts"]][["metaData"]]
+    )
     
     id_pos <- which(sapply(X = nodes_metadata, FUN = XML::xmlAttrs)["name", ] == "@id")
     
-    node_to_change <- nodes_metadata |> 
-        # path node
-        base::`[[`(id_pos)
+    node_to_change <- nodes_metadata[[id_pos]]
     
-    attrib <- node_to_change |> XML::xmlAttrs()
+    attrib <- XML::xmlAttrs(node_to_change)
     
-    chain_temp <- attrib["value"] |> strsplit(split = "file=") |> unlist()
+    chain_temp <- unlist(strsplit(attrib["value"], split = "file="))
     chain1 <- chain_temp[1]
-    chain_temp <- chain_temp[2] |> strsplit(split = "#series") |> unlist()
+    chain_temp <- unlist(strsplit(chain_temp[2], split = "#series"))
     chain2 <- chain_temp[2]
     
     attrib["value"] <- paste0(chain1, "file=", formated_data_path, "#series", chain2)
@@ -65,13 +62,13 @@ check_information <- function(ws_xml_path, pos_mp, pos_sa_item) {
         stop("Il faut pr\u00e9ciser un multiprocessing.")
     }
     
-    nb_sap <- ws |> get_all_objects() |> length()
+    nb_sap <- length(get_all_objects(ws))
     if (!missing(pos_mp)) {
         if (nb_sap < pos_mp) {
             stop("Le multiprocessing n'existe pas.")
         }
         
-        nb_sa_item <- ws |> get_object(pos_mp) |> get_all_objects() |> length()
+        nb_sa_item <- length(get_all_objects(get_object(ws, pos = pos_mp)))
         if (!missing(pos_sa_item)) {
             if (nb_sa_item < pos_sa_item) {
                 stop("Le SA Item n'existe pas.")
@@ -117,13 +114,13 @@ update_path <- function(ws_xml_path, raw_data_path, pos_mp, pos_sa_item) {
         stop("Il faut pr\u00e9ciser un multiprocessing.")
     }
     
-    nb_sap <- ws |> get_all_objects() |> length()
+    nb_sap <- length(get_all_objects(ws))
     if (!missing(pos_mp)) {
         if (nb_sap < pos_mp) {
             stop("Le multiprocessing n'existe pas.")
         }
         
-        nb_sa_item <- ws |> get_object(pos_mp) |> get_all_objects() |> length()
+        nb_sa_item <- length(get_all_objects(get_object(ws, pos = pos_mp)))
         if (!missing(pos_sa_item)) {
             if (nb_sa_item < pos_sa_item) {
                 stop("Le SA Item n'existe pas.")
@@ -140,7 +137,7 @@ update_path <- function(ws_xml_path, raw_data_path, pos_mp, pos_sa_item) {
         for (pos_mp in seq_along(all_xml_sap)) {
             
             xml_path <- all_xml_sap[pos_mp]
-            nb_sa_item <- ws |> get_object(pos_mp) |> get_all_objects() |> length()
+            nb_sa_item <- length(get_all_objects(get_object(ws, pos = pos_mp)))
             
             for (pos2 in seq_len(nb_sa_item)) {
                 update_one_xml(xml_path = xml_path, 
