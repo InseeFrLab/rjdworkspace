@@ -33,7 +33,7 @@ transfer_series <- function(
     }
     
     # Check that the workspaces aren't empty
-    if (is.null(count(ws_from))) {
+    if (is.null(RJDemetra::count(ws_from))) {
         warning("Attention, the workspace ws_from is empty!")
         return(FALSE)
     }
@@ -92,9 +92,9 @@ transfer_series <- function(
     }
     
     if (print_indications) {
-        print(paste0("Position of the first WS's SAP : ", pos_mp_from, 
-                     " and ", 
-                     "Position of the second WS's SAP : ", pos_mp_to))
+        cat(paste0("Position of the first WS's SAP : ", pos_mp_from, 
+                   "\nand\n", 
+                   "Position of the second WS's SAP : ", pos_mp_to, "\n"))
     }
     
     sap_to <- RJDemetra::get_object(ws_to, pos_mp_to)
@@ -125,10 +125,10 @@ transfer_series <- function(
     for (index in seq_along(selected_series)) {
         
         series_name <- selected_series[index]
-        position <- which(names_series_from == series)
+        position <- which(names_series_from == series_name)
         if (print_indications) {
             print(paste0("Series n°", index, 
-                         ", name: ", series, 
+                         ", name: ", series_name, 
                          ", position: ", position))
         }
         
@@ -139,7 +139,7 @@ transfer_series <- function(
         add_new_sa_item(sap_to, extracted_sa_item)
         
         print("Successful transfer")
-        
-        return(ws_to)
     }
+    
+    return(TRUE)
 }
