@@ -1,7 +1,7 @@
 # rjdworkspace dev version
 
 * bug fix in `get_comment`
-
+* Changes in `tranfer_series` (not final) to regroup `transfer_series` and `replace_series`
 
 # rjdworkspace 1.1.0
 
