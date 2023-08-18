@@ -1,3 +1,69 @@
+
+# Cette fonction retourne :
+#   - la position du SAP
+#   - une erreur ou un warning si le nom du SAP et de la position ne correspondent à rien
+#   - une erreur si le WS est vide (création d'un MP) avec error_on_unknown
+#   - sinon 0
+
+identify_object <- function(ws,
+                            name_mp, pos_mp, 
+                            error_on_unknown = FALSE) {
+    
+    # Empty WS
+    if (RJDemetra::count(ws) == 0) {
+        if (error_on_unknown) {
+            print("The program stops without transferring the series.")
+            stop("The ws is empty.")
+        } else {
+            return(0)
+        }
+    }
+    
+    # Non empty WS
+    names_saps <- RJDemetra::get_all_name(ws)
+    
+    if (missing(name_mp) && missing(pos_mp)) {
+        pos_mp <- 1L
+        name_mp <- names_saps[1L]
+        print(paste0("No sap has been selected, the first one (", name_mp, ") will be used."))
+    } else if (missing(name_mp)) {
+        if (pos_mp <= RJDemetra::get_all_objects(ws) && pos_mp > 0L) {
+            name_mp <- names_saps[pos_mp]
+        } else {
+            print("The program stops without transferring the series.")
+            stop(paste0("There is no SAP n°", pos_mp))
+        }
+    } else if (missing(pos_mp)) {
+        if (name_mp %in% names_saps) {
+            pos_mp <- which(names_saps == name_mp)
+        } else if (error_on_unknown) {
+            print("The program stops without transferring the series.")
+            stop(paste0("There is no SAP named ", name_mp, "in ws."))
+        } else {
+            return(0)
+        }
+    } else {
+        if (!name_mp %in% names_saps) {
+            if (error_on_unknown) {
+                print("The program stops without transferring the series.")
+                stop(paste0("There is no SAP named ", name_mp, "in ws."))
+            } else {
+                return(0)
+            }
+        } else if (pos_mp > RJDemetra::get_all_objects(ws) || pos_mp <= 0L) {
+            print("The program stops without transferring the series.")
+            stop(paste0("There is no SAP n°", pos_mp))
+        } else if (names_saps[pos_mp] != name_mp) {
+            print("The program stops without transferring the series.")
+            stop("The arguments pos_mp and name_mp are refering to differents objects.")
+        }
+    }
+    
+    return(pos_mp)
+}
+
+
+
 #' Transfer_series
 #' 
 #' To copy&paste series from one workspace to another
@@ -36,164 +102,54 @@ transfer_series <- function(
         stop("The argument ws_to must be a workspace")
     }
     
-    # Check that the workspaces aren't empty
-    if (is.null(RJDemetra::count(ws_from))) {
-        warning("Attention, the workspace ws_from is empty!")
-        return(FALSE)
-    }
+    # Identify object
+    pos_mp_from <- identify_object(ws = ws_from,
+                                   name_mp = name_mp_from, 
+                                   pos_mp = pos_mp_from, 
+                                   error_on_unknown = TRUE)
+    name_mp_from <- RJDemetra::get_all_name(ws_from)[pos_mp_from]
     
-    # When both workspaces aren't empty:
+    pos_mp_to <- identify_object(ws = ws_to,
+                                 name_mp = name_mp_to, 
+                                 pos_mp = pos_mp_to, 
+                                 error_on_unknown = !create_mp)
     
-    # Retrieving all SAPs and their names
-    # "sap" refers to all SAPs of each workspace
-    # "mp" refers to the specified "mp_name" SAP to update
-    
-    saps_from <- RJDemetra::get_all_objects(ws_from)
-    names_saps_from <- names(saps_from)
-    
-    # Check MP selection
-    # WS from
-    if (missing(name_mp_from) && missing(pos_mp_from)) {
-        pos_mp_from <- 1L
-        name_mp_from <- names_saps_from[1L]
-        print(paste0("No sap has been selected, the first one (", name_mp_from, ") will be used."))
-    } else if (missing(name_mp_from)) {
-        if (pos_mp_from <= RJDemetra::get_all_objects(ws_from) && pos_mp_from > 0L) {
-            name_mp_from <- names_saps_from[pos_mp_from]
+    if (pos_mp_to == 0) {
+        # A new SAP will be created
+        if (missing(name_mp_to)) {
+            print("The program stops without transferring the series.")
+            stop("No name for mp_to has been specified.")
         } else {
-            warning(paste0("There is no SAP n°", pos_mp_from))
-            print("The program stops without transferring the series.")
-            return(FALSE)
-        }
-    } else if (missing(pos_mp_from)) {
-        if (name_mp_from %in% names_saps_from) {
-            pos_mo_from <- which(names_saps_from == name_mp_from)
-        } else {
-            warning(paste0("There is no SAP named ", name_mp_from, "in ws_from."))
-            print("The program stops without transferring the series.")
-            return(FALSE)
-        }
-    } else {
-        if (!name_mp_from %in% names_saps_from) {
-            warning(paste0("There is no SAP named ", name_mp_from, "in ws_from."))
-            print("The program stops without transferring the series.")
-            return(FALSE)
-        } else if (pos_mp_from > RJDemetra::get_all_objects(ws_from) || pos_mp_from <= 0L) {
-            warning(paste0("There is no SAP n°", pos_mp_from))
-            print("The program stops without transferring the series.")
-            return(FALSE)
-        } else if (names_saps_from[pos_mp_from] != name_mp_from) {
-            warning("The arguments pos_mp_from and name_mp_from are refering to differents objects.")
-            print("The program stops without transferring the series.")
-            return(FALSE)
-        }
-    }
-    
-    
-    saps_to <- RJDemetra::get_all_objects(ws_to)
-    names_saps_to <- names(saps_to)
-    
-    # WS to
-    
-    # First case : empty ws
-    if (RJDemetra::count(ws_to) == 0) {
-        print("The ws_to is empty.")
-        if (create) {
-            if (missing(name_mp_to)) {
-                warning("No name for mp_to has been specified.")
-                print("The program stops without transferring the series.")
-                return(FALSE)
-            } else {
-                print("A new SAP in ws_to will be created.")
-                RJDemetra::new_multiprocessing(
-                    workspace = ws_to, name = name_mp_to)
-                pos_mp_to <- RJDemetra::count(ws_to)
-            }
-        } else {
-            print("The program stops without transferring the series.")
-            return(FALSE)
-        }
-    } else if (missing(name_mp_to) && missing(pos_mp_to)) {
-        pos_mp_to <- 1L
-        name_mp_to <- names_saps_to[1L]
-        print(paste0("No sap has been selected, the first one (", name_mp_to, ") will be used."))
-    } else if (missing(name_mp_to)) {
-        if (pos_mp_to <= RJDemetra::get_all_objects(ws_to) && pos_mp_to > 0L) {
-            name_mp_to <- names_saps_to[pos_mp_to]
-        } else {
-            warning(paste0("There is no SAP n°", pos_mp_to))
-            print("The program stops without transferring the series.")
-            return(FALSE)
-        }
-    } else if (missing(pos_mp_to)) {
-        if (name_mp_to %in% names_saps_to) {
-            pos_mp_to <- which(names_saps_to == name_mp_to)
-        } else if (create) {
-            print(paste0("There is no SAP named ", name_mp_to, " in ws_to."))
-            print("A new SAP in ws_to will be created.")
+            print(paste0("A new SAP named ", name_mp_to," in ws_to will be created."))
             RJDemetra::new_multiprocessing(
                 workspace = ws_to, name = name_mp_to)
             pos_mp_to <- RJDemetra::count(ws_to)
-        } else {
-            print(paste0("There is no SAP named ", name_mp_to, " in ws_to."))
-            print("The program stops without transferring the series.")
-            return(FALSE)
         }
     } else {
-        if (!name_mp_to %in% names_saps_to) {
-            if (create) {
-                print(paste0("There is no SAP named ", name_mp_to, " in ws_to."))
-                print("A new SAP in ws_to will be created.")
-                RJDemetra::new_multiprocessing(
-                    workspace = ws_to, name = name_mp_to)
-                pos_mp_to <- RJDemetra::count(ws_to)
-            } else {
-                print(paste0("There is no SAP named ", name_mp_to, " in ws_to."))
-                print("The program stops without transferring the series.")
-                return(FALSE)
-            }
-        } else if (pos_mp_to > RJDemetra::get_all_objects(ws_to) || pos_mp_to <= 0L) {
-            warning(paste0("There is no SAP n°", pos_mp_to))
-            print("The program stops without transferring the series.")
-            return(FALSE)
-        } else if (names_saps_to[pos_mp_to] != name_mp_to) {
-            warning("The arguments pos_mp_to and name_mp_to are refering to differents objects.")
-            print("The program stops without transferring the series.")
-            return(FALSE)
-        }
+        name_mp_to <- RJDemetra::get_all_name(ws_to)[pos_mp_to]
     }
-    
     
     if (print_indications) {
-        cat(paste0("Position of the first WS's SAP : ", pos_mp_from, 
+        cat(paste0("First WS's SAP :\n", 
+                   "\t- name : ", name_mp_from, 
+                   "\n\t- pos : ", pos_mp_from, 
                    "\nand\n", 
-                   "Position of the second WS's SAP : ", pos_mp_to, "\n"))
+                   "Second WS's SAP :\n", 
+                   "\t- name : ", name_mp_to, 
+                   "\n\t- pos : ", pos_mp_to))
     }
     
-    sap_from <- RJDemetra::get_object(ws_from, pos_mp_from)
-    sap_to <- RJDemetra::get_object(ws_to, pos_mp_to)
-    
-    # If a corresponding SAP is found in both workspaces, verification that they are both non empty
-    if (RJDemetra::count(sap_from) == 0) {
-        warning("The chosen SAP of the workspace ws_to is empty.")
-        return(FALSE)
-    }
-    
-    # If all is well:
-    # Retrieving the SAPs series...
-    
-    series_saps_from <- RJDemetra::get_all_objects(sap_from)
-    series_saps_to <- RJDemetra::get_all_objects(sap_to)
-    
-    # ... and their names
-    names_series_from <- names(series_saps_from)
-    names_series_to <- names(series_saps_to)
+    names_series_from <- RJDemetra::get_all_name(
+        x = RJDemetra::get_object(x = ws_from, pos = pos_mp_from))
+    names_series_to <- RJDemetra::get_all_name(
+        x = RJDemetra::get_object(x = ws_to, pos = pos_mp_to))
     
     # Check de selected series
     if (missing(selected_series)) {
         selected_series <- names_series_from
     } else if (any(!selected_series %in% names_series_from)) {
-        warning("The series ", selected_series[!selected_series %in% names_series_from], " are not in the SAP ", names_sap_from, "from ws_from")
+        warning("The series ", setdiff(selected_series, names_series_from), " are not in the SAP ", names_sap_from, "from ws_from. They won't be transfered.")
+        selected_series <- intersect(selected_series, names_series_from)
     }
     
     if (!replace_series) {
@@ -207,8 +163,8 @@ transfer_series <- function(
         position <- which(names_series_from == series_name)
         if (print_indications) {
             cat(paste0("Series n°", index, 
-                         ", name: ", series_name, 
-                         ", position: ", position))
+                       ", name: ", series_name, 
+                       ", position: ", position))
         }
         
         # The "up-to-date" series version
@@ -216,10 +172,10 @@ transfer_series <- function(
         
         # Cas de remplacement
         if (series_name %in% names_series_to) {
-            cat(" - to add...")
+            if (print_indications) { cat(" - to add...") }
             add_new_sa_item(sap_to, extracted_sa_item)
         } else {
-            cat(" - to replace...")
+            if (print_indications) { cat(" - to replace...") }
             position <- which(names_series_to == series_name)
             replace_sa_item(mp_to, pos = position, sa_item = extracted_sa_item)
         }
@@ -227,5 +183,6 @@ transfer_series <- function(
         cat(" Successful transfer!\n")
     }
     
-    return(TRUE)
+    cat("\nDone!")
+    return(invisible(ws_to))
 }

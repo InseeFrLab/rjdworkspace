@@ -22,6 +22,11 @@
 #'
 replace_series <- function(ws_from, ws_to, selected_series, mp_from_name, mp_to_name, print_indications = FALSE) {
     
+    warning("replace_series will be replaced by transfer_series (with replace_series = TRUE).
+    Functionality stays the same.
+    The new function add new functionnalities.
+    Please adjust your code accordingly.")
+    
     # Verification of the parameters type
     if (!inherits(ws_to, "workspace")) {
         stop("The first argument must be a workspace")
