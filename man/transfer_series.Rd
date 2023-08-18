@@ -7,9 +7,14 @@
 transfer_series(
   ws_from,
   ws_to,
-  mp_to = NA,
-  mp_from = NA,
-  print_indications = FALSE
+  selected_series,
+  pos_mp_from,
+  pos_mp_to,
+  name_mp_from,
+  name_mp_to,
+  print_indications = FALSE,
+  create_mp = TRUE,
+  replace_series = TRUE
 )
 }
 \arguments{
@@ -17,23 +22,39 @@ transfer_series(
 
 \item{ws_to}{The workspace to add series to}
 
-\item{mp_to}{The name of the multiprocessing to transfer the series to}
+\item{selected_series}{The vector containing the series-to-update's names.}
 
-\item{mp_from}{The name of the multipricessing to transfer the series from}
+\item{pos_mp_from}{The position of the multiprocessing to transfer the series from}
+
+\item{pos_mp_to}{The position of the multiprocessing to transfer the series to}
+
+\item{name_mp_from}{The name of the multiprocessing to transfer the series from (optional)}
+
+\item{name_mp_to}{The name of the multiprocessing to transfer the series to (optional)}
 
 \item{print_indications}{A boolean to print indications on the processing status (optional)}
+
+\item{create_mp}{A boolean to create a new multiprocessing if not existing (optional)}
+
+\item{replace_series}{A boolean to replace existing series (optional)}
 }
 \value{
 the \code{workspace} ws_to augmented with series present in ws_from and not already in ws_to
 }
 \description{
-To copy&paste series from one workspace to another
+To copy & paste series from one workspace to another
 }
 \details{
-If \code{mp_to} and \code{mp_from} are unspecified, the update will be performed using
-the workspaces' first SAProcessing. If only one SAProcessing name is specified but the workspace
-it refers to is not (e.g. argument \code{SAP1} instead of \code{mp_from="SAP1"}), it will be
-attributed by default to the first worskpace (\code{mp_to="SAP1"}).
+The transfer will fail if:
+- \code{name_mp_from} doesn't exist
+- \code{pos_mp_from} < 0 or exceed the maximum number of SAP
+- \code{pos_mp_to} < 0 or exceed the maximum number of SAP
+- The arguments \code{pos_mp_from} and \code{name_mp_from} are refering to differents objects.
+- The arguments \code{pos_mp_to} and \code{name_mp_to} are refering to differents objects.
+
+If \code{name_mp_to} and \code{pos_mp_to} are unspecified, the update will be performed using
+the workspaces' first SAProcessing (same for the SAP from).
+However if the informations of one on the two SAP (from or to) are specified (name or position), they will be attributed by default to the other worskpace.
 }
 \examples{
 \dontrun{transfer_series(ws_from, ws_to, "SAProcessing-1", "MP2", TRUE)}

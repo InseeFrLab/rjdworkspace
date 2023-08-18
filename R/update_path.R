@@ -81,11 +81,18 @@ check_information <- function(ws_xml_path, pos_mp, pos_sa_item) {
 
 #' Update the path to the raw series file
 #' 
+#' @param ws_xml_path the path to the xml file of the workspace
+#' @param raw_data_path the new path to the raw data
+#' @param pos_mp the index of the SA-Processing containing the series
+#' @param pos_sa_item the index of the SA-Item containing the series
+#'
 #' @description
 #' Fonction de changement de chemin (pour les données brutes)
 #' Cette fonction fonctionne pour les formats csv, xls et xlsx
 #' 
 #' Function to change the path to the raw series file in a workspace
+#' 
+#' @return the `workspace` ws_to augmented with series present in ws_from and not already in ws_to
 #' 
 #' @export
 update_path <- function(ws_xml_path, raw_data_path, pos_mp, pos_sa_item) {
@@ -163,6 +170,5 @@ update_path <- function(ws_xml_path, raw_data_path, pos_mp, pos_sa_item) {
     }
     
     print("Done!")
-    return(invisible(NULL))
+    return(invisible(ws))
 }
-

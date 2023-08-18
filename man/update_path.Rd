@@ -6,6 +6,18 @@
 \usage{
 update_path(ws_xml_path, raw_data_path, pos_mp, pos_sa_item)
 }
+\arguments{
+\item{ws_xml_path}{the path to the xml file of the workspace}
+
+\item{raw_data_path}{the new path to the raw data}
+
+\item{pos_mp}{the index of the SA-Processing containing the series}
+
+\item{pos_sa_item}{the index of the SA-Item containing the series}
+}
+\value{
+the \code{workspace} ws_to augmented with series present in ws_from and not already in ws_to
+}
 \description{
 Fonction de changement de chemin (pour les données brutes)
 Cette fonction fonctionne pour les formats csv, xls et xlsx

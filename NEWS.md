@@ -8,6 +8,8 @@
     * name_mp_from, name_mp_to, pos_mp_from and pos_mp_to to identify the SA-Processing
     * create_mp to create a new MP
     * replace_series to replace existing series
+* adding some documentation to functions
+* Successfull check!
 
 # rjdworkspace 1.1.0
 
