@@ -57,5 +57,55 @@ the workspaces' first SAProcessing (same for the SAP from).
 However if the informations of one on the two SAP (from or to) are specified (name or position), they will be attributed by default to the other worskpace.
 }
 \examples{
-\dontrun{transfer_series(ws_from, ws_to, "SAProcessing-1", "MP2", TRUE)}
+
+library("RJDemetra")
+
+path_ws_from <- file.path(system.file("extdata", package = "rjdworkspace"),
+                          "WS/ws_input.xml")
+path_ws_to <- file.path(system.file("extdata", package = "rjdworkspace"),
+                        "WS/ws_output.xml")
+ 
+ws_input <- RJDemetra::load_workspace(path_ws_from)
+ws_output <- RJDemetra::load_workspace(path_ws_to)
+
+# Existing MP
+transfer_series(ws_from = ws_input, 
+                ws_to = ws_output, 
+                name_mp_from = "SAProcessing-1", 
+                name_mp_to = "SAProcessing-1", 
+                print_indications = TRUE)
+                
+transfer_series(ws_from = ws_input, 
+                ws_to = ws_output, 
+                pos_mp_from = 1, 
+                pos_mp_to = 1, 
+                print_indications = TRUE)
+
+# Existing series
+transfer_series(ws_from = ws_input, ws_to = ws_output, 
+                pos_mp_from = 2, 
+                pos_mp_to = 2, 
+                print_indications = TRUE, 
+                replace_series = FALSE)
+transfer_series(ws_from = ws_input, ws_to = ws_output, 
+                pos_mp_from = 2, 
+                pos_mp_to = 2, 
+                print_indications = TRUE, 
+                replace_series = TRUE)
+
+# Missing MP
+# transfer_series(ws_from = ws_input, ws_to = ws_output, 
+#                 name_mp_from = "SAProcessing-1", 
+#                 name_mp_to = "New-SAProcessing-from-R", 
+#                 print_indications = TRUE, 
+#                 create = FALSE)
+
+transfer_series(ws_from = ws_input, ws_to = ws_output, 
+                name_mp_from = "SAProcessing-1", 
+                name_mp_to = "New-SAProcessing-from-R", 
+                print_indications = TRUE, 
+                create = TRUE)
+
+RJDemetra::save_workspace(workspace = ws_output, file = path_ws_to)
+
 }
