@@ -20,7 +20,8 @@ identify_object <- function(ws,
     }
     
     # Non empty WS
-    names_saps <- RJDemetra::get_all_name(ws)
+    saps <- RJDemetra::get_all_objects(ws)
+    names_saps <- names(saps)
     
     if (missing(name_mp) && missing(pos_mp)) {
         pos_mp <- 1L
@@ -184,7 +185,9 @@ transfer_series <- function(
                                    name_mp = name_mp_from, 
                                    pos_mp = pos_mp_from, 
                                    error_on_unknown = TRUE)
-    name_mp_from <- RJDemetra::get_all_name(ws_from)[pos_mp_from]
+    
+    mp_from <- RJDemetra::get_object(x = ws_from, pos = pos_mp_from)
+    name_mp_from <- RJDemetra::get_name(mp_from)
     
     pos_mp_to <- identify_object(ws = ws_to,
                                  name_mp = name_mp_to, 
@@ -198,13 +201,15 @@ transfer_series <- function(
             stop("No name for mp_to has been specified.")
         } else {
             print(paste0("A new SAP named ", name_mp_to," in ws_to will be created."))
-            RJDemetra::new_multiprocessing(
+            mp_to <- RJDemetra::new_multiprocessing(
                 workspace = ws_to, name = name_mp_to)
             pos_mp_to <- RJDemetra::count(ws_to)
         }
     } else {
-        name_mp_to <- RJDemetra::get_all_name(ws_to)[pos_mp_to]
+        mp_to <- RJDemetra::get_object(x = ws_to, pos = pos_mp_to)
+        name_mp_to <- RJDemetra::get_name(mp_to)
     }
+    
     
     if (print_indications) {
         cat(paste0("First WS's SAP :\n", 
@@ -217,11 +222,11 @@ transfer_series <- function(
         cat("\n\n")
     }
     
-    mp_from <- RJDemetra::get_object(x = ws_from, pos = pos_mp_from)
-    mp_to <- RJDemetra::get_object(x = ws_to, pos = pos_mp_to)
+    sa_items_from <- RJDemetra::get_all_objects(mp_from)
+    names_series_from <- names(sa_item_from)
     
-    names_series_from <- RJDemetra::get_all_name(x = mp_from)
-    names_series_to <- RJDemetra::get_all_name(x = mp_to)
+    sa_items_to <- RJDemetra::get_all_objects(mp_to)
+    names_series_to <- names(sa_items_to)
     
     # Check de selected series
     if (missing(selected_series)) {
