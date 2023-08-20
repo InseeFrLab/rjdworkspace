@@ -43,4 +43,9 @@ jobs:
         with:
           extra-packages: rcmdcheck
 
+      # Temporairement, on installe RJDemetra depuis github
+      - name: Install RJDemetra from github
+        run: install.packages('remotes');remotes::install_github("jdemetra/rjdemetra")
+        shell: Rscript {0}
+        
       - uses: r-lib/actions/check-r-package@v2
