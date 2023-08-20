@@ -223,7 +223,7 @@ transfer_series <- function(
     }
     
     sa_items_from <- RJDemetra::get_all_objects(mp_from)
-    names_series_from <- names(sa_item_from)
+    names_series_from <- names(sa_items_from)
     
     sa_items_to <- RJDemetra::get_all_objects(mp_to)
     names_series_to <- names(sa_items_to)
