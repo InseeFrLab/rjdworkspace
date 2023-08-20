@@ -154,7 +154,7 @@ update_path <- function(ws_xml_path, raw_data_path, pos_mp, pos_sa_item) {
         }
     } else {
         xml_path <- paste0(sprintf("%s/SAProcessing/", ws_folder_path), 
-                           "SaProcessing-", pos_mp, ".xml")
+                           "SAProcessing-", pos_mp, ".xml")
         
         if (missing(pos_sa_item)) {
             for (pos in seq_len(nb_sa_item)) {
