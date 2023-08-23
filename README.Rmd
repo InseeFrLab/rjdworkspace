@@ -6,10 +6,10 @@ output: github_document
 
 ```{r, echo = FALSE}
 knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  fig.align = "center",
-  fig.path = "man/figures/README-"
+    collapse = TRUE,
+    comment = "#>",
+    fig.align = "center",
+    fig.path = "man/figures/README-"
 )
 ```
 
