@@ -2,13 +2,13 @@
 
 # rjdworkspace 1.1.3
 
-* bug fix in `get_comment`
+* Bug fixed in `get_comment`
 * Changes in `tranfer_series` to regroup `transfer_series` and `replace_series` with new arguments
-    * ws_from and ws_to to identify the workspaces in which we take the data and in which we transfer the data
-    * name_mp_from, name_mp_to, pos_mp_from and pos_mp_to to identify the SA-Processing
-    * create_mp to create a new MP
+    * ws_from and ws_to to identify the workspaces in which we take the data and to which we transfer the data
+    * name_mp_from, name_mp_to, pos_mp_from and pos_mp_to to identify the SA-Processings (or Multi-Processings denoted mp)
+    * create_mp to create a new Multi-Processing
     * replace_series to replace existing series
-* adding some documentation to functions
+* Adding some documentation to functions
 * Successfull check!
 
 # rjdworkspace 1.1.0
