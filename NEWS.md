@@ -30,4 +30,4 @@
     * `update_metadata_roughly`
     * `set_metadata` for SA ITEM
 
-* the function `replace_series` has an new argument `mp_from_name` and `mp_to_name` to specified the multipreprocessing in which to search for series
+* the function `replace_series` has an new argument `mp_from_name` and `mp_to_name` to specify the multipreprocessing in which to search for series
