@@ -1,7 +1,15 @@
 # rjdworkspace dev version
 
-* bug fix in `get_comment`
+# rjdworkspace 1.1.3
 
+* Bug fixed in `get_comment`
+* Changes in `transfer_series` to regroup `transfer_series` and `replace_series` with new arguments
+    * ws_from and ws_to to identify the workspaces in which we take the data and to which we transfer the data
+    * name_mp_from, name_mp_to, pos_mp_from and pos_mp_to to identify the SA-Processings (or Multi-Processings denoted mp)
+    * create_mp to create a new Multi-Processing
+    * replace_series to replace existing series
+* Adding some documentation to functions
+* Successfull check!
 
 # rjdworkspace 1.1.0
 
@@ -22,4 +30,4 @@
     * `update_metadata_roughly`
     * `set_metadata` for SA ITEM
 
-* the function `replace_series` has an new argument `mp_from_name` and `mp_to_name` to specified the multipreprocessing in which to search for series
+* the function `replace_series` has an new argument `mp_from_name` and `mp_to_name` to specify the multipreprocessing in which to search for series

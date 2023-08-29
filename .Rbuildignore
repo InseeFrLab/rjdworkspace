@@ -10,6 +10,7 @@
 ^doc$
 cran-comments.md
 ^\.github$
+^LICENCE$
 ^LICENCE_en$
 
 TO_DO

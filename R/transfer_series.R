@@ -1,160 +1,294 @@
+# Cette fonction retourne :
+#   - la position du SAP
+#   - une erreur ou un warning si le nom du SAP et de la position ne correspondent à rien
+#   - une erreur si le WS est vide (création d'un MP) avec error_on_unknown
+#   - sinon 0
+
+identify_object <- function(ws,
+                            name_mp, pos_mp,
+                            error_on_unknown = FALSE) {
+    # Empty WS
+    if (RJDemetra::count(ws) == 0) {
+        if (error_on_unknown) {
+            print("The program stops without transferring the series.")
+            stop("The ws is empty.")
+        } else {
+            return(0)
+        }
+    }
+
+    # Non empty WS
+    saps <- RJDemetra::get_all_objects(ws)
+    names_saps <- names(saps)
+
+    if (missing(name_mp) && missing(pos_mp)) {
+        pos_mp <- 1L
+        name_mp <- names_saps[1L]
+        print(paste0("No sap has been selected, the first one (", name_mp, ") will be used."))
+    } else if (missing(name_mp)) {
+        if (pos_mp <= RJDemetra::count(ws) && pos_mp > 0L) {
+            name_mp <- names_saps[pos_mp]
+        } else {
+            print("The program stops without transferring the series.")
+            stop(paste0("There is no SAP n\u00B0", pos_mp))
+        }
+    } else if (missing(pos_mp)) {
+        if (name_mp %in% names_saps) {
+            pos_mp <- which(names_saps == name_mp)
+        } else if (error_on_unknown) {
+            print("The program stops without transferring the series.")
+            stop(paste0("There is no SAP named ", name_mp, " in ws."))
+        } else {
+            return(0)
+        }
+    } else {
+        if (!name_mp %in% names_saps) {
+            if (error_on_unknown) {
+                print("The program stops without transferring the series.")
+                stop(paste0("There is no SAP named ", name_mp, " in ws."))
+            } else {
+                return(0)
+            }
+        } else if (pos_mp > RJDemetra::count(ws) || pos_mp <= 0L) {
+            print("The program stops without transferring the series.")
+            stop(paste0("There is no SAP n\u00B0", pos_mp))
+        } else if (names_saps[pos_mp] != name_mp) {
+            print("The program stops without transferring the series.")
+            stop("The arguments pos_mp and name_mp are refering to differents objects.")
+        }
+    }
+
+    return(pos_mp)
+}
+
+
 #' Transfer_series
-#' 
-#' To copy&paste series from one workspace to another
+#'
+#' To copy & paste series from one workspace to another
 #'
 #' @param ws_from The workspace containing the additionnal series
 #' @param ws_to The workspace to add series to
-#' @param mp_to The name of the multiprocessing to transfer the series to
-#' @param mp_from The name of the multipricessing to transfer the series from
+#' @param selected_series The vector containing the series-to-update's names.
+#' @param pos_mp_from The position of the multiprocessing to transfer the series from
+#' @param pos_mp_to The position of the multiprocessing to transfer the series to
+#' @param name_mp_from The name of the multiprocessing to transfer the series from (optional)
+#' @param name_mp_to The name of the multiprocessing to transfer the series to (optional)
 #' @param print_indications A boolean to print indications on the processing status (optional)
-#'  
-#' @details If `mp_to` and `mp_from` are unspecified, the update will be performed using 
-#' the workspaces' first SAProcessing. If only one SAProcessing name is specified but the workspace 
-#' it refers to is not (e.g. argument `SAP1` instead of `mp_from="SAP1"`), it will be 
-#' attributed by default to the first worskpace (`mp_to="SAP1"`). 
+#' @param create_mp A boolean to create a new multiprocessing if not existing (optional)
+#' @param replace_series A boolean to replace existing series (optional)
+#'
+#' @details
+#' The transfer will fail if:
+#'      - `name_mp_from` doesn't exist
+#'      - `pos_mp_from` < 0 or exceed the maximum number of SAP
+#'      - `pos_mp_to` < 0 or exceed the maximum number of SAP
+#'      - The arguments `pos_mp_from` and `name_mp_from` are refering to differents objects.
+#'      - The arguments `pos_mp_to` and `name_mp_to` are refering to differents objects.
+#'
+#' If `name_mp_to` and `pos_mp_to` are unspecified, the update will be performed using
+#' the workspaces' first SAProcessing (same for the SAP from).
+#' However if the informations of one on the two SAP (from or to) are specified (name or position), they will be attributed by default to the other worskpace.
 #'
 #' @return the `workspace` ws_to augmented with series present in ws_from and not already in ws_to
-#' @examples \dontrun{transfer_series(ws_from, ws_to, "SAProcessing-1", "MP2", TRUE)}
+#'
+#' @examples
+#'
+#' library("RJDemetra")
+#'
+#' path_ws_from <- file.path(
+#'     system.file("extdata", package = "rjdworkspace"),
+#'     "WS/ws_input.xml"
+#' )
+#' path_ws_to <- file.path(
+#'     system.file("extdata", package = "rjdworkspace"),
+#'     "WS/ws_output.xml"
+#' )
+#'
+#' ws_input <- RJDemetra::load_workspace(path_ws_from)
+#' ws_output <- RJDemetra::load_workspace(path_ws_to)
+#'
+#' # Existing MP
+#' transfer_series(
+#'     ws_from = ws_input,
+#'     ws_to = ws_output,
+#'     name_mp_from = "SAProcessing-1",
+#'     name_mp_to = "SAProcessing-1",
+#'     print_indications = TRUE
+#' )
+#'
+#' transfer_series(
+#'     ws_from = ws_input,
+#'     ws_to = ws_output,
+#'     pos_mp_from = 1,
+#'     pos_mp_to = 1,
+#'     print_indications = TRUE
+#' )
+#'
+#' # Existing series
+#' transfer_series(
+#'     ws_from = ws_input, ws_to = ws_output,
+#'     pos_mp_from = 2,
+#'     pos_mp_to = 2,
+#'     print_indications = TRUE,
+#'     replace_series = FALSE
+#' )
+#' transfer_series(
+#'     ws_from = ws_input, ws_to = ws_output,
+#'     pos_mp_from = 2,
+#'     pos_mp_to = 2,
+#'     print_indications = TRUE,
+#'     replace_series = TRUE
+#' )
+#'
+#' # Missing MP
+#' # transfer_series(ws_from = ws_input, ws_to = ws_output,
+#' #                 name_mp_from = "SAProcessing-1",
+#' #                 name_mp_to = "New-SAProcessing-from-R",
+#' #                 print_indications = TRUE,
+#' #                 create = FALSE)
+#'
+#' transfer_series(
+#'     ws_from = ws_input, ws_to = ws_output,
+#'     name_mp_from = "SAProcessing-1",
+#'     name_mp_to = "New-SAProcessing-from-R",
+#'     print_indications = TRUE,
+#'     create = TRUE
+#' )
+#'
+#' RJDemetra::save_workspace(workspace = ws_output, file = path_ws_to)
+#'
 #' @export
 #'
-#'
-transfer_series <- function(ws_from, ws_to, mp_to = NA, mp_from = NA, print_indications = FALSE) {
-    
+transfer_series <- function(ws_from, ws_to,
+                            selected_series,
+                            pos_mp_from, pos_mp_to,
+                            name_mp_from, name_mp_to,
+                            print_indications = FALSE,
+                            create_mp = TRUE,
+                            replace_series = TRUE) {
     # Verification of the parameters type
-    if (!inherits(ws_to, "workspace")) {
-        stop("The first argument must be a workspace")
-    }
     if (!inherits(ws_from, "workspace")) {
-        stop("The second argument must be a workspace")
+        stop("The argument ws_from must be a workspace")
     }
-    
-    # if no SAProcessing name is specified but "print_indications" is
-    # ie. if mp_to is TRUE or FALSE
-    if (!is.na(mp_to) && inherits(mp_to, "logical")) {
-        print_indications <- mp_to 
-        mp_to <- NA
+    if (!inherits(ws_to, "workspace")) {
+        stop("The argument ws_to must be a workspace")
     }
-    
-    
-    # Check that the workspaces aren't empty
-    if (is.null(count(ws_to))) {
-        warning("Attention, the first workspace is empty!")
-        return(FALSE)
-    }
-    
-    if (is.null(count(ws_from))) {
-        warning("Attention, the second workspace is empty!")
-        return(FALSE)
-    }
-    
-    # When both workspaces aren't empty:
-    
-    # Retrieving all SAPs and their names
-    # "sap" refers to all SAPs of each workspace
-    # "mp" refers to the specified "mp_name" SAP to update
-    
-    saps1 <- RJDemetra::get_all_objects(ws_to)
-    names_saps1 <- names(saps1)
-    
-    saps2 <- RJDemetra::get_all_objects(ws_from)
-    names_saps2 <- names(saps2)
-    
-    # if SAPs have been specified, verification that both workspaces contain the SAP
-    # and storage of its position in each workspace
-    
-    # if no SAP has been declared, the first of each workspaces will be used
-    pos_mp1 <- 1  
-    pos_mp2 <- 1
-    
-    
-    # otherwise, we retrieve the SAP's position in each workspace 
-    if (!is.na(mp_to)) {pos_mp1 <- which(names_saps1 == mp_to)}
-    if (!is.na(mp_from)) {pos_mp2 <- which(names_saps2 == mp_from)}
-    
-    if (print_indications) {print(paste0("pos_mp1=", pos_mp1, " and pos_mp2=", pos_mp2))}
-    
-    
-    # End of the program if the SAP can't be found in one of the workspaces
-    # ie. an unexisting SAP was specified
-    if (sum(pos_mp1) == 0 || is.null(pos_mp1) || is.na(pos_mp1)) {
-        print("The chosen SAP couldn't be found in the first workspace.")
-        return(FALSE)
-    }
-    
-    if (sum(pos_mp2) == 0 || is.null(pos_mp2) || is.na(pos_mp2)) {
-        print("The chosen SAP couldn't be found in the second workspace.")
-        return(FALSE)
-    }
-    
-    # If a corresponding SAP is found in both workspaces, verification that they are both non empty
-    if (is.null(count(saps1[[pos_mp1]]))) {
-        print("The chosen SAP of the first workspace is empty.")
-        return(FALSE)
-    }
-    
-    if (is.null(count(saps2[[pos_mp2]]))) {
-        print("The chosen SAP of the second workspace is empty.")
-        return(FALSE)
-    }
-    
-    # If all is well:
-    # Retrieving the SAPs series...
-    count(saps1[[pos_mp1]])
-    count(saps2[[pos_mp2]])
-    series_saps1 <- RJDemetra::get_all_objects(saps1[[pos_mp1]])
-    series_saps2 <- RJDemetra::get_all_objects(saps2[[pos_mp2]])
-    
-    # ... and their names
-    names_series1 <- names(series_saps1)
-    names_series2 <- names(series_saps2)
-    
-    # The list of series to transfer: the series in ws_from that are not in ws_to
-    selected_series <- names_series2[!(names_series2 %in% names_series1)]
-    
-    # Position of these series in the ws_from
-    L <- length(selected_series)
-    pos_table <- data.frame(selected_series = selected_series, 
-                            pos_series2 = rep(NA,L))
-    
-    for (i in seq_len(L)) {
-        pos_table$pos_series2[i] <- which(selected_series[i] == names_series2)
-    }
-    
-    verif <- pos_table[sum(pos_table$pos_series2) == 0,]
-    if (nrow(verif) != 0) {
-        print("Attention, the following series are missing in the ws_from: fix it and recompile the program!")
-        return(verif$selected_series)
-        
-    } else {
-        
-        # Retrieving both SAPs that will be used (possibly identically named)
-        mp1 <- saps1[[pos_mp1]]
-        mp2 <- saps2[[pos_mp2]]
-        
-        # Replacement of all series specified in the "selected_series" vector
-        for (i in seq_len(L)) {
-            #i=1
-            if (print_indications) {print(paste("Series", i))}
-            
-            # The "up-to-date" series version
-            replacement_series <- RJDemetra::get_object(mp2, pos_table$pos_series2[i])
-            series_name <- get_name(replacement_series)
-            
-            if (print_indications) {
-                print(series_name)
-            }
-            
-            # Replacement of the series by its updated version (change made in the reference workspace)
-            #add_sa_item(ws_to, mp_to, replacement_series, series_name)
-            add_new_sa_item(mp1, replacement_series)
-            
-            if (print_indications) {
-                print("ok")
-            }
+
+    if (missing(name_mp_from) && missing(pos_mp_from)) {
+        if (!missing(name_mp_to)) {
+            name_mp_from <- name_mp_to
+        } else if (!missing(pos_mp_to)) {
+            pos_mp_from <- pos_mp_to
         }
-        
-        print("Successful transfer")
-        
-        return(ws_to)
     }
+
+    if (missing(name_mp_to) && missing(pos_mp_to)) {
+        if (!missing(name_mp_from)) {
+            name_mp_to <- name_mp_from
+        } else if (!missing(pos_mp_from)) {
+            pos_mp_to <- pos_mp_from
+        }
+    }
+
+    # Identify object
+    pos_mp_from <- identify_object(
+        ws = ws_from,
+        name_mp = name_mp_from,
+        pos_mp = pos_mp_from,
+        error_on_unknown = TRUE
+    )
+
+    mp_from <- RJDemetra::get_object(x = ws_from, pos = pos_mp_from)
+    name_mp_from <- RJDemetra::get_name(mp_from)
+
+    pos_mp_to <- identify_object(
+        ws = ws_to,
+        name_mp = name_mp_to,
+        pos_mp = pos_mp_to,
+        error_on_unknown = !create_mp
+    )
+
+    if (pos_mp_to == 0) {
+        # A new SAP will be created
+        if (missing(name_mp_to)) {
+            print("The program stops without transferring the series.")
+            stop("No name for mp_to has been specified.")
+        } else {
+            print(paste0("A new SAP named ", name_mp_to, " in ws_to will be created."))
+            mp_to <- RJDemetra::new_multiprocessing(
+                workspace = ws_to, name = name_mp_to
+            )
+            pos_mp_to <- RJDemetra::count(ws_to)
+        }
+    } else {
+        mp_to <- RJDemetra::get_object(x = ws_to, pos = pos_mp_to)
+        name_mp_to <- RJDemetra::get_name(mp_to)
+    }
+
+
+    if (print_indications) {
+        cat(paste0(
+            "First WS's SAP :\n",
+            "\t- name : ", name_mp_from,
+            "\n\t- pos : ", pos_mp_from,
+            "\nand\n",
+            "Second WS's SAP :\n",
+            "\t- name : ", name_mp_to,
+            "\n\t- pos : ", pos_mp_to
+        ))
+        cat("\n\n")
+    }
+
+    sa_items_from <- RJDemetra::get_all_objects(mp_from)
+    names_series_from <- names(sa_items_from)
+
+    sa_items_to <- RJDemetra::get_all_objects(mp_to)
+    names_series_to <- names(sa_items_to)
+
+    # Check de selected series
+    if (missing(selected_series)) {
+        selected_series <- names_series_from
+    } else if (any(!selected_series %in% names_series_from)) {
+        warning("The series ", setdiff(selected_series, names_series_from), " are not in the SAP ", name_mp_from, "from ws_from. They won't be transfered.")
+        selected_series <- intersect(selected_series, names_series_from)
+    }
+
+    if (!replace_series) {
+        selected_series <- setdiff(selected_series, names_series_to)
+    }
+
+    # Replacement of all series specified in the "selected_series" vector
+    for (index in seq_along(selected_series)) {
+        series_name <- selected_series[index]
+        position <- which(names_series_from == series_name)
+        if (print_indications) {
+            cat(paste0(
+                "Series n\u00B0", index,
+                ", name: ", series_name,
+                ", position: ", position
+            ))
+        }
+
+        # The "up-to-date" series version
+        extracted_sa_item <- RJDemetra::get_object(mp_from, position)
+
+        # Cas de remplacement
+        if (series_name %in% names_series_to) {
+            if (print_indications) {
+                cat(" - to replace...")
+            }
+            position <- which(names_series_to == series_name)
+            replace_sa_item(mp = mp_to, pos = position, sa_item = extracted_sa_item)
+        } else {
+            if (print_indications) {
+                cat(" - to add...")
+            }
+            add_new_sa_item(mp_to, extracted_sa_item)
+        }
+
+        cat(" Successful transfer!\n")
+    }
+
+    cat("\nDone!")
+    return(invisible(ws_to))
 }
