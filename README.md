@@ -5,36 +5,6 @@
 
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/rjdworkspace)](https://cran.r-project.org/package=rjdworkspace)
 
-## Overview
-
-rjdworkspace gives a set of tools to manipulate `JDemetra+` workspaces.
-It depends on the .jar files of
-[RJDemetra](https://github.com/nbbrd/rjdemetra) and extends some
-functions. In particular, rjdworkspace allows to:
-
-- update all metadata of a workspace with those contained in another one
-  (`update_metadata()`, `update_metadata_roughly()`) or update the
-  metadata of a SaItem with the metadata contained in another SaItem
-  (`set_metadata()`) ;  
-- replace, remove or add series in a workspace (`remove_sa_item()`,
-  `remove_all_sa_item()`, `replace_sa_item()`, `add_new_sa_item()`);  
-- copy&paste series from a workspace to another one
-  (`transfer_series()`)
-- get and set the comment of a SaItem (`get_comment()`,
-  `set_comment()`);
-- set the specification of a model contained in a SaItem (`set_spec()`).
-
-## Installation
-
-rjdworkspace relies on RJDemetra that requires Java SE 8 or later
-version.
-
-``` r
-# Install development version from GitHub
-# install.packages("remotes")
-remotes::install_github("InseeFrLab/rjdworkspace")
-```
-
 ## Français 🇫🇷
 
 ### Présentation !!
@@ -63,6 +33,21 @@ certaines fonctionnalités. En particulier, `rjdworkspace` permet de :
 `rjdworkspace` s’appuie sur
 [`RJDemetra`](https://github.com/nbbrd/rjdemetra) qui nécessite Java SE
 8 ou une version ultérieure.
+
+Pour obtenir la dernière release stable du package :
+
+``` r
+# Si le package remotes n'est pas installé
+# install.packages("remotes")
+
+# Installer la version en cours de développement depuis GitHub
+remotes::install_github("rjdemetra/rjd3providers@*release")
+
+# Sur les ordinateurs Insee
+install.packages("rjdworkspace", repos = "https://nexus.insee.fr/repository/r-public/")
+```
+
+Pour obtenir la version en cours de développement depuis GitHub :
 
 ``` r
 # Si le package remotes n'est pas installé
@@ -103,6 +88,21 @@ functions. In particular, `rjdworkspace` allows to:
 `rjdworkspace` relies on
 [`RJDemetra`](https://github.com/nbbrd/rjdemetra) that requires Java SE
 8 or later version.
+
+To get the current stable version (from the latest release):
+
+``` r
+# If remotes packages is not installed
+# install.packages("remotes")
+
+# Install development version from GitHub
+remotes::install_github("rjdemetra/rjd3providers@*release")
+
+# on Insee computer
+install.packages("rjdworkspace", repos = "https://nexus.insee.fr/repository/r-public/")
+```
+
+To get the current development version from GitHub:
 
 ``` r
 # If remotes packages is not installed
