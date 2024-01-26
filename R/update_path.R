@@ -8,21 +8,43 @@ format_path_to_xml <- function(path) {
     return(formatted_path)
 }
 
-update_one_xml <- function(xml_path, pos_sa_item, formated_data_path) {
-    a <- XML::xmlParse(xml_path)
+update_one_xml <- function(xml_path, pos_sa_item, formatted_path) {
+    xml_file <- XML::xmlParse(xml_path)
+    informationSet_node <- XML::xmlChildren(xml_file)$informationSet
 
-    node_informationSet <- XML::xmlChildren(a)[["informationSet"]]
     # First SA-ITEM (index 1 is reserved for metadata of the SA-processing)
-    node_SAITEM <- XML::xmlChildren(node_informationSet)[[1 + pos_sa_item]]
+    SAITEM_nodes <- XML::xmlChildren(
+        x = XML::xmlChildren(
+            x = XML::xmlChildren(x = informationSet_node)[[1 + pos_sa_item]]
+        )[["subset"]]
+    )
+
+    # Si R 4.1...
+    # SAITEM_node <- node_informationSet |>
+    #     XML::xmlChildren() |>
+    #     base::`[[`(1 + pos_sa_item) |>
+    #     XML::xmlChildren() |>
+    #     base::`[[`("subset") |>
+    #     XML::xmlChildren()
+
+    pos_ts_node <- which("ts" == vapply(
+        X = SAITEM_nodes,
+        FUN = XML::xmlAttrs,
+        "name",
+        FUN.VALUE = character(1)
+    ))
+
     # Metadata node
-    subset_node <- XML::xmlChildren(node_SAITEM)[["subset"]][["item"]][["ts"]]
-    perent_metadata_node <- subset_node[["metaData"]]
-    nodes_metadata <- XML::xmlChildren(perent_metadata_node)
+    metadata_nodes <- XML::xmlChildren(SAITEM_nodes[[pos_ts_node]][["ts"]][["metaData"]])
 
-    id_pos <- which(x = sapply(X = nodes_metadata,
-                               FUN = XML::xmlAttrs)["name", ] == "@id")
+    pos_id_node <- which("@id" == vapply(
+        X = metadata_nodes,
+        FUN = XML::xmlAttrs,
+        "name",
+        FUN.VALUE = character(2)
+    )["name", ])
 
-    node_to_change <- nodes_metadata[[id_pos]]
+    node_to_change <- metadata_nodes[[pos_id_node]]
 
     attrib <- XML::xmlAttrs(node_to_change)
 
@@ -31,10 +53,15 @@ update_one_xml <- function(xml_path, pos_sa_item, formated_data_path) {
     chain_temp <- unlist(strsplit(chain_temp[2], split = "#series"))
     chain2 <- chain_temp[2]
 
-    attrib["value"] <- paste0(chain1, "file=", formated_data_path,
+    attrib["value"] <- paste0(chain1,
+                              "file=", formatted_path,
                               "#series", chain2)
+
     XML::xmlAttrs(node_to_change) <- attrib
-    XML::saveXML(a, file = xml_path)
+
+
+    new_xml_path <- "~/temp/fichier2.xml"
+    XML::saveXML(doc = xml_file, file = new_xml_path)
 
     return(invisible(NULL))
 }
@@ -86,7 +113,8 @@ check_information <- function(ws_xml_path, pos_sap, pos_sa_item) {
 #'
 #' @param ws_xml_path the path to the xml file of the workspace
 #' @param raw_data_path the new path to the raw data
-#' @param pos_sap the index of the SA-Processing containing the series (Optional)
+#' @param pos_sap the index of the SA-Processing containing the series
+#' (Optional)
 #' @param pos_sa_item the index of the SA-Item containing the series (Optional)
 #'
 #' @description
@@ -113,15 +141,18 @@ check_information <- function(ws_xml_path, pos_sap, pos_sa_item) {
 #'
 #' library("RJDemetra")
 #' new_dir <- tempdir()
+#' ws_template <- file.path(system.file("extdata", package = "rjdworkspace"),
+#'                          "WS")
 #'
 #' # Moving the WS in a temporary environment
 #' rjdworkspace:::copy_ws(ws_name = "ws_example_path",
-#'                        path_ws = file.path(system.file("extdata", package = "rjdworkspace"), "WS"),
+#'                        path_ws = ws_template,
 #'                        new_path = new_dir)
 #'
 #' # Moving the raw data in a temporary environment
 #' file.copy(
-#'     from = file.path(system.file("extdata", package = "rjdworkspace"), "data_file.csv"),
+#'     from = file.path(system.file("extdata", package = "rjdworkspace"),
+#'                      "data_file.csv"),
 #'     to = new_dir
 #' )
 #'
@@ -154,7 +185,7 @@ update_path <- function(ws_xml_path, raw_data_path, pos_sap, pos_sa_item) {
 
     # Check that the ws_xml_path leads to a valid workspace
     ws <- RJDemetra::load_workspace(ws_xml_path)
-    compute(ws)
+    RJDemetra::compute(ws)
     if (!inherits(ws, "workspace")) {
         stop("There is an error in the workspace path")
     }
@@ -163,8 +194,9 @@ update_path <- function(ws_xml_path, raw_data_path, pos_sap, pos_sa_item) {
         pattern = "\\.xml$", replacement = "",
         x = ws_xml_path
     )
-    all_xml_sap <- list.files(sprintf("%s/SAProcessing", ws_folder_path),
-        pattern = "\\.xml$"
+    all_xml_sap <- list.files(
+        path = sprintf("%s/SAProcessing", ws_folder_path),
+        pattern = "\\.xml$", full.names = TRUE
     )
 
     if ((!missing(pos_sap))
@@ -176,13 +208,15 @@ update_path <- function(ws_xml_path, raw_data_path, pos_sap, pos_sa_item) {
         stop("You must specify a SA-Processing.")
     }
 
-    nb_sap <- length(get_all_objects(ws))
+    nb_sap <- RJDemetra::count(ws)
     if (!missing(pos_sap)) {
         if (nb_sap < pos_sap) {
             stop("The SA-Processing doesn't exist.")
         }
 
-        nb_sa_item <- length(get_all_objects(get_object(ws, pos = pos_sap)))
+        nb_sa_item <- RJDemetra::count(
+            RJDemetra::get_object(ws, pos = pos_sap)
+        )
         if (!missing(pos_sa_item)) {
             if (nb_sa_item < max(pos_sa_item)) {
                 stop("The SA Item doesn't exist.")
@@ -193,19 +227,17 @@ update_path <- function(ws_xml_path, raw_data_path, pos_sap, pos_sa_item) {
     new_raw_data_path <- format_path_to_xml(raw_data_path)
 
     if (missing(pos_sap)) {
-        all_xml_sap <- list.files(
-            path = sprintf("%s/SAProcessing", ws_folder_path),
-            pattern = "\\.xml$", full.names = TRUE
-        )
         for (pos_sap in seq_along(all_xml_sap)) {
             xml_path <- all_xml_sap[pos_sap]
-            nb_sa_item <- length(get_all_objects(get_object(ws, pos = pos_sap)))
+            nb_sa_item <- RJDemetra::count(
+                RJDemetra::get_object(ws, pos = pos_sap)
+            )
 
             for (pos2 in seq_len(nb_sa_item)) {
                 update_one_xml(
                     xml_path = xml_path,
                     pos_sa_item = pos2,
-                    formated_data_path = new_raw_data_path
+                    formatted_data_path = new_raw_data_path
                 )
             }
         }
@@ -220,7 +252,7 @@ update_path <- function(ws_xml_path, raw_data_path, pos_sap, pos_sa_item) {
                 update_one_xml(
                     xml_path = xml_path,
                     pos_sa_item = pos,
-                    formated_data_path = new_raw_data_path
+                    formatted_data_path = new_raw_data_path
                 )
             }
         } else {
@@ -228,7 +260,7 @@ update_path <- function(ws_xml_path, raw_data_path, pos_sap, pos_sa_item) {
                 update_one_xml(
                     xml_path = xml_path,
                     pos_sa_item = pos,
-                    formated_data_path = new_raw_data_path
+                    formatted_data_path = new_raw_data_path
                 )
             }
         }

@@ -1,24 +1,37 @@
 #' Partial update of a workspace metadata
 #'
-#' `replace_series()` allows to update a selection of series by the same-named series
-#' from another workspace. When only the metadata differs, it is the partial version of the update_metadata function.
+#' `replace_series()` allows to update a selection of series by the same-named
+#' series from another workspace. When only the metadata differs, it is the
+#' partial version of the update_metadata function.
 #'
 #'
-#' @param ws_from The workspace containing the most up-to-date version of the selected_series series
+#' @param ws_from The workspace containing the most up-to-date version of the
+#' selected_series series
 #' @param ws_to The workspace to update
 #' @param selected_series The vector containing the series-to-update's names.
-#' @param mp_from_name The name of the SA-Processing containing the series to update (optional)
+#' @param mp_from_name The name of the SA-Processing containing the series to
+#' update (optional)
 #' @param mp_to_name The name of the SA-Processing to update (optional)
-#' @param print_indications A boolean to print indications on the processing status (optional)
+#' @param print_indications A boolean to print indications on the processing
+#' status (optional)
 #'
-#' @details If the arguments `mp_from_name` & `mp_to_name` are unspecified, the update will be performed using the workspaces' first SAProcessing.
-#' If a series is specified in the selected_series vector is missing in a workspace, no replacement will be performed and the function will
-#' return the list of missing series. Otherwise, if all is well, the function returns the workspace ws_to updated.
+#' @details If the arguments `mp_from_name` & `mp_to_name` are unspecified, the
+#' update will be performed using the workspaces' first SAProcessing.
+#' If a series is specified in the selected_series vector is missing in a
+#' workspace, no replacement will be performed and the function will return the
+#' list of missing series. Otherwise, if all is well, the function returns the
+#' workspace ws_to updated.
 #'
 #' @rdname replace_series
 #' @return the updated `workspace`
 #' @examples \dontrun{
-#' replace_series(ws_to, ws_from, "SAProcessing-1", c("series1", "series2"), TRUE)
+#' replace_series(
+#'     ws_from = ws1,
+#'     ws_to = ws2,
+#'     mp_from_name = "SAProcessing-1",
+#'     selected_series = c("series1", "series2"),
+#'     print_indications = TRUE
+#' )
 #' }
 #' @export
 #'
@@ -129,14 +142,18 @@ replace_series <- function(ws_from, ws_to, selected_series, mp_from_name, mp_to_
     for (i in seq_len(L)) {
         if (!(selected_series[i] %in% names_series_to)) {
             pos_table$pos_series_to[i] <- 0
-            print(paste0("Attention, series ", selected_series[i], " is not in the first workspace's SAP `", names_saps_to, "`"))
+            print(paste0("Attention, series ", selected_series[i],
+                         " is not in the first workspace's SAP `",
+                         names_saps_to, "`"))
         } else {
             pos_table$pos_series_to[i] <- which(selected_series[i] == names_series_to)
         }
 
         if (!(selected_series[i] %in% names_series_from)) {
             pos_table$pos_series_from[i] <- 0
-            print(paste0("Attention, series ", selected_series[i], " is not in the second workspace's SAP `", names_saps_to, "`"))
+            print(paste0("Attention, series ", selected_series[i],
+                         " is not in the second workspace's SAP `",
+                         names_saps_to, "`"))
         } else {
             pos_table$pos_series_from[i] <- which(selected_series[i] == names_series_from)
         }
@@ -164,14 +181,21 @@ replace_series <- function(ws_from, ws_to, selected_series, mp_from_name, mp_to_
             }
 
             # The "up-to-date" series version
-            replacement_series <- RJDemetra::get_object(mp_from, pos_table$pos_series_from[i])
+            replacement_series <- RJDemetra::get_object(
+                x = mp_from,
+                pos = pos_table$pos_series_from[i]
+            )
 
             if (print_indications) {
                 print(get_name(replacement_series))
             }
 
             # Replacement of the series by its updated version (change made in the reference workspace)
-            replace_sa_item(sap = mp_to, pos_table$pos_series_to[i], replacement_series)
+            replace_sa_item(
+                sap = mp_to,
+                pos = pos_table$pos_series_to[i],
+                sa_item = replacement_series
+            )
 
             if (print_indications) {
                 print("ok")

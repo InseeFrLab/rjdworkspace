@@ -5,7 +5,7 @@
 
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/rjdworkspace)](https://cran.r-project.org/package=rjdworkspace)
 [![Linting
-codce](https://github.com/InseeFrLab/rjdworkspace/actions/workflows/lint.yaml/badge.svg)](https://github.com/InseeFrLab/rjdworkspace/actions/workflows/lint.yaml)
+code](https://github.com/InseeFrLab/rjdworkspace/actions/workflows/lint.yaml/badge.svg)](https://github.com/InseeFrLab/rjdworkspace/actions/workflows/lint.yaml)
 
 ## Français 🇫🇷
 
