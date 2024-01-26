@@ -42,8 +42,8 @@ Pour obtenir la dernière release stable du package :
 # Si le package remotes n'est pas installé
 # install.packages("remotes")
 
-# Installer la version en cours de développement depuis GitHub
-remotes::install_github("rjdemetra/rjd3providers@*release")
+# Installer la dernière version stable disponible sur GitHub
+remotes::install_github("InseeFrLab/rjdworkspace@*release")
 
 # Sur les ordinateurs Insee
 install.packages("rjdworkspace", repos = "https://nexus.insee.fr/repository/r-public/")
@@ -97,8 +97,8 @@ To get the current stable version (from the latest release):
 # If remotes packages is not installed
 # install.packages("remotes")
 
-# Install development version from GitHub
-remotes::install_github("rjdemetra/rjd3providers@*release")
+# Install the last stable release from GitHub
+remotes::install_github("InseeFrLab/rjdworkspace@*release")
 
 # on Insee computer
 install.packages("rjdworkspace", repos = "https://nexus.insee.fr/repository/r-public/")
