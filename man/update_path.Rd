@@ -4,23 +4,71 @@
 \alias{update_path}
 \title{Update the path to the raw series file}
 \usage{
-update_path(ws_xml_path, raw_data_path, pos_mp, pos_sa_item)
+update_path(ws_xml_path, raw_data_path, pos_sap, pos_sa_item)
 }
 \arguments{
 \item{ws_xml_path}{the path to the xml file of the workspace}
 
 \item{raw_data_path}{the new path to the raw data}
 
-\item{pos_mp}{the index of the SA-Processing containing the series}
+\item{pos_sap}{the index of the SA-Processing containing the series (Optional)}
 
-\item{pos_sa_item}{the index of the SA-Item containing the series}
+\item{pos_sa_item}{the index of the SA-Item containing the series (Optional)}
 }
 \value{
-the \code{workspace} ws_to augmented with series present in ws_from and not already in ws_to
+the \code{workspace} ws_to augmented with series present in ws_from and
+not already in ws_to
 }
 \description{
-Fonction de changement de chemin (pour les données brutes)
-Cette fonction fonctionne pour les formats csv, xls et xlsx
+Function to update the path of the raw data file in a workspace.
+This function works with .csv, .xls and .xlsx format.
+}
+\details{
+The argument \code{pos_sap} and \code{pos_sa_item} are optional.
+If \code{pos_sa_item} is not supplied, all SA-Item will be updated.
+If \code{pos_sap} is not supplied, all SA-Processing will be updated.
 
-Function to change the path to the raw series file in a workspace
+If \code{pos_sa_item} is supplied, \code{pos_sap} must be specified.
+
+It's also important that the new data file has the same structure as the
+previous file :
+- same column names
+- same column position
+- same extension and format (.csv, .xls or .xlsx)
+}
+\examples{
+
+library("RJDemetra")
+new_dir <- tempdir()
+
+# Moving the WS in a temporary environment
+rjdworkspace:::copy_ws(ws_name = "ws_example_path",
+                       path_ws = file.path(system.file("extdata", package = "rjdworkspace"), "WS"),
+                       new_path = new_dir)
+
+# Moving the raw data in a temporary environment
+file.copy(
+    from = file.path(system.file("extdata", package = "rjdworkspace"), "data_file.csv"),
+    to = new_dir
+)
+
+path_ws <- file.path(new_dir, "ws_example_path.xml")
+new_raw_data_path <- file.path(new_dir, "data_file.csv")
+
+update_path(
+    ws_xml_path = path_ws,
+    raw_data_path = new_raw_data_path,
+    pos_sap = 1L,
+    pos_sa_item = 1L:2L
+)
+update_path(
+    ws_xml_path = path_ws,
+    raw_data_path = new_raw_data_path,
+    pos_sap = 1L
+)
+update_path(
+    ws_xml_path = path_ws,
+    raw_data_path = new_raw_data_path
+)
+
 }

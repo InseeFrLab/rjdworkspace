@@ -8,12 +8,12 @@ transfer_series(
   ws_from,
   ws_to,
   selected_series,
-  pos_mp_from,
-  pos_mp_to,
-  name_mp_from,
-  name_mp_to,
+  pos_sap_from,
+  pos_sap_to,
+  name_sap_from,
+  name_sap_to,
   print_indications = FALSE,
-  create_mp = TRUE,
+  create_sap = TRUE,
   replace_series = TRUE
 )
 }
@@ -24,17 +24,17 @@ transfer_series(
 
 \item{selected_series}{The vector containing the series-to-update's names.}
 
-\item{pos_mp_from}{The position of the multiprocessing to transfer the series from}
+\item{pos_sap_from}{The position of the SA-Processing to transfer the series from}
 
-\item{pos_mp_to}{The position of the multiprocessing to transfer the series to}
+\item{pos_sap_to}{The position of the SA-Processing to transfer the series to}
 
-\item{name_mp_from}{The name of the multiprocessing to transfer the series from (optional)}
+\item{name_sap_from}{The name of the SA-Processing to transfer the series from (optional)}
 
-\item{name_mp_to}{The name of the multiprocessing to transfer the series to (optional)}
+\item{name_sap_to}{The name of the SA-Processing to transfer the series to (optional)}
 
 \item{print_indications}{A boolean to print indications on the processing status (optional)}
 
-\item{create_mp}{A boolean to create a new multiprocessing if not existing (optional)}
+\item{create_sap}{A boolean to create a new SA-Processing if not existing (optional)}
 
 \item{replace_series}{A boolean to replace existing series (optional)}
 }
@@ -45,66 +45,93 @@ the \code{workspace} ws_to augmented with series present in ws_from and not alre
 To copy & paste series from one workspace to another
 }
 \details{
-The transfer will fail if:
-- \code{name_mp_from} doesn't exist
-- \code{pos_mp_from} < 0 or exceed the maximum number of SAP
-- \code{pos_mp_to} < 0 or exceed the maximum number of SAP
-- The arguments \code{pos_mp_from} and \code{name_mp_from} are refering to differents objects.
-- The arguments \code{pos_mp_to} and \code{name_mp_to} are refering to differents objects.
+To use this function you need to first launch \code{load_workspace} and after \code{save_workspace} to save the changes.
 
-If \code{name_mp_to} and \code{pos_mp_to} are unspecified, the update will be performed using
+\code{name_sap_to} and \code{name_sap_from} refer to the SAP's name and not SAP's file's name.
+
+The transfer will fail if:
+- \code{name_sap_from} doesn't exist
+- \code{pos_sap_from} < 0 or exceed the maximum number of SAP
+- \code{pos_sap_to} < 0 or exceed the maximum number of SAP
+- The arguments \code{pos_sap_from} and \code{name_sap_from} are refering to differents objects.
+- The arguments \code{pos_sap_to} and \code{name_sap_to} are refering to differents objects.
+
+If \code{name_sap_to} and \code{pos_sap_to} are unspecified, the update will be performed using
 the workspaces' first SAProcessing (same for the SAP from).
 However if the informations of one on the two SAP (from or to) are specified (name or position), they will be attributed by default to the other worskpace.
+
+If \code{name_sap_to} doesn't refer to an existing SAP, a new SAP will be created (if \code{create_sap} is \code{TRUE}).
+
+If a sa_item has a specification which uses external regressor, you have to be sure that the regressors are also in the destination workspace.
 }
 \examples{
 
 library("RJDemetra")
 
-path_ws_from <- file.path(system.file("extdata", package = "rjdworkspace"),
-                          "WS/ws_input.xml")
-path_ws_to <- file.path(system.file("extdata", package = "rjdworkspace"),
-                        "WS/ws_output.xml")
- 
-ws_input <- RJDemetra::load_workspace(path_ws_from)
-ws_output <- RJDemetra::load_workspace(path_ws_to)
+dir_ws <- tempdir()
 
-# Existing MP
-transfer_series(ws_from = ws_input, 
-                ws_to = ws_output, 
-                name_mp_from = "SAProcessing-1", 
-                name_mp_to = "SAProcessing-1", 
-                print_indications = TRUE)
-                
-transfer_series(ws_from = ws_input, 
-                ws_to = ws_output, 
-                pos_mp_from = 1, 
-                pos_mp_to = 1, 
-                print_indications = TRUE)
+# Moving the WS in a temporary environment
+rjdworkspace:::copy_ws(ws_name = "ws_output",
+        path_ws = file.path(system.file("extdata", package = "rjdworkspace"), "WS"),
+        new_path = dir_ws)
+rjdworkspace:::copy_ws(ws_name = "ws_input",
+        path_ws = file.path(system.file("extdata", package = "rjdworkspace"), "WS"),
+        new_path = dir_ws)
+
+path_ws_from <- file.path(dir_ws, "ws_input.xml")
+path_ws_to <- file.path(dir_ws, "ws_output.xml")
+
+
+ws_input <- load_workspace(path_ws_from)
+ws_output <- load_workspace(path_ws_to)
+
+# Existing SAP
+transfer_series(
+    ws_from = ws_input,
+    ws_to = ws_output,
+    name_sap_from = "SAProcessing-1",
+    name_sap_to = "SAProcessing-1",
+    print_indications = TRUE
+)
+
+transfer_series(
+    ws_from = ws_input,
+    ws_to = ws_output,
+    pos_sap_from = 1,
+    pos_sap_to = 1,
+    print_indications = TRUE
+)
 
 # Existing series
-transfer_series(ws_from = ws_input, ws_to = ws_output, 
-                pos_mp_from = 2, 
-                pos_mp_to = 2, 
-                print_indications = TRUE, 
-                replace_series = FALSE)
-transfer_series(ws_from = ws_input, ws_to = ws_output, 
-                pos_mp_from = 2, 
-                pos_mp_to = 2, 
-                print_indications = TRUE, 
-                replace_series = TRUE)
+transfer_series(
+    ws_from = ws_input, ws_to = ws_output,
+    pos_sap_from = 2,
+    pos_sap_to = 2,
+    print_indications = TRUE,
+    replace_series = FALSE
+)
+transfer_series(
+    ws_from = ws_input, ws_to = ws_output,
+    pos_sap_from = 2,
+    pos_sap_to = 2,
+    print_indications = TRUE,
+    replace_series = TRUE
+)
 
-# Missing MP
-# transfer_series(ws_from = ws_input, ws_to = ws_output, 
-#                 name_mp_from = "SAProcessing-1", 
-#                 name_mp_to = "New-SAProcessing-from-R", 
-#                 print_indications = TRUE, 
+# Create a new SAP
+# transfer_series(ws_from = ws_input, ws_to = ws_output,
+#                 name_sap_from = "SAProcessing-1",
+#                 name_sap_to = "New-SAProcessing-from-R",
+#                 print_indications = TRUE,
 #                 create = FALSE)
 
-transfer_series(ws_from = ws_input, ws_to = ws_output, 
-                name_mp_from = "SAProcessing-1", 
-                name_mp_to = "New-SAProcessing-from-R", 
-                print_indications = TRUE, 
-                create = TRUE)
+transfer_series(
+    ws_from = ws_input, ws_to = ws_output,
+    name_sap_from = "SAProcessing-1",
+    name_sap_to = "New-SAProcessing-from-R",
+    print_indications = TRUE,
+    create = TRUE
+)
 
 RJDemetra::save_workspace(workspace = ws_output, file = path_ws_to)
 

@@ -7,8 +7,8 @@
 #' @param ws_from The workspace containing the most up-to-date version of the selected_series series
 #' @param ws_to The workspace to update
 #' @param selected_series The vector containing the series-to-update's names.
-#' @param mp_from_name The name of the multiprocessing containing the series to update (optional)
-#' @param mp_to_name The name of the multiprocessing to update (optional)
+#' @param mp_from_name The name of the SA-Processing containing the series to update (optional)
+#' @param mp_to_name The name of the SA-Processing to update (optional)
 #' @param print_indications A boolean to print indications on the processing status (optional)
 #'
 #' @details If the arguments `mp_from_name` & `mp_to_name` are unspecified, the update will be performed using the workspaces' first SAProcessing.
@@ -23,10 +23,8 @@
 #' @export
 #'
 replace_series <- function(ws_from, ws_to, selected_series, mp_from_name, mp_to_name, print_indications = FALSE) {
-    warning("replace_series will be replaced by transfer_series (with replace_series = TRUE).
-    Functionality stays the same.
-    The new function add new functionnalities.
-    Please adjust your code accordingly.")
+    .Deprecated(new = "transfer_series",
+                msg = "replace_series is replaced by transfer_series (with replace_series = TRUE).\n Functionality remains the same. \n The new function add new functionnalities. \n Please adjust your code accordingly.")
 
     # Verification of the parameters type
     if (!inherits(ws_to, "workspace")) {
@@ -173,7 +171,7 @@ replace_series <- function(ws_from, ws_to, selected_series, mp_from_name, mp_to_
             }
 
             # Replacement of the series by its updated version (change made in the reference workspace)
-            replace_sa_item(mp_to, pos_table$pos_series_to[i], replacement_series)
+            replace_sa_item(sap = mp_to, pos_table$pos_series_to[i], replacement_series)
 
             if (print_indications) {
                 print("ok")

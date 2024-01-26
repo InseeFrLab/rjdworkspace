@@ -1,5 +1,9 @@
 # rjdworkspace dev version
 
+* add a new hidden function to copy ws
+* simplify the XML pth xritting with `URLencode`
+
+
 # rjdworkspace 1.1.3
 
 * Bug fixed in `get_comment`

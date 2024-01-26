@@ -3,12 +3,18 @@
 ts_r2jd <- function(s) {
     freq <- frequency(s)
     start <- start(s)
-    jd_freq <- .jcall("ec/tstoolkit/timeseries/simplets/TsFrequency", "Lec/tstoolkit/timeseries/simplets/TsFrequency;", "valueOf", as.integer(freq))
-    jd_period <- .jnew(
-        "ec/tstoolkit/timeseries/simplets/TsPeriod", jd_freq,
-        as.integer(start[1]), as.integer(start[2] - 1)
+    jd_freq <- .jcall(
+        obj = "ec/tstoolkit/timeseries/simplets/TsFrequency",
+        returnSig = "Lec/tstoolkit/timeseries/simplets/TsFrequency;",
+        method = "valueOf",
+        as.integer(freq)
     )
-    ts <- .jnew("ec/tstoolkit/timeseries/simplets/TsData", jd_period, as.double(s), FALSE)
+    jd_period <- .jnew(
+        class = "ec/tstoolkit/timeseries/simplets/TsPeriod",
+        jd_freq, as.integer(start[1]), as.integer(start[2] - 1)
+    )
+    ts <- .jnew(class = "ec/tstoolkit/timeseries/simplets/TsData",
+                jd_period, as.double(s), FALSE)
     return(ts)
 }
 
@@ -138,17 +144,17 @@ clone_ws <- function(ws1) {
     # Clone initialisation
     clone <- new_workspace()
     # SAP extraction
-    sap <- get_all_objects(ws1)
+    saps <- get_all_objects(ws1)
     # series extraction and addition to the clone
-    for (mp in sap) {
-        # mp <- sap[[1]]
-        nom_mp <- get_name(mp)
-        new_multiprocessing(clone, nom_mp)
+    for (sap in saps) {
+        # sap <- saps[[1]]
+        nom_sap <- get_name(sap)
+        new_multiprocessing(clone, nom_sap)
         # a <- get_all_objects(clone)
-        series <- get_all_objects(mp)
+        series <- get_all_objects(sap)
         lapply(series, function(s) {
-            add_sa_item(clone, nom_mp, get_model(s, ws1), get_name(s))
-            # names(series) == names(get_all_objects(mp))
+            add_sa_item(clone, nom_sap, get_model(s, ws1), get_name(s))
+            # names(series) == names(get_all_objects(sap))
         })
     }
     return(clone)

@@ -26,9 +26,9 @@ verif_ws_duplicates(ws, print_indications = FALSE)
 
 \item{selected_series}{The vector containing the series-to-update's names.}
 
-\item{mp_from_name}{The name of the multiprocessing containing the series to update (optional)}
+\item{mp_from_name}{The name of the SA-Processing containing the series to update (optional)}
 
-\item{mp_to_name}{The name of the multiprocessing to update (optional)}
+\item{mp_to_name}{The name of the SA-Processing to update (optional)}
 
 \item{print_indications}{A boolean to print indications on the processing status}
 
@@ -60,9 +60,11 @@ return the list of missing series. Otherwise, if all is well, the function retur
 and SAProcessings in a workspace
 }
 \examples{
-\dontrun{replace_series(ws_to, ws_from, "SAProcessing-1", c("series1", "series2"), TRUE)}
 \dontrun{
-s <- c("a","b","a","c","a","c")
+replace_series(ws_to, ws_from, "SAProcessing-1", c("series1", "series2"), TRUE)
+}
+\dontrun{
+s <- c("a", "b", "a", "c", "a", "c")
 result <- verif_duplicates(s)
 result
 }

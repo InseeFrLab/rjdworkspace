@@ -1,8 +1,8 @@
 Version: 1.0
 
-RestoreWorkspace: Default
-SaveWorkspace: Default
-AlwaysSaveHistory: Default
+RestoreWorkspace: No
+SaveWorkspace: No
+AlwaysSaveHistory: No
 
 EnableCodeIndexing: Yes
 UseSpacesForTab: Yes
@@ -12,6 +12,9 @@ Encoding: UTF-8
 RnwWeave: Sweave
 LaTeX: pdfLaTeX
 
+AutoAppendNewline: Yes
+StripTrailingWhitespace: Yes
+
 BuildType: Package
 PackageUseDevtools: Yes
 PackageInstallArgs: --no-multiarch --with-keep.source -d
@@ -19,3 +22,5 @@ PackageBuildArgs: -d
 PackageBuildBinaryArgs: --no-multiarch -d
 PackageCheckArgs: --no-multiarch --as-cran -d
 PackageRoxygenize: rd,collate,namespace
+
+UseNativePipeOperator: Yes
