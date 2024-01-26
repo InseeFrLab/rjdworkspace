@@ -24,7 +24,8 @@ identify_object <- function(ws,
     if (missing(name_sap) && missing(pos_sap)) {
         pos_sap <- 1L
         name_sap <- names_saps[1L]
-        print(paste0("No sap has been selected, the first one (", name_sap, ") will be used."))
+        print(paste0("No sap has been selected, the first one (",
+                     name_sap, ") will be used."))
     } else if (missing(name_sap)) {
         if (pos_sap <= RJDemetra::count(ws) && pos_sap > 0L) {
             name_sap <- names_saps[pos_sap]
@@ -69,54 +70,69 @@ identify_object <- function(ws,
 #' @param ws_from The workspace containing the additionnal series
 #' @param ws_to The workspace to add series to
 #' @param selected_series The vector containing the series-to-update's names.
-#' @param pos_sap_from The position of the SA-Processing to transfer the series from
+#' @param pos_sap_from The position of the SA-Processing to transfer the series
+#' from
 #' @param pos_sap_to The position of the SA-Processing to transfer the series to
-#' @param name_sap_from The name of the SA-Processing to transfer the series from (optional)
-#' @param name_sap_to The name of the SA-Processing to transfer the series to (optional)
-#' @param print_indications A boolean to print indications on the processing status (optional)
-#' @param create_sap A boolean to create a new SA-Processing if not existing (optional)
+#' @param name_sap_from The name of the SA-Processing to transfer the series
+#' from (optional)
+#' @param name_sap_to The name of the SA-Processing to transfer the series to
+#' (optional)
+#' @param print_indications A boolean to print indications on the processing
+#' status (optional)
+#' @param create_sap A boolean to create a new SA-Processing if not existing
+#' (optional)
 #' @param replace_series A boolean to replace existing series (optional)
 #'
 #' @details
-#' To use this function you need to first launch `load_workspace` and after `save_workspace` to save the changes.
+#' To use this function you need to first launch `load_workspace` and after
+#' `save_workspace` to save the changes.
 #'
-#' `name_sap_to` and `name_sap_from` refer to the SAP's name and not SAP's file's name.
+#' `name_sap_to` and `name_sap_from` refer to the SAP's name and not SAP's
+#' file's name.
 #'
 #' The transfer will fail if:
 #'      - `name_sap_from` doesn't exist
 #'      - `pos_sap_from` < 0 or exceed the maximum number of SAP
 #'      - `pos_sap_to` < 0 or exceed the maximum number of SAP
-#'      - The arguments `pos_sap_from` and `name_sap_from` are refering to differents objects.
-#'      - The arguments `pos_sap_to` and `name_sap_to` are refering to differents objects.
+#'      - The arguments `pos_sap_from` and `name_sap_from` are refering to
+#'      differents objects.
+#'      - The arguments `pos_sap_to` and `name_sap_to` are refering to
+#'      differents objects.
 #'
-#' If `name_sap_to` and `pos_sap_to` are unspecified, the update will be performed using
-#' the workspaces' first SAProcessing (same for the SAP from).
-#' However if the informations of one on the two SAP (from or to) are specified (name or position), they will be attributed by default to the other worskpace.
+#' If `name_sap_to` and `pos_sap_to` are unspecified, the update will be
+#' performed using the workspaces' first SAProcessing (same for the SAP from).
+#' However if the informations of one on the two SAP (from or to) are specified
+#' (name or position), they will be attributed by default to the other
+#' worskpace.
 #'
-#' If `name_sap_to` doesn't refer to an existing SAP, a new SAP will be created (if `create_sap` is `TRUE`).
+#' If `name_sap_to` doesn't refer to an existing SAP, a new SAP will be created
+#' (if `create_sap` is `TRUE`).
 #'
-#' If a sa_item has a specification which uses external regressor, you have to be sure that the regressors are also in the destination workspace.
+#' If a sa_item has a specification which uses external regressor, you have to
+#' be sure that the regressors are also in the destination workspace.
 #'
-#' @return the `workspace` ws_to augmented with series present in ws_from and not already in ws_to
+#' @return the `workspace` ws_to augmented with series present in ws_from and
+#' not already in ws_to
 #'
 #' @examples
 #'
 #' library("RJDemetra")
-#'
 #' dir_ws <- tempdir()
-#'
+#' template_ws <- file.path(system.file("extdata", package = "rjdworkspace"),
+#'                          "WS")
 #' # Moving the WS in a temporary environment
-#' rjdworkspace:::copy_ws(ws_name = "ws_output",
-#'         path_ws = file.path(system.file("extdata", package = "rjdworkspace"), "WS"),
-#'         new_path = dir_ws)
-#' rjdworkspace:::copy_ws(ws_name = "ws_input",
-#'         path_ws = file.path(system.file("extdata", package = "rjdworkspace"), "WS"),
-#'         new_path = dir_ws)
-#'
+#' rjdworkspace:::copy_ws(
+#'     ws_name = "ws_output",
+#'     path_ws = template_ws,
+#'     new_path = dir_ws
+#' )
+#' rjdworkspace:::copy_ws(
+#'     ws_name = "ws_input",
+#'     path_ws = template_ws,
+#'     new_path = dir_ws
+#' )
 #' path_ws_from <- file.path(dir_ws, "ws_input.xml")
 #' path_ws_to <- file.path(dir_ws, "ws_output.xml")
-#'
-#'
 #' ws_input <- load_workspace(path_ws_from)
 #' ws_output <- load_workspace(path_ws_to)
 #'
@@ -227,7 +243,8 @@ transfer_series <- function(ws_from, ws_to,
             print("The program stops without transferring the series.")
             stop("No name for sap_to has been specified.")
         } else {
-            print(paste0("A new SAP named ", name_sap_to, " in ws_to will be created."))
+            print(paste0("A new SAP named ", name_sap_to,
+                         " in ws_to will be created."))
             sap_to <- RJDemetra::new_multiprocessing(
                 workspace = ws_to, name = name_sap_to
             )
@@ -262,7 +279,9 @@ transfer_series <- function(ws_from, ws_to,
     if (missing(selected_series)) {
         selected_series <- names_series_from
     } else if (any(!selected_series %in% names_series_from)) {
-        warning("The series ", setdiff(selected_series, names_series_from), " are not in the SAP ", name_sap_from, "from ws_from. They won't be transfered.")
+        warning("The series ", setdiff(selected_series, names_series_from),
+                " are not in the SAP ", name_sap_from,
+                "from ws_from. They won't be transfered.")
         selected_series <- intersect(selected_series, names_series_from)
     }
 
@@ -291,7 +310,11 @@ transfer_series <- function(ws_from, ws_to,
                 cat(" - to replace...")
             }
             position <- which(names_series_to == series_name)
-            replace_sa_item(sap = sap_to, pos = position, sa_item = extracted_sa_item)
+            replace_sa_item(
+                sap = sap_to,
+                pos = position,
+                sa_item = extracted_sa_item
+            )
         } else {
             if (print_indications) {
                 cat(" - to add...")

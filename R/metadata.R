@@ -75,7 +75,10 @@ update_metadata <- function(ws_from, ws_to) {
                         warning(sprintf('At least 2 SaItem called "%s" were found in the ws_from: the first object will be used', sa_name))
                     }
 
-                    sa_ws_from <- RJDemetra::get_object(sap_ws_from, sa_ws_from_i[1])
+                    sa_ws_from <- RJDemetra::get_object(
+                        x = sap_ws_from,
+                        pos = sa_ws_from_i[1]
+                    )
                     new_sa_item <- set_metadata(
                         sa_to = sa_ws_to,
                         sa_from = sa_ws_from
@@ -148,8 +151,15 @@ update_metadata_roughly <- function(ws_from, ws_to) {
             # builder_sa$ts(jts_temp)
             # builder_sa$metaData(sa_def1$getMetaData())
             # sa_def_temp <- builder_sa$build()
-            new_sa_item <- set_metadata(sa_to = sa_ws_to, sa_from = sa_ws_from)
-            replace_sa_item(sap = sap_ws_to, sa_item = new_sa_item, pos = i_sa)
+            new_sa_item <- set_metadata(
+                sa_to = sa_ws_to,
+                sa_from = sa_ws_from
+            )
+            replace_sa_item(
+                sap = sap_ws_to,
+                sa_item = new_sa_item,
+                pos = i_sa
+            )
         }
     }
     return(ws_to)
@@ -165,18 +175,38 @@ update_metadata_roughly <- function(ws_from, ws_to) {
 #' @return a new `"sa_item"` with the specification of `sa_to` and the metadata of `sa_from`.
 #' @export
 set_metadata <- function(sa_from, sa_to) {
-    sa_def_from <- .jcall(sa_from, "Ljd2/datatypes/sa/SaItemType;", "getSaDefinition")
-    jts_from <- .jcall(sa_def_from, "Ljd2/datatypes/Ts;", "getTs")
+    sa_def_from <- .jcall(
+        obj = sa_from,
+        returnSig = "Ljd2/datatypes/sa/SaItemType;",
+        method = "getSaDefinition"
+    )
+    jts_from <- .jcall(
+        obj = sa_def_from,
+        returnSig = "Ljd2/datatypes/Ts;",
+        method = "getTs"
+    )
 
-    sa_def_to <- .jcall(sa_to, "Ljd2/datatypes/sa/SaItemType;", "getSaDefinition")
-    jts_to <- .jcall(sa_def_to, "Ljd2/datatypes/Ts;", "getTs")
+    sa_def_to <- .jcall(
+        obj = sa_to,
+        returnSig = "Ljd2/datatypes/sa/SaItemType;",
+        method = "getSaDefinition"
+    )
+    jts_to <- .jcall(
+        obj = sa_def_to,
+        returnSig = "Ljd2/datatypes/Ts;",
+        method = "getTs"
+    )
 
-    jts_update <- builder_from_ts(jts_to, metaData = jts_from$getMetaData())
-    sa_def_update <- builder_from_sa(sa_def_to,
+    jts_update <- builder_from_ts(
+        jts = jts_to,
+        metaData = jts_from$getMetaData()
+    )
+    sa_def_update <- builder_from_sa(
+        sa_def = sa_def_to,
         ts = jts_update,
         metaData = sa_def_from$getMetaData()
     )
-    .jnew("ec/tstoolkit/jdr/ws/SaItem", sa_def_update)
+    .jnew(class = "ec/tstoolkit/jdr/ws/SaItem", sa_def_update)
 }
 
 #' Extract comments
