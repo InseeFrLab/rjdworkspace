@@ -15,24 +15,31 @@ update_metadata_roughly(ws_from, ws_to)
 \item{ws_to}{Workspace to update.}
 }
 \description{
-Functions to update the metadata of a workspace by those contained in another one
+Functions to update the metadata of a workspace by those contained in
+another one
 }
 \details{
-\code{update_metadata()} checks the multiprocessings and SaItems' names within
-the two workspaces before updating ws_to's metadata. \code{update_metadata_roughly()} does not do any
-checks: \code{ws_to}'s first multiprocessing's first SaItem metadata
-is updated with \code{ws_from}'s first multiprocessing's first SaItem metadata.
-Both functions create and return a new workspace containing the updated series.
+\code{update_metadata()} checks the SA-Processings and SaItems' names
+within the two workspaces before updating ws_to's metadata.
+\code{update_metadata_roughly()} does not do any checks: \code{ws_to}'s first
+SA-Processing's first SaItem metadata
+is updated with \code{ws_from}'s first SA-Processing's first SaItem metadata.
+Both functions create and return a new workspace containing
+the updated series.
 }
 \examples{
 
 library("RJDemetra")
 
-path_to_ws1 <- file.path(system.file("extdata", package = "rjdworkspace"),
-                         "WS/ws_example_1.xml")
-path_to_ws2 <- file.path(system.file("extdata", package = "rjdworkspace"),
-                         "WS/ws_example_2.xml")
- 
+path_to_ws1 <- file.path(
+    system.file("extdata", package = "rjdworkspace"),
+    "WS/ws_example_1.xml"
+)
+path_to_ws2 <- file.path(
+    system.file("extdata", package = "rjdworkspace"),
+    "WS/ws_example_2.xml"
+)
+
 ws_1 <- load_workspace(path_to_ws1)
 compute(ws_1)
 ws_2 <- load_workspace(path_to_ws2)

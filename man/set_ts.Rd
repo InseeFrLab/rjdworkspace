@@ -22,17 +22,21 @@ Function to change the input time series of a SaItem
 library("RJDemetra")
 
 # Definition of the original time series
-sa_x13 <- jx13(ipi_c_eu[, "FR"])
+sa_x13 <- jx13(series = ipi_c_eu[, "FR"])
 
 wk <- new_workspace()
-mp1 <- new_multiprocessing(wk, "sa1")
-# Addition of the series to the workspace and seasonal adjustment with the X13 model
-add_sa_item(wk, "sa1", sa_x13, "X13")
+sap1 <- new_multiprocessing(workspace = wk, name = "sap-1")
+
+# Adding a new SA-Item (`sa_x13`) to `sap1`
+add_sa_item(workspace = wk, multiprocessing = "sap-1",
+            sa_obj = sa_x13, name = "X13")
+
 # Retrieving the adjusted series
-sa1 <- get_object(mp1, 1)
+sa_item1 <- get_object(x = sap1, pos = 1L)
 
 # Creation of a new sa_item and change of the input time series
-new_sa_item <- set_ts(sa1, ipi_c_eu[, "BE"])
+new_sa_item <- set_ts(sa_item = sa_item1, ts = ipi_c_eu[, "BE"])
 # Replacement of the series in the workspace
-replace_sa_item(mp1, 1, new_sa_item)
+replace_sa_item(sap = sap1, pos = 1L, sa_item = new_sa_item)
+
 }

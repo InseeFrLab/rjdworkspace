@@ -21,16 +21,23 @@ Function to set the specification of a \code{"sa_item"}.
 
 library("RJDemetra")
 
-sa_x13 <- jx13(ipi_c_eu[, "FR"])
-sa_ts <- jtramoseats(ipi_c_eu[, "FR"])
+sa_x13 <- jx13(series = ipi_c_eu[, "FR"])
+sa_ts <- jtramoseats(series = ipi_c_eu[, "FR"])
 
 wk <- new_workspace()
-mp1 <- new_multiprocessing(wk, "sa1")
-add_sa_item(wk, "sa1", sa_x13, "tramo seats")
-sa1 <- get_object(mp1, 1)
+sap1 <- new_multiprocessing(workspace = wk, name = "sap-1")
 
-new_sa <- set_spec(sa1, sa_ts)
+add_sa_item(
+    workspace = wk,
+    multiprocessing = "sap-1",
+    sa_obj = sa_x13,
+    name = "tramo seats"
+)
+
+sa_item1 <- get_object(x = sap1, pos = 1L)
+new_sa_item <- set_spec(sa_item = sa_item1, spec = sa_ts)
+
 # The first sa_item is now seasonally adjusted with TRAMO-SEATS
-replace_sa_item(mp1, 1, new_sa)
+replace_sa_item(sap = sap1, pos = 1, sa_item = new_sa_item)
 
 }

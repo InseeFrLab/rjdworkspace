@@ -12,7 +12,7 @@ set_metadata(sa_from, sa_to)
 \item{sa_to}{the \code{"sa_item"} object to modify.}
 }
 \value{
-a new \code{"sa_item"} with the model of \code{sa_to} and the metadata of \code{sa_from}.
+a new \code{"sa_item"} with the specification of \code{sa_to} and the metadata of \code{sa_from}.
 }
 \description{
 Function to set the name of a \code{"sa_item"} from the one contained in another \code{"sa_item"}.
