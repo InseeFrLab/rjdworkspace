@@ -79,9 +79,9 @@ identify_object <- function(ws,
 #'
 #' @details
 #' To use this function you need to first launch `load_workspace` and after `save_workspace` to save the changes.
-#' 
+#'
 #' `name_sap_to` and `name_sap_from` refer to the SAP's name and not SAP's file's name.
-#' 
+#'
 #' The transfer will fail if:
 #'      - `name_sap_from` doesn't exist
 #'      - `pos_sap_from` < 0 or exceed the maximum number of SAP
@@ -92,9 +92,9 @@ identify_object <- function(ws,
 #' If `name_sap_to` and `pos_sap_to` are unspecified, the update will be performed using
 #' the workspaces' first SAProcessing (same for the SAP from).
 #' However if the informations of one on the two SAP (from or to) are specified (name or position), they will be attributed by default to the other worskpace.
-#' 
+#'
 #' If `name_sap_to` doesn't refer to an existing SAP, a new SAP will be created (if `create_sap` is `TRUE`).
-#' 
+#'
 #' If a sa_item has a specification which uses external regressor, you have to be sure that the regressors are also in the destination workspace.
 #'
 #' @return the `workspace` ws_to augmented with series present in ws_from and not already in ws_to
