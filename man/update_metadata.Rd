@@ -46,11 +46,11 @@ ws_2 <- load_workspace(path_to_ws2)
 compute(ws_2)
 
 updated_workspace <- update_metadata_roughly(ws_from = ws_1, ws_to = ws_2)
-path_to_output <- file.path(tempfile(), "ws_update_meta_roughly.xml")
+path_to_output <- file.path(tempdir(), "ws_update_meta_roughly.xml")
 save_workspace(workspace = updated_workspace, file = path_to_output)
 
 updated_workspace <- update_metadata(ws_from = ws_1, ws_to = ws_2)
-path_to_output <- file.path(tempfile(), "ws_update_meta.xml")
+path_to_output <- file.path(tempdir(), "ws_update_meta.xml")
 save_workspace(workspace = updated_workspace, file = path_to_output)
 
 }
