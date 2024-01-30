@@ -58,11 +58,7 @@ update_one_xml <- function(xml_path, pos_sa_item, formatted_path) {
                               "#series", chain2)
 
     XML::xmlAttrs(node_to_change) <- attrib
-
-
-    new_xml_path <- "~/temp/fichier2.xml"
-    XML::saveXML(doc = xml_file, file = new_xml_path)
-
+    XML::saveXML(doc = xml_file, file = xml_path)
     return(invisible(NULL))
 }
 
@@ -79,12 +75,14 @@ check_information <- function(ws_xml_path, pos_sap, pos_sa_item) {
         pattern = "\\.xml$", replacement = "",
         x = ws_xml_path
     )
-    all_xml_sap <- list.files(sprintf("%s/SAProcessing", ws_folder_path),
-        pattern = "\\.xml$"
+
+    all_xml_sap_path <- list.files(
+        path = sprintf("%s/SAProcessing", ws_folder_path),
+        pattern = "\\.xml$", full.names = TRUE
     )
 
     if ((!missing(pos_sap))
-        && (!paste0("SAProcessing-", pos_sap, ".xml") %in% all_xml_sap)) {
+        && (!paste0("SAProcessing-", pos_sap, ".xml") %in% all_xml_sap_path)) {
         stop("The SA-Processing doesn't exist.")
     }
 
@@ -194,13 +192,13 @@ update_path <- function(ws_xml_path, raw_data_path, pos_sap, pos_sa_item) {
         pattern = "\\.xml$", replacement = "",
         x = ws_xml_path
     )
-    all_xml_sap <- list.files(
+    all_xml_files <- list.files(
         path = sprintf("%s/SAProcessing", ws_folder_path),
-        pattern = "\\.xml$", full.names = TRUE
+        pattern = "\\.xml$", full.names = FALSE, all.files = TRUE
     )
 
     if ((!missing(pos_sap))
-        && (!paste0("SAProcessing-", pos_sap, ".xml") %in% all_xml_sap)) {
+        && (!paste0("SAProcessing-", pos_sap, ".xml") %in% all_xml_files)) {
         stop("The SA-Processing doesn't exist.")
     }
 
@@ -225,10 +223,14 @@ update_path <- function(ws_xml_path, raw_data_path, pos_sap, pos_sa_item) {
     }
 
     new_raw_data_path <- format_path_to_xml(raw_data_path)
+    all_xml_sap_path <- list.files(
+        path = sprintf("%s/SAProcessing", ws_folder_path),
+        pattern = "\\.xml$", full.names = TRUE
+    )
 
     if (missing(pos_sap)) {
-        for (pos_sap in seq_along(all_xml_sap)) {
-            xml_path <- all_xml_sap[pos_sap]
+        for (pos_sap in seq_along(all_xml_sap_path)) {
+            xml_path <- all_xml_sap_path[pos_sap]
             nb_sa_item <- RJDemetra::count(
                 RJDemetra::get_object(ws, pos = pos_sap)
             )
@@ -237,7 +239,7 @@ update_path <- function(ws_xml_path, raw_data_path, pos_sap, pos_sa_item) {
                 update_one_xml(
                     xml_path = xml_path,
                     pos_sa_item = pos2,
-                    formatted_data_path = new_raw_data_path
+                    formatted_path = new_raw_data_path
                 )
             }
         }
@@ -252,7 +254,7 @@ update_path <- function(ws_xml_path, raw_data_path, pos_sap, pos_sa_item) {
                 update_one_xml(
                     xml_path = xml_path,
                     pos_sa_item = pos,
-                    formatted_data_path = new_raw_data_path
+                    formatted_path = new_raw_data_path
                 )
             }
         } else {
@@ -260,7 +262,7 @@ update_path <- function(ws_xml_path, raw_data_path, pos_sap, pos_sa_item) {
                 update_one_xml(
                     xml_path = xml_path,
                     pos_sa_item = pos,
-                    formatted_data_path = new_raw_data_path
+                    formatted_path = new_raw_data_path
                 )
             }
         }

@@ -20,13 +20,15 @@ verif_duplicates(s)
 verif_ws_duplicates(ws, print_indications = FALSE)
 }
 \arguments{
-\item{ws_from}{The workspace containing the most up-to-date version of the selected_series series}
+\item{ws_from}{The workspace containing the most up-to-date version of the
+selected_series series}
 
 \item{ws_to}{The workspace to update}
 
 \item{selected_series}{The vector containing the series-to-update's names.}
 
-\item{mp_from_name}{The name of the SA-Processing containing the series to update (optional)}
+\item{mp_from_name}{The name of the SA-Processing containing the series to
+update (optional)}
 
 \item{mp_to_name}{The name of the SA-Processing to update (optional)}
 
@@ -45,15 +47,19 @@ Otherwise, it returns a data frame giving the name and number of duplicates foun
 a list containing the name and number of occurences of duplicated SAPs and series
 }
 \description{
-\code{replace_series()} allows to update a selection of series by the same-named series
-from another workspace. When only the metadata differs, it is the partial version of the update_metadata function.
+\code{replace_series()} allows to update a selection of series by the same-named
+series from another workspace. When only the metadata differs, it is the
+partial version of the update_metadata function.
 
 Generic function to identify and return the duplicates in a list
 }
 \details{
-If the arguments \code{mp_from_name} & \code{mp_to_name} are unspecified, the update will be performed using the workspaces' first SAProcessing.
-If a series is specified in the selected_series vector is missing in a workspace, no replacement will be performed and the function will
-return the list of missing series. Otherwise, if all is well, the function returns the workspace ws_to updated.
+If the arguments \code{mp_from_name} & \code{mp_to_name} are unspecified, the
+update will be performed using the workspaces' first SAProcessing.
+If a series is specified in the selected_series vector is missing in a
+workspace, no replacement will be performed and the function will return the
+list of missing series. Otherwise, if all is well, the function returns the
+workspace ws_to updated.
 
 \code{verif_duplicates()} identifies and returns the duplicates in a list
 \code{verif_ws_duplicates()} identifies duplicated series in a SAProcessing (SAP)
@@ -61,7 +67,13 @@ and SAProcessings in a workspace
 }
 \examples{
 \dontrun{
-replace_series(ws_to, ws_from, "SAProcessing-1", c("series1", "series2"), TRUE)
+replace_series(
+    ws_from = ws1,
+    ws_to = ws2,
+    mp_from_name = "SAProcessing-1",
+    selected_series = c("series1", "series2"),
+    print_indications = TRUE
+)
 }
 \dontrun{
 s <- c("a", "b", "a", "c", "a", "c")

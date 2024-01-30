@@ -24,64 +24,79 @@ transfer_series(
 
 \item{selected_series}{The vector containing the series-to-update's names.}
 
-\item{pos_sap_from}{The position of the SA-Processing to transfer the series from}
+\item{pos_sap_from}{The position of the SA-Processing to transfer the series
+from}
 
 \item{pos_sap_to}{The position of the SA-Processing to transfer the series to}
 
-\item{name_sap_from}{The name of the SA-Processing to transfer the series from (optional)}
+\item{name_sap_from}{The name of the SA-Processing to transfer the series
+from (optional)}
 
-\item{name_sap_to}{The name of the SA-Processing to transfer the series to (optional)}
+\item{name_sap_to}{The name of the SA-Processing to transfer the series to
+(optional)}
 
-\item{print_indications}{A boolean to print indications on the processing status (optional)}
+\item{print_indications}{A boolean to print indications on the processing
+status (optional)}
 
-\item{create_sap}{A boolean to create a new SA-Processing if not existing (optional)}
+\item{create_sap}{A boolean to create a new SA-Processing if not existing
+(optional)}
 
 \item{replace_series}{A boolean to replace existing series (optional)}
 }
 \value{
-the \code{workspace} ws_to augmented with series present in ws_from and not already in ws_to
+the \code{workspace} ws_to augmented with series present in ws_from and
+not already in ws_to
 }
 \description{
 To copy & paste series from one workspace to another
 }
 \details{
-To use this function you need to first launch \code{load_workspace} and after \code{save_workspace} to save the changes.
+To use this function you need to first launch \code{load_workspace} and after
+\code{save_workspace} to save the changes.
 
-\code{name_sap_to} and \code{name_sap_from} refer to the SAP's name and not SAP's file's name.
+\code{name_sap_to} and \code{name_sap_from} refer to the SAP's name and not SAP's
+file's name.
 
 The transfer will fail if:
 - \code{name_sap_from} doesn't exist
 - \code{pos_sap_from} < 0 or exceed the maximum number of SAP
 - \code{pos_sap_to} < 0 or exceed the maximum number of SAP
-- The arguments \code{pos_sap_from} and \code{name_sap_from} are refering to differents objects.
-- The arguments \code{pos_sap_to} and \code{name_sap_to} are refering to differents objects.
+- The arguments \code{pos_sap_from} and \code{name_sap_from} are refering to
+differents objects.
+- The arguments \code{pos_sap_to} and \code{name_sap_to} are refering to
+differents objects.
 
-If \code{name_sap_to} and \code{pos_sap_to} are unspecified, the update will be performed using
-the workspaces' first SAProcessing (same for the SAP from).
-However if the informations of one on the two SAP (from or to) are specified (name or position), they will be attributed by default to the other worskpace.
+If \code{name_sap_to} and \code{pos_sap_to} are unspecified, the update will be
+performed using the workspaces' first SAProcessing (same for the SAP from).
+However if the informations of one on the two SAP (from or to) are specified
+(name or position), they will be attributed by default to the other
+worskpace.
 
-If \code{name_sap_to} doesn't refer to an existing SAP, a new SAP will be created (if \code{create_sap} is \code{TRUE}).
+If \code{name_sap_to} doesn't refer to an existing SAP, a new SAP will be created
+(if \code{create_sap} is \code{TRUE}).
 
-If a sa_item has a specification which uses external regressor, you have to be sure that the regressors are also in the destination workspace.
+If a sa_item has a specification which uses external regressor, you have to
+be sure that the regressors are also in the destination workspace.
 }
 \examples{
 
 library("RJDemetra")
-
 dir_ws <- tempdir()
-
+template_ws <- file.path(system.file("extdata", package = "rjdworkspace"),
+                         "WS")
 # Moving the WS in a temporary environment
-rjdworkspace:::copy_ws(ws_name = "ws_output",
-        path_ws = file.path(system.file("extdata", package = "rjdworkspace"), "WS"),
-        new_path = dir_ws)
-rjdworkspace:::copy_ws(ws_name = "ws_input",
-        path_ws = file.path(system.file("extdata", package = "rjdworkspace"), "WS"),
-        new_path = dir_ws)
-
+rjdworkspace:::copy_ws(
+    ws_name = "ws_output",
+    path_ws = template_ws,
+    new_path = dir_ws
+)
+rjdworkspace:::copy_ws(
+    ws_name = "ws_input",
+    path_ws = template_ws,
+    new_path = dir_ws
+)
 path_ws_from <- file.path(dir_ws, "ws_input.xml")
 path_ws_to <- file.path(dir_ws, "ws_output.xml")
-
-
 ws_input <- load_workspace(path_ws_from)
 ws_output <- load_workspace(path_ws_to)
 

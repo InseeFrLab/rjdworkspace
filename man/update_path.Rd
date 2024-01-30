@@ -11,7 +11,8 @@ update_path(ws_xml_path, raw_data_path, pos_sap, pos_sa_item)
 
 \item{raw_data_path}{the new path to the raw data}
 
-\item{pos_sap}{the index of the SA-Processing containing the series (Optional)}
+\item{pos_sap}{the index of the SA-Processing containing the series
+(Optional)}
 
 \item{pos_sa_item}{the index of the SA-Item containing the series (Optional)}
 }
@@ -40,15 +41,18 @@ previous file :
 
 library("RJDemetra")
 new_dir <- tempdir()
+ws_template <- file.path(system.file("extdata", package = "rjdworkspace"),
+                         "WS")
 
 # Moving the WS in a temporary environment
 rjdworkspace:::copy_ws(ws_name = "ws_example_path",
-                       path_ws = file.path(system.file("extdata", package = "rjdworkspace"), "WS"),
+                       path_ws = ws_template,
                        new_path = new_dir)
 
 # Moving the raw data in a temporary environment
 file.copy(
-    from = file.path(system.file("extdata", package = "rjdworkspace"), "data_file.csv"),
+    from = file.path(system.file("extdata", package = "rjdworkspace"),
+                     "data_file.csv"),
     to = new_dir
 )
 
