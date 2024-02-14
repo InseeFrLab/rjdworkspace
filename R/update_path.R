@@ -268,6 +268,6 @@ update_path <- function(ws_xml_path, raw_data_path, pos_sap, pos_sa_item) {
         }
     }
 
-    print("Done!")
+    cat("Done!\n")
     return(invisible(ws))
 }

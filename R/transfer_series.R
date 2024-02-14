@@ -325,6 +325,6 @@ transfer_series <- function(ws_from, ws_to,
         cat(" Successful transfer!\n")
     }
 
-    cat("\nDone!")
+    cat("\nDone!\n")
     return(invisible(ws_to))
 }
