@@ -1,8 +1,10 @@
 # rjdworkspace dev version
 
+# rjdworkspace 1.1.6
+
 * add a new hidden function to copy ws
 * simplify the XML path writting with `URLencode`
-* resolve bugs for `update_path` with WS created with `RJDemetra::add_sa_item` 
+* resolve bugs for `update_path` with WS created with `RJDemetra::add_sa_item`
 
 
 # rjdworkspace 1.1.3
@@ -15,6 +17,7 @@
     * replace_series to replace existing series
 * Adding some documentation to functions
 * Successfull check!
+
 
 # rjdworkspace 1.1.0
 
