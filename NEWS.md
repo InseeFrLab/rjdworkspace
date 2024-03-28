@@ -1,34 +1,59 @@
-# rjdworkspace dev version
+# Changelog
 
-# rjdworkspace 1.1.6
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+
+## [Unreleased]
+
+
+## [1.1.6] - 2024-02-14
+
+### Added
 
 * add a new hidden function to copy ws
+
+### Changed
+
 * simplify the XML path writting with `URLencode`
+
+### Fixed
+
 * resolve bugs for `update_path` with WS created with `RJDemetra::add_sa_item`
 
 
-# rjdworkspace 1.1.3
+## [1.1.3] - 2023-08-29
 
-* Bug fixed in `get_comment`
+### Added
+
+* Adding some documentation to functions
+* Successfull check!
+
+### Changed
+
 * Changes in `transfer_series` to regroup `transfer_series` and `replace_series` with new arguments
     * ws_from and ws_to to identify the workspaces in which we take the data and to which we transfer the data
     * name_mp_from, name_mp_to, pos_mp_from and pos_mp_to to identify the SA-Processings (or Multi-Processings denoted mp)
     * create_mp to create a new Multi-Processing
     * replace_series to replace existing series
-* Adding some documentation to functions
-* Successfull check!
+    
+### Fixed
+
+* Bug fixed in `get_comment`
 
 
-# rjdworkspace 1.1.0
+## [1.1.0] - 2023-07-04
 
-## Changes :
+### Added
 
 * add new function to `update_path` of **workspaces**, **SAProcessing** and specifically **Sa-items** for csv, xls and xlsx files
 
 
-# rjdworkspace 1.0.0 - Initial release.
+## [1.0.0] - 2023-07-04
 
-## Changes from dev version :
+### Changed
 
 * Globally, the functions which use 2 workspaces now have 2 arguments `ws_from` and `ws_to` which designate the workspace which contains the updated data (`ws_from`) and the workspace to update (`ws_to`). The arguments are in that order. 
 * This concerns the functions :
@@ -37,5 +62,10 @@
     * `update_metadata`
     * `update_metadata_roughly`
     * `set_metadata` for SA ITEM
-
 * the function `replace_series` has an new argument `mp_from_name` and `mp_to_name` to specify the multipreprocessing in which to search for series
+
+[unreleased]: https://github.com/InseeFrLab/rjdworkspace/compare/v1.1.6...HEAD
+[1.1.6]: https://github.com/InseeFrLab/rjdworkspace/compare/v1.1.3...v1.1.6
+[1.1.3]: https://github.com/InseeFrLab/rjdworkspace/compare/v1.1.0...v1.1.3
+[1.1.0]: https://github.com/InseeFrLab/rjdworkspace/compare/v1.0.0...v1.1.0
+[1.0.0]: https://github.com/InseeFrLab/rjdworkspace/releases/tag/v1.0.0
