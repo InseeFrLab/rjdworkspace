@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+* Bug in update_path with the meta character ` ` (which can be encode as `%20` or as `+`)
+
 
 ## [1.1.6] - 2024-02-14
 

@@ -4,7 +4,12 @@
 format_path_to_xml <- function(path) {
     path_norm <- normalizePath(path)
     formatted_path <- URLencode(path_norm, reserved = TRUE)
-
+    formatted_path <- gsub(
+        x = formatted_path,
+        pattern = "%20",
+        replacement = "+",
+        fixed = TRUE
+    )
     return(formatted_path)
 }
 
