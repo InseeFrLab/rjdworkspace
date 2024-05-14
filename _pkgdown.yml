@@ -29,7 +29,7 @@ navbar:
       text: Around JDemetra+ and R
       menu:
       - text: RJDemetra
-        href: https://github.com/jdemetra/rjdemetra
+        href: https://github.com/rjdverse/rjdemetra
       - text: ggdemetra
         href: https://github.com/AQLT/ggdemetra
       - text: rjdqa

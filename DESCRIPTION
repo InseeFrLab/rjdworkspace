@@ -1,18 +1,22 @@
 Package: rjdworkspace
 Type: Package
-Title: Manipulate 'JDemetra+' workspaces
+Title: Manipulate 'JDemetra+' Workspaces
 Version: 1.1.7
-Authors@R: c(
-  person(given = "Alain",
-         family = "Quartier-la-Tente",
-         role = c("aut", "cre"),
-         email = "alain.quartier@yahoo.fr",
-         comment = c(ORCID = "0000-0001-7890-3857")),
-  person(given = "Institut national de la statistique et des études économiques",
-         role = "cph",
-         email = c("tanguy.barthelemy@insee.fr","anna.smyk@insee.fr"),
-         comment = "https://www.insee.fr/"))
-Description: Set of tools to manipualte the 'JDemetra+' workspaces.
+Authors@R: 
+    c(person(given = "Alain",
+             family = "Quartier-la-Tente",
+             role = c("aut"),
+             email = "alain.quartier-la-tente@insee.fr"),
+      person(given = "Institut national de la statistique et des études économiques",
+             role = "cph",
+             comment = "https://www.insee.fr/"),
+    person(given = "Tanguy", 
+           family = "Barthelemy", role = c("aut", "cre"),
+           email ="tanguy.barthelemy@insee.fr"),
+    person(given = "Anna", 
+           family = "Smyk", role = c("aut"),
+           email ="anna.smyk@insee.fr"))
+Description: Set of tools to manipulate the 'JDemetra+' workspaces.
 Depends:
     R (>= 3.1.1)
 Imports:
