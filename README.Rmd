@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 ```
 
 
-# rjdworskpace <a href="InseeFrLablab.github.io/rjdworkspace"><img src="man/figures/logo.png" align="right" height="138" /></a>
+# rjdworskpace <a href="https://inseefrlab.github.io/rjdworkspace/"><img src="man/figures/logo.png" align="right" height="138" /></a>
 
 <!-- badges: start -->
 [![CRAN status](http://www.r-pkg.org/badges/version/rjdworkspace)](https://cran.r-project.org/package=rjdworkspace)
