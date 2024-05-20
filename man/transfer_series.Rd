@@ -12,7 +12,7 @@ transfer_series(
   pos_sap_to,
   name_sap_from,
   name_sap_to,
-  print_indications = FALSE,
+  verbose = TRUE,
   create_sap = TRUE,
   replace_series = TRUE
 )
@@ -35,8 +35,8 @@ from (optional)}
 \item{name_sap_to}{The name of the SA-Processing to transfer the series to
 (optional)}
 
-\item{print_indications}{A boolean to print indications on the processing
-status (optional)}
+\item{verbose}{A boolean to print indications on the processing
+status (optional and TRUE by default)}
 
 \item{create_sap}{A boolean to create a new SA-Processing if not existing
 (optional)}
@@ -85,15 +85,15 @@ dir_ws <- tempdir()
 template_ws <- file.path(system.file("extdata", package = "rjdworkspace"),
                          "WS")
 # Moving the WS in a temporary environment
-rjdworkspace:::copy_ws(
+copy_ws(
     ws_name = "ws_output",
-    path_ws = template_ws,
-    new_path = dir_ws
+    from = template_ws,
+    to = dir_ws
 )
-rjdworkspace:::copy_ws(
+copy_ws(
     ws_name = "ws_input",
-    path_ws = template_ws,
-    new_path = dir_ws
+    from = template_ws,
+    to = dir_ws
 )
 path_ws_from <- file.path(dir_ws, "ws_input.xml")
 path_ws_to <- file.path(dir_ws, "ws_output.xml")
@@ -106,7 +106,7 @@ transfer_series(
     ws_to = ws_output,
     name_sap_from = "SAProcessing-1",
     name_sap_to = "SAProcessing-1",
-    print_indications = TRUE
+    verbose = TRUE
 )
 
 transfer_series(
@@ -114,7 +114,7 @@ transfer_series(
     ws_to = ws_output,
     pos_sap_from = 1,
     pos_sap_to = 1,
-    print_indications = TRUE
+    verbose = TRUE
 )
 
 # Existing series
@@ -122,14 +122,14 @@ transfer_series(
     ws_from = ws_input, ws_to = ws_output,
     pos_sap_from = 2,
     pos_sap_to = 2,
-    print_indications = TRUE,
+    verbose = TRUE,
     replace_series = FALSE
 )
 transfer_series(
     ws_from = ws_input, ws_to = ws_output,
     pos_sap_from = 2,
     pos_sap_to = 2,
-    print_indications = TRUE,
+    verbose = TRUE,
     replace_series = TRUE
 )
 
@@ -137,14 +137,14 @@ transfer_series(
 # transfer_series(ws_from = ws_input, ws_to = ws_output,
 #                 name_sap_from = "SAProcessing-1",
 #                 name_sap_to = "New-SAProcessing-from-R",
-#                 print_indications = TRUE,
+#                 verbose = TRUE,
 #                 create = FALSE)
 
 transfer_series(
     ws_from = ws_input, ws_to = ws_output,
     name_sap_from = "SAProcessing-1",
     name_sap_to = "New-SAProcessing-from-R",
-    print_indications = TRUE,
+    verbose = TRUE,
     create = TRUE
 )
 

@@ -9,6 +9,26 @@ get_comment(x)
 \arguments{
 \item{x}{the object from which the comments are retrieved.}
 }
+\value{
+A string or list of string with all the comment contained in a SA-Item, a SA-Processing or a workspace (depending on the argument \code{x}).
+}
 \description{
 Function to extract the comments of a workspace
+}
+\examples{
+
+library("RJDemetra")
+ws_dir <- file.path(system.file("extdata", package = "rjdworkspace"), "WS")
+
+path_ws_to <- file.path(ws_dir, "ws_output.xml")
+
+ws_output <- load_workspace(path_ws_to)
+print(get_comment(ws_output))
+
+sap_output <- get_object(ws_output, pos = 3)
+print(get_comment(sap_output))
+
+sa_item <- get_object(sap_output, pos = 3)
+print(get_comment(sa_item))
+
 }

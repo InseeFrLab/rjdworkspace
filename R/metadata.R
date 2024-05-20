@@ -14,6 +14,8 @@
 #' Both functions create and return a new workspace containing
 #' the updated series.
 #'
+#' @returns the updated `workspace`
+#'
 #' @examples
 #'
 #' library("RJDemetra")
@@ -44,8 +46,10 @@
 #' @rdname update_metadata
 #' @export
 update_metadata <- function(ws_from, ws_to) {
+
     # ws1 <- RJDemetra::load_workspace(ws_from)
     # ws2 <- RJDemetra::load_workspace(ws_to)
+
     all_sap_ws_from <- RJDemetra::get_all_objects(ws_from)
     all_sap_ws_from_names <- names(all_sap_ws_from)
 
@@ -55,11 +59,10 @@ update_metadata <- function(ws_from, ws_to) {
         sap_ws_from_i <- which(all_sap_ws_from_names %in% sap_name)
         if (length(sap_ws_from_i) > 0) {
             if (length(sap_ws_from_i) > 1) {
-                warning(paste(
+                warning(
                     "At least 2 SA-Processings called",
                     sap_name,
                     "were found in the ws_from: the first object will be used"
-                )
                 )
             }
 
@@ -215,7 +218,25 @@ set_metadata <- function(sa_from, sa_to) {
 #'
 #' @param x the object from which the comments are retrieved.
 #'
+#' @returns A string or list of string with all the comment contained in a SA-Item, a SA-Processing or a workspace (depending on the argument \code{x}).
 #' @export
+#'
+#' @examples
+#'
+#' library("RJDemetra")
+#' ws_dir <- file.path(system.file("extdata", package = "rjdworkspace"), "WS")
+#'
+#' path_ws_to <- file.path(ws_dir, "ws_output.xml")
+#'
+#' ws_output <- load_workspace(path_ws_to)
+#' print(get_comment(ws_output))
+#'
+#' sap_output <- get_object(ws_output, pos = 3)
+#' print(get_comment(sap_output))
+#'
+#' sa_item <- get_object(sap_output, pos = 3)
+#' print(get_comment(sa_item))
+#'
 get_comment <- function(x) {
     UseMethod("get_comment", x)
 }

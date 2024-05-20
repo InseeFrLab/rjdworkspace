@@ -4,7 +4,7 @@
 \alias{update_path}
 \title{Update the path to the raw series file}
 \usage{
-update_path(ws_xml_path, raw_data_path, pos_sap, pos_sa_item)
+update_path(ws_xml_path, raw_data_path, pos_sap, pos_sa_item, verbose = TRUE)
 }
 \arguments{
 \item{ws_xml_path}{the path to the xml file of the workspace}
@@ -15,6 +15,9 @@ update_path(ws_xml_path, raw_data_path, pos_sap, pos_sa_item)
 (Optional)}
 
 \item{pos_sa_item}{the index of the SA-Item containing the series (Optional)}
+
+\item{verbose}{A boolean to print indications on the processing
+status (optional and TRUE by default)}
 }
 \value{
 the \code{workspace} ws_to augmented with series present in ws_from and
@@ -41,18 +44,21 @@ previous file :
 
 library("RJDemetra")
 new_dir <- tempdir()
-ws_template <- file.path(system.file("extdata", package = "rjdworkspace"),
+ws_template_path <- file.path(system.file("extdata", package = "rjdworkspace"),
                          "WS")
 
 # Moving the WS in a temporary environment
-rjdworkspace:::copy_ws(ws_name = "ws_example_path",
-                       path_ws = ws_template,
-                       new_path = new_dir)
+copy_ws(
+    ws_name = "ws_example_path",
+    from = ws_template_path,
+    to = new_dir
+)
 
 # Moving the raw data in a temporary environment
+data_path <- file.path(system.file("extdata", package = "rjdworkspace"),
+                       "data_file.csv")
 file.copy(
-    from = file.path(system.file("extdata", package = "rjdworkspace"),
-                     "data_file.csv"),
+    from = data_path,
     to = new_dir
 )
 

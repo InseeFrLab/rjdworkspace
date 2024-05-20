@@ -23,6 +23,10 @@ add_new_sa_item(sap, sa_item)
 
 \item{sa_item}{\code{sa_item} object.}
 }
+\value{
+The functions \code{remove_sa_item()}, \code{remove_all_sa_item()} and \code{replace_sa_item()} return invisibly (with \code{invisible()}) \code{TRUE} or an error.
+The function \code{add_new_sa_item()} returns invisibly (with \code{invisible()}) the updated \code{SA-Item}.
+}
 \description{
 Functions to remove/replace/add a \code{sa_item} from/to a SA-Processing.
 }

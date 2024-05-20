@@ -6,6 +6,9 @@
 #' @param pos the index of the `sa_item` to remove or to replace.
 #' @param sa_item `sa_item` object.
 #'
+#' @returns The functions \code{remove_sa_item()}, \code{remove_all_sa_item()} and \code{replace_sa_item()} return invisibly (with \code{invisible()}) \code{TRUE} or an error.
+#' The function \code{add_new_sa_item()} returns invisibly (with \code{invisible()}) the updated `SA-Item`.
+#'
 #' @name manipulate_sa_item
 #' @rdname manipulate_sa_item
 #' @examples
