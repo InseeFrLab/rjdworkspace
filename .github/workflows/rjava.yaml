@@ -1,10 +1,7 @@
 # Workflow derived from https://github.com/r-lib/actions/tree/master/examples
 # Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
-on: 
-  push:
-    branches: [main, master]
-  pull_request:
-    branches: [main, master]
+on:
+  workflow_dispatch
 
 name: rjava
 
@@ -33,14 +30,14 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-    
+
       # Set-up java
       - name: Setup java
         uses: actions/setup-java@v4
         with:
           java-version: ${{ matrix.java }}
           distribution: 'zulu'
-          
+
       # Set up R
       - uses: r-lib/actions/setup-r@v2
         with:
