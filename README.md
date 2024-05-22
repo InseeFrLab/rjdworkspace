@@ -48,7 +48,7 @@ Pour obtenir la dernière release stable du package :
 # install.packages("remotes")
 
 # Installer la dernière version stable disponible sur GitHub
-remotes::install_github("InseeFrLabLab/rjdworkspace@*release")
+remotes::install_github("InseeFrLab/rjdworkspace@*release")
 
 # Sur les ordinateurs Insee
 install.packages("rjdworkspace", repos = "https://nexus.insee.fr/repository/r-public/")
@@ -61,7 +61,7 @@ Pour obtenir la version en cours de développement depuis GitHub :
 # install.packages("remotes")
 
 # Installer la version en cours de développement depuis GitHub
-remotes::install_github("InseeFrLabLab/rjdworkspace")
+remotes::install_github("InseeFrLab/rjdworkspace")
 ```
 
 Pour une description plus complète des packages R pour JDemetra+ voir le
@@ -103,7 +103,7 @@ To get the current stable version (from the latest release):
 # install.packages("remotes")
 
 # Install the last stable release from GitHub
-remotes::install_github("InseeFrLabLab/rjdworkspace@*release")
+remotes::install_github("InseeFrLab/rjdworkspace@*release")
 
 # on Insee computer
 install.packages("rjdworkspace", repos = "https://nexus.insee.fr/repository/r-public/")
@@ -116,7 +116,7 @@ To get the current development version from GitHub:
 # install.packages("remotes")
 
 # Install development version from GitHub
-remotes::install_github("InseeFrLabLab/rjdworkspace")
+remotes::install_github("InseeFrLab/rjdworkspace")
 ```
 
 For a more comprehensive description of the R packages for JDemetra+
