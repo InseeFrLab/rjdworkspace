@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# rjdworskpace <a href="https://inseefrlab.github.io/rjdworkspace/"><img src="man/figures/logo.png" align="right" height="138" /></a>
+# rjdworskpace <a href="https://inseefrlab.github.io/rjdworkspace/"><img src="man/figures/logo.png" align="right" height="200" style="float:right; height:200px;"/></a>
 
 <!-- badges: start -->
 
