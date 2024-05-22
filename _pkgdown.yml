@@ -6,7 +6,7 @@ navbar:
     - articles
     - tutorials
     - news
-    right: 
+    right:
     - jdemetra
     - rpackages
     - github
@@ -42,17 +42,25 @@ navbar:
       icon: fa-github fa-lg
       href: https://github.com/InseeFrLab/rjdworkspace
 reference:
+- title: Manipulate WS
+  desc: Functions to manipulate several workspaces
+  contents:
+  - '`transfer_series`'
+  - '`replace_series`'
+  - '`copy_ws`'
 - title: Manipulate sa_item
   desc: Functions to manipulate sa_item objects
   contents:
-  - '`change_ts`'
   - '`manipulate_sa_item`'
-  - '`replace_series`'
+  - '`set_spec`'
+  - '`set_ts`'
 - title: Manipulate Metadata
   desc: Functions to update metadata and manipulate comments
   contents:
+  - '`set_name`'
   - '`get_comment`'
   - '`set_comment`'
+  - '`update_path`'
   - '`update_metadata`'
   - '`set_metadata`'
 
