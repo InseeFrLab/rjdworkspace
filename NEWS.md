@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 
+## [1.1.7] - 2024-05-22
+
 ### Added
 
 * CRAN release 1.1.7
@@ -82,7 +84,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     * `set_metadata` for SA ITEM
 * the function `replace_series` has an new argument `mp_from_name` and `mp_to_name` to specify the multipreprocessing in which to search for series
 
-[unreleased]: https://github.com/InseeFrLab/rjdworkspace/compare/v1.1.6...HEAD
+[unreleased]: https://github.com/InseeFrLab/rjdworkspace/compare/v1.1.7...HEAD
+[1.1.7]: https://github.com/InseeFrLab/rjdworkspace/compare/v1.1.6...v1.1.7
 [1.1.6]: https://github.com/InseeFrLab/rjdworkspace/compare/v1.1.3...v1.1.6
 [1.1.3]: https://github.com/InseeFrLab/rjdworkspace/compare/v1.1.0...v1.1.3
 [1.1.0]: https://github.com/InseeFrLab/rjdworkspace/compare/v1.0.0...v1.1.0
