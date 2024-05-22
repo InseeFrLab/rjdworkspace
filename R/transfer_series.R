@@ -6,11 +6,11 @@
 
 identify_object <- function(ws,
                             name_sap, pos_sap,
-                            error_on_unknown = FALSE) {
+                            error_on_unknown = TRUE) {
     # Empty WS
     if (RJDemetra::count(ws) == 0) {
         if (error_on_unknown) {
-            print("The program stops without transferring the series.")
+            message("The program stops without transferring the series.\n")
             stop("The ws is empty.")
         } else {
             return(0)
@@ -24,37 +24,36 @@ identify_object <- function(ws,
     if (missing(name_sap) && missing(pos_sap)) {
         pos_sap <- 1L
         name_sap <- names_saps[1L]
-        print(paste0("No sap has been selected, the first one (",
-                     name_sap, ") will be used."))
+        cat("No sap has been selected, the first one (", name_sap, ") will be used.\n", sep = "")
     } else if (missing(name_sap)) {
         if (pos_sap <= RJDemetra::count(ws) && pos_sap > 0L) {
             name_sap <- names_saps[pos_sap]
         } else {
-            print("The program stops without transferring the series.")
-            stop(paste0("There is no SAP n\u00B0", pos_sap))
+            message("The program stops without transferring the series.\n")
+            stop("There is no SAP n\u00B0", pos_sap)
         }
     } else if (missing(pos_sap)) {
         if (name_sap %in% names_saps) {
             pos_sap <- which(names_saps == name_sap)
         } else if (error_on_unknown) {
-            print("The program stops without transferring the series.")
-            stop(paste0("There is no SAP named ", name_sap, " in ws."))
+            message("The program stops without transferring the series.")
+            stop("There is no SAP named ", name_sap, " in ws.")
         } else {
             return(0)
         }
     } else {
         if (!name_sap %in% names_saps) {
             if (error_on_unknown) {
-                print("The program stops without transferring the series.")
-                stop(paste0("There is no SAP named ", name_sap, " in ws."))
+                message("The program stops without transferring the series.")
+                stop("There is no SAP named ", name_sap, " in ws.")
             } else {
                 return(0)
             }
         } else if (pos_sap > RJDemetra::count(ws) || pos_sap <= 0L) {
-            print("The program stops without transferring the series.")
-            stop(paste0("There is no SAP n\u00B0", pos_sap))
+            message("The program stops without transferring the series.")
+            stop("There is no SAP n\u00B0", pos_sap)
         } else if (names_saps[pos_sap] != name_sap) {
-            print("The program stops without transferring the series.")
+            message("The program stops without transferring the series.")
             stop("The arguments pos_sap and name_sap are refering to differents objects.")
         }
     }
@@ -77,8 +76,8 @@ identify_object <- function(ws,
 #' from (optional)
 #' @param name_sap_to The name of the SA-Processing to transfer the series to
 #' (optional)
-#' @param print_indications A boolean to print indications on the processing
-#' status (optional)
+#' @param verbose A boolean to print indications on the processing
+#' status (optional and TRUE by default)
 #' @param create_sap A boolean to create a new SA-Processing if not existing
 #' (optional)
 #' @param replace_series A boolean to replace existing series (optional)
@@ -121,15 +120,15 @@ identify_object <- function(ws,
 #' template_ws <- file.path(system.file("extdata", package = "rjdworkspace"),
 #'                          "WS")
 #' # Moving the WS in a temporary environment
-#' rjdworkspace:::copy_ws(
+#' copy_ws(
 #'     ws_name = "ws_output",
-#'     path_ws = template_ws,
-#'     new_path = dir_ws
+#'     from = template_ws,
+#'     to = dir_ws
 #' )
-#' rjdworkspace:::copy_ws(
+#' copy_ws(
 #'     ws_name = "ws_input",
-#'     path_ws = template_ws,
-#'     new_path = dir_ws
+#'     from = template_ws,
+#'     to = dir_ws
 #' )
 #' path_ws_from <- file.path(dir_ws, "ws_input.xml")
 #' path_ws_to <- file.path(dir_ws, "ws_output.xml")
@@ -142,7 +141,7 @@ identify_object <- function(ws,
 #'     ws_to = ws_output,
 #'     name_sap_from = "SAProcessing-1",
 #'     name_sap_to = "SAProcessing-1",
-#'     print_indications = TRUE
+#'     verbose = TRUE
 #' )
 #'
 #' transfer_series(
@@ -150,7 +149,7 @@ identify_object <- function(ws,
 #'     ws_to = ws_output,
 #'     pos_sap_from = 1,
 #'     pos_sap_to = 1,
-#'     print_indications = TRUE
+#'     verbose = TRUE
 #' )
 #'
 #' # Existing series
@@ -158,14 +157,14 @@ identify_object <- function(ws,
 #'     ws_from = ws_input, ws_to = ws_output,
 #'     pos_sap_from = 2,
 #'     pos_sap_to = 2,
-#'     print_indications = TRUE,
+#'     verbose = TRUE,
 #'     replace_series = FALSE
 #' )
 #' transfer_series(
 #'     ws_from = ws_input, ws_to = ws_output,
 #'     pos_sap_from = 2,
 #'     pos_sap_to = 2,
-#'     print_indications = TRUE,
+#'     verbose = TRUE,
 #'     replace_series = TRUE
 #' )
 #'
@@ -173,14 +172,14 @@ identify_object <- function(ws,
 #' # transfer_series(ws_from = ws_input, ws_to = ws_output,
 #' #                 name_sap_from = "SAProcessing-1",
 #' #                 name_sap_to = "New-SAProcessing-from-R",
-#' #                 print_indications = TRUE,
+#' #                 verbose = TRUE,
 #' #                 create = FALSE)
 #'
 #' transfer_series(
 #'     ws_from = ws_input, ws_to = ws_output,
 #'     name_sap_from = "SAProcessing-1",
 #'     name_sap_to = "New-SAProcessing-from-R",
-#'     print_indications = TRUE,
+#'     verbose = TRUE,
 #'     create = TRUE
 #' )
 #'
@@ -192,7 +191,7 @@ transfer_series <- function(ws_from, ws_to,
                             selected_series,
                             pos_sap_from, pos_sap_to,
                             name_sap_from, name_sap_to,
-                            print_indications = FALSE,
+                            verbose = TRUE,
                             create_sap = TRUE,
                             replace_series = TRUE) {
     # Verification of the parameters type
@@ -240,11 +239,12 @@ transfer_series <- function(ws_from, ws_to,
     if (pos_sap_to == 0) {
         # A new SAP will be created
         if (missing(name_sap_to)) {
-            print("The program stops without transferring the series.")
+            message("The program stops without transferring the series.")
             stop("No name for sap_to has been specified.")
         } else {
-            print(paste0("A new SAP named ", name_sap_to,
-                         " in ws_to will be created."))
+            if (verbose) {
+                cat("A new SAP named", name_sap_to, "in ws_to will be created.\n")
+            }
             sap_to <- RJDemetra::new_multiprocessing(
                 workspace = ws_to, name = name_sap_to
             )
@@ -256,16 +256,17 @@ transfer_series <- function(ws_from, ws_to,
     }
 
 
-    if (print_indications) {
-        cat(paste0(
+    if (verbose) {
+        cat(
             "First WS's SAP :\n",
             "\t- name : ", name_sap_from,
             "\n\t- pos : ", pos_sap_from,
             "\nand\n",
             "Second WS's SAP :\n",
             "\t- name : ", name_sap_to,
-            "\n\t- pos : ", pos_sap_to
-        ))
+            "\n\t- pos : ", pos_sap_to,
+            sep = ""
+        )
         cat("\n\n")
     }
 
@@ -293,12 +294,13 @@ transfer_series <- function(ws_from, ws_to,
     for (index in seq_along(selected_series)) {
         series_name <- selected_series[index]
         position <- which(names_series_from == series_name)
-        if (print_indications) {
-            cat(paste0(
+        if (verbose) {
+            cat(
                 "Series n\u00B0", index,
                 ", name: ", series_name,
-                ", position: ", position
-            ))
+                ", position: ", position,
+                sep = ""
+            )
         }
 
         # The "up-to-date" series version
@@ -306,7 +308,7 @@ transfer_series <- function(ws_from, ws_to,
 
         # Cas de remplacement
         if (series_name %in% names_series_to) {
-            if (print_indications) {
+            if (verbose) {
                 cat(" - to replace...")
             }
             position <- which(names_series_to == series_name)
@@ -316,15 +318,19 @@ transfer_series <- function(ws_from, ws_to,
                 sa_item = extracted_sa_item
             )
         } else {
-            if (print_indications) {
+            if (verbose) {
                 cat(" - to add...")
             }
             add_new_sa_item(sap = sap_to, extracted_sa_item)
         }
 
-        cat(" Successful transfer!\n")
+        if (verbose) {
+            cat(" Successful transfer!\n")
+        }
     }
 
-    cat("\nDone!\n")
+    if (verbose) {
+        cat("\nDone!\n")
+    }
     return(invisible(ws_to))
 }

@@ -14,6 +14,9 @@ update_metadata_roughly(ws_from, ws_to)
 
 \item{ws_to}{Workspace to update.}
 }
+\value{
+the updated \code{workspace}
+}
 \description{
 Functions to update the metadata of a workspace by those contained in
 another one

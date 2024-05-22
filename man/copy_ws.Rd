@@ -4,29 +4,39 @@
 \alias{copy_ws}
 \title{Copy a WS}
 \usage{
-copy_ws(ws_name, path_ws, new_path = tempdir())
+copy_ws(ws_name, from, to = tempdir(), overwrite = TRUE, verbose = TRUE)
 }
 \arguments{
 \item{ws_name}{the name of the WS}
 
-\item{path_ws}{the path to the folder containing the WS
-(the XML file + the WS folder)}
+\item{from}{the path to the folder containing the WS (the XML file + the WS
+folder)}
 
-\item{new_path}{the path to the new folder which will contains the WS
-(the XML file + the WS folder)}
+\item{to}{the path to the new folder which will contains the WS (the XML
+file + the WS folder)}
+
+\item{overwrite}{Overwrite existing file (Defaults to TRUE)}
+
+\item{verbose}{A boolean to print indications on the processing status
+(optional and TRUE by default)}
 }
 \value{
-TRUE
+the function returns invisibly (with \code{invisible()}) a boolean
+specifying if the transfer was done or an error if the specified paths or
+workspace don't exists
 }
 \description{
 Copy a WS
 }
 \examples{
-
 # Déplacement d'un WS dans un environnement temporaire
-rjdworkspace:::copy_ws(
+destination_dir <- tempdir()
+
+# Copy of a worspace in a temporary environment
+copy_ws(
   ws_name = "ws_output",
-  path_ws = file.path(system.file("extdata", package = "rjdworkspace"), "WS")
+  from = file.path(system.file("extdata", package = "rjdworkspace"), "WS"),
+  to = destination_dir
 )
 
 }

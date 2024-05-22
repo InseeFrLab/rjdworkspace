@@ -12,8 +12,8 @@
 #' @param mp_from_name The name of the SA-Processing containing the series to
 #' update (optional)
 #' @param mp_to_name The name of the SA-Processing to update (optional)
-#' @param print_indications A boolean to print indications on the processing
-#' status (optional)
+#' @param verbose A boolean to print indications on the processing
+#' status (optional and TRUE by default)
 #'
 #' @details If the arguments `mp_from_name` & `mp_to_name` are unspecified, the
 #' update will be performed using the workspaces' first SAProcessing.
@@ -24,18 +24,45 @@
 #'
 #' @rdname replace_series
 #' @return the updated `workspace`
-#' @examples \dontrun{
-#' replace_series(
-#'     ws_from = ws1,
-#'     ws_to = ws2,
-#'     mp_from_name = "SAProcessing-1",
-#'     selected_series = c("series1", "series2"),
-#'     print_indications = TRUE
+#' @examples
+#'
+#' library("RJDemetra")
+#' dir_ws <- tempdir()
+#' template_ws <- file.path(system.file("extdata", package = "rjdworkspace"),
+#'                          "WS")
+#' # Moving the WS in a temporary environment
+#' copy_ws(
+#'     ws_name = "ws_output",
+#'     from = template_ws,
+#'     to = dir_ws
 #' )
-#' }
+#' copy_ws(
+#'     ws_name = "ws_input",
+#'     from = template_ws,
+#'     to = dir_ws
+#' )
+#' path_ws_from <- file.path(dir_ws, "ws_input.xml")
+#' path_ws_to <- file.path(dir_ws, "ws_output.xml")
+#' ws_input <- load_workspace(path_ws_from)
+#' ws_output <- load_workspace(path_ws_to)
+#'
+#' replace_series(
+#'     ws_from = ws_input,
+#'     ws_to = ws_output,
+#'     mp_from_name = "SAProcessing-2",
+#'     mp_to_name = "SAProcessing-2",
+#'     selected_series = c("RF1039", "RF1041"),
+#'     verbose = TRUE
+#' )
+#'
 #' @export
 #'
-replace_series <- function(ws_from, ws_to, selected_series, mp_from_name, mp_to_name, print_indications = FALSE) {
+replace_series <- function(ws_from,
+                           ws_to,
+                           selected_series,
+                           mp_from_name,
+                           mp_to_name,
+                           verbose = TRUE) {
     .Deprecated(new = "transfer_series",
                 msg = "replace_series is replaced by transfer_series (with replace_series = TRUE).\n Functionality remains the same. \n The new function add new functionnalities. \n Please adjust your code accordingly.")
 
@@ -57,12 +84,12 @@ replace_series <- function(ws_from, ws_to, selected_series, mp_from_name, mp_to_
 
     # Check that the workspaces aren't empty
     if (is.null(count(ws_to))) {
-        warning("Attention, the first workspace is empty!")
+        warning("Warning, the first workspace is empty!")
         return(FALSE)
     }
 
     if (is.null(count(ws_from))) {
-        warning("Attention, the second workspace is empty!")
+        warning("Warning, the second workspace is empty!")
         return(FALSE)
     }
 
@@ -94,30 +121,30 @@ replace_series <- function(ws_from, ws_to, selected_series, mp_from_name, mp_to_
         pos_mp_from <- which(names_saps_from == mp_from_name)
     }
 
-    if (print_indications) {
-        cat(paste0("pos_mp_to=", pos_mp_to, "pos_mp_from=", pos_mp_from, "\n"))
+    if (verbose) {
+        cat("pos_mp_to=", pos_mp_to, "pos_mp_from=", pos_mp_from, "\n", sep = "")
     }
 
     # End of the program if the SAP can't be found in one of the workspaces
     # ie. an unexisting SAP was specified
     if (sum(pos_mp_to) == 0 || is.null(pos_mp_to) || is.na(pos_mp_to)) {
-        print("The chosen SAP couldn't be found in the first workspace.")
+        warning("The chosen SAP couldn't be found in the first workspace.")
         return(FALSE)
     }
 
     if (sum(pos_mp_from) == 0 || is.null(pos_mp_from) || is.na(pos_mp_from)) {
-        print("The chosen SAP couldn't be found in the second workspace.")
+        warning("The chosen SAP couldn't be found in the second workspace.")
         return(FALSE)
     }
 
     # If a corresponding SAP is found in both workspaces, verification that they are both non empty
     if (is.null(count(saps_to[[pos_mp_to]]))) {
-        print("The chosen SAP of the first workspace is empty.")
+        warning("The chosen SAP of the first workspace is empty.")
         return(FALSE)
     }
 
     if (is.null(count(saps_from[[pos_mp_from]]))) {
-        print("The chosen SAP of the second workspace is empty.")
+        warning("The chosen SAP of the second workspace is empty.")
         return(FALSE)
     }
 
@@ -132,28 +159,28 @@ replace_series <- function(ws_from, ws_to, selected_series, mp_from_name, mp_to_
     names_series_from <- names(series_saps_from)
 
     # Verification that all series in the list "selected_series" are present in both SAPs
-    L <- length(selected_series)
+    nb_series <- length(selected_series)
     pos_table <- data.frame(
         selected_series = selected_series,
-        pos_series_to = rep(NA, L),
-        pos_series_from = rep(NA, L)
+        pos_series_to = rep(NA, nb_series),
+        pos_series_from = rep(NA, nb_series)
     )
 
-    for (i in seq_len(L)) {
+    for (i in seq_len(nb_series)) {
         if (!(selected_series[i] %in% names_series_to)) {
             pos_table$pos_series_to[i] <- 0
-            print(paste0("Attention, series ", selected_series[i],
-                         " is not in the first workspace's SAP `",
-                         names_saps_to, "`"))
+            warning("Warning, series ", selected_series[i],
+                    " is not in the destination (to) workspace's SAP `",
+                    names_saps_to, "`")
         } else {
             pos_table$pos_series_to[i] <- which(selected_series[i] == names_series_to)
         }
 
         if (!(selected_series[i] %in% names_series_from)) {
             pos_table$pos_series_from[i] <- 0
-            print(paste0("Attention, series ", selected_series[i],
-                         " is not in the second workspace's SAP `",
-                         names_saps_to, "`"))
+            warning("Warning, series ", selected_series[i],
+                    " is not in the origin (from) workspace's SAP `",
+                    names_saps_to, "`")
         } else {
             pos_table$pos_series_from[i] <- which(selected_series[i] == names_series_from)
         }
@@ -165,7 +192,7 @@ replace_series <- function(ws_from, ws_to, selected_series, mp_from_name, mp_to_
 
     # It is returned by the function
     if (length(verif) != 0) {
-        print("The replacement wasn't performed: fix the selected_series vector or the workspace(s) and recompile!")
+        warning("The replacement wasn't performed: fix the selected_series vector or the workspace(s) and recompile!")
         return(invisible(verif))
         # Otherwise, if all is good:
     } else {
@@ -174,10 +201,10 @@ replace_series <- function(ws_from, ws_to, selected_series, mp_from_name, mp_to_
         mp_from <- saps_from[[pos_mp_from]]
 
         # Replacement of all series specified in the "selected_series" vector
-        for (i in seq_len(L)) {
-            # i=1
-            if (print_indications) {
-                print(paste("Series", i))
+        for (i in seq_len(nb_series)) {
+
+            if (verbose) {
+                cat("Series", i, "\n")
             }
 
             # The "up-to-date" series version
@@ -186,7 +213,7 @@ replace_series <- function(ws_from, ws_to, selected_series, mp_from_name, mp_to_
                 pos = pos_table$pos_series_from[i]
             )
 
-            if (print_indications) {
+            if (verbose) {
                 print(get_name(replacement_series))
             }
 
@@ -197,15 +224,17 @@ replace_series <- function(ws_from, ws_to, selected_series, mp_from_name, mp_to_
                 sa_item = replacement_series
             )
 
-            if (print_indications) {
-                print("ok")
+            if (verbose) {
+                cat("Done!\n")
             }
         }
 
-        if (missing(mp_to_name)) {
-            print("Update done for the first workspaces' SAProcessing.")
-        } else {
-            print(paste0("Series updating done for the SAP ", mp_to_name, "."))
+        if (verbose) {
+            if (missing(mp_to_name)) {
+                cat("Update done for the first workspaces' SA-Processing.\n")
+            } else {
+                cat("Series updating done for the SAP ", mp_to_name, ".\n")
+            }
         }
 
         return(invisible(ws_to))
@@ -227,11 +256,9 @@ replace_series <- function(ws_from, ws_to, selected_series, mp_from_name, mp_to_
 #' @return If there are no duplicates, the function returns an empty data frame.
 #' Otherwise, it returns a data frame giving the name and number of duplicates found within the argument (list).
 #' @examples
-#' \dontrun{
 #' s <- c("a", "b", "a", "c", "a", "c")
-#' result <- verif_duplicates(s)
-#' result
-#' }
+#' print(rjdworkspace:::verif_duplicates(s))
+#'
 verif_duplicates <- function(s) {
     s <- as.factor(s)
     ta <- table(s)
@@ -244,11 +271,12 @@ verif_duplicates <- function(s) {
 #'
 #'
 #' @param ws The workspace to scan
-#' @param print_indications A boolean to print indications on the processing status
+#' @param verbose A boolean to print indications on the processing
+#' status (optional and TRUE by default)
 #' @rdname replace_series
 #' @return a list containing the name and number of occurences of duplicated SAPs and series
 #' @export
-verif_ws_duplicates <- function(ws, print_indications = FALSE) {
+verif_ws_duplicates <- function(ws, verbose = TRUE) {
     if (!inherits(ws, "workspace")) {
         stop("The argument must be a workspace")
     }
@@ -262,8 +290,8 @@ verif_ws_duplicates <- function(ws, print_indications = FALSE) {
         warning("The workspace is empty, no duplicates could be found.")
         return(FALSE)
     } else {
-        if (print_indications) {
-            print(paste("The workspace contains", nb_sap, "SAP(s)"))
+        if (verbose) {
+            cat("The workspace contains", nb_sap, "SAP(s).\n")
         }
     }
 
@@ -279,9 +307,11 @@ verif_ws_duplicates <- function(ws, print_indications = FALSE) {
 
     # Then all series are scanned, one SAP at a time :
     if (nb_sap != 1 && sum(sap_duplicates$Freq) != 0) {
-        (sprintf('Attention, the following SAPs are duplicated in the workspace: "%s"', sap_duplicates$nom))
+        warning("Warning, the following SAPs are duplicated in the workspace: ", sap_duplicates$nom)
     } else {
-        print("Ok: no SAP duplicate")
+        if (verbose) {
+            cat("Ok: no SAP duplicate.\n")
+        }
 
         # If the workspace isn't empty and there are no SAP duplicates, the series scan begins
         sap_ws <- RJDemetra::get_all_objects(ws)
@@ -300,12 +330,14 @@ verif_ws_duplicates <- function(ws, print_indications = FALSE) {
             v <- verif_duplicates(series_names)
             ## We want v to be empty
             if (nrow(v) == 0) {
-                print(paste("Ok: the SAP", sap_name, "does not contain any duplicated series."))
+                if (verbose) {
+                    cat("The SAP", sap_name, "does not contain any duplicated series.\n")
+                }
             } else {
-                # pb with warnings: they are printed last, after the output vector v and all at once
-                # warning(sprintf('Attention, the SAP "%s" (position %d) contains multiples of at least one series (cf. supra)', sap_name, i))
-                print(paste0("Attention! The SAP ", sap_name, " (position ", i, ") contains at least one duplicated series:"))
-                print(v)
+                if (verbose) {
+                    cat("Attention! The SAP", sap_name, "(position ", i, ") contains at least one duplicated series:\n")
+                    print(v)
+                }
                 result <- c(result, v)
             }
         }

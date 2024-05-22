@@ -12,12 +12,12 @@ replace_series(
   selected_series,
   mp_from_name,
   mp_to_name,
-  print_indications = FALSE
+  verbose = TRUE
 )
 
 verif_duplicates(s)
 
-verif_ws_duplicates(ws, print_indications = FALSE)
+verif_ws_duplicates(ws, verbose = TRUE)
 }
 \arguments{
 \item{ws_from}{The workspace containing the most up-to-date version of the
@@ -32,7 +32,8 @@ update (optional)}
 
 \item{mp_to_name}{The name of the SA-Processing to update (optional)}
 
-\item{print_indications}{A boolean to print indications on the processing status}
+\item{verbose}{A boolean to print indications on the processing
+status (optional and TRUE by default)}
 
 \item{s}{a list of characters}
 
@@ -66,18 +67,37 @@ workspace ws_to updated.
 and SAProcessings in a workspace
 }
 \examples{
-\dontrun{
-replace_series(
-    ws_from = ws1,
-    ws_to = ws2,
-    mp_from_name = "SAProcessing-1",
-    selected_series = c("series1", "series2"),
-    print_indications = TRUE
+
+library("RJDemetra")
+dir_ws <- tempdir()
+template_ws <- file.path(system.file("extdata", package = "rjdworkspace"),
+                         "WS")
+# Moving the WS in a temporary environment
+copy_ws(
+    ws_name = "ws_output",
+    from = template_ws,
+    to = dir_ws
 )
-}
-\dontrun{
+copy_ws(
+    ws_name = "ws_input",
+    from = template_ws,
+    to = dir_ws
+)
+path_ws_from <- file.path(dir_ws, "ws_input.xml")
+path_ws_to <- file.path(dir_ws, "ws_output.xml")
+ws_input <- load_workspace(path_ws_from)
+ws_output <- load_workspace(path_ws_to)
+
+replace_series(
+    ws_from = ws_input,
+    ws_to = ws_output,
+    mp_from_name = "SAProcessing-2",
+    mp_to_name = "SAProcessing-2",
+    selected_series = c("RF1039", "RF1041"),
+    verbose = TRUE
+)
+
 s <- c("a", "b", "a", "c", "a", "c")
-result <- verif_duplicates(s)
-result
-}
+print(rjdworkspace:::verif_duplicates(s))
+
 }

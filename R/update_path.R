@@ -119,7 +119,8 @@ check_information <- function(ws_xml_path, pos_sap, pos_sa_item) {
 #' @param pos_sap the index of the SA-Processing containing the series
 #' (Optional)
 #' @param pos_sa_item the index of the SA-Item containing the series (Optional)
-#'
+#' @param verbose A boolean to print indications on the processing
+#' status (optional and TRUE by default)
 #' @description
 #' Function to update the path of the raw data file in a workspace.
 #' This function works with .csv, .xls and .xlsx format.
@@ -144,18 +145,21 @@ check_information <- function(ws_xml_path, pos_sap, pos_sa_item) {
 #'
 #' library("RJDemetra")
 #' new_dir <- tempdir()
-#' ws_template <- file.path(system.file("extdata", package = "rjdworkspace"),
+#' ws_template_path <- file.path(system.file("extdata", package = "rjdworkspace"),
 #'                          "WS")
 #'
 #' # Moving the WS in a temporary environment
-#' rjdworkspace:::copy_ws(ws_name = "ws_example_path",
-#'                        path_ws = ws_template,
-#'                        new_path = new_dir)
+#' copy_ws(
+#'     ws_name = "ws_example_path",
+#'     from = ws_template_path,
+#'     to = new_dir
+#' )
 #'
 #' # Moving the raw data in a temporary environment
+#' data_path <- file.path(system.file("extdata", package = "rjdworkspace"),
+#'                        "data_file.csv")
 #' file.copy(
-#'     from = file.path(system.file("extdata", package = "rjdworkspace"),
-#'                      "data_file.csv"),
+#'     from = data_path,
 #'     to = new_dir
 #' )
 #'
@@ -179,11 +183,14 @@ check_information <- function(ws_xml_path, pos_sap, pos_sa_item) {
 #' )
 #'
 #' @export
-update_path <- function(ws_xml_path, raw_data_path, pos_sap, pos_sa_item) {
+update_path <- function(ws_xml_path,
+                        raw_data_path,
+                        pos_sap,
+                        pos_sa_item,
+                        verbose = TRUE) {
 
     if (!tools::file_ext(raw_data_path) %in% c("csv", "xls", "xlsx")) {
-        stop(paste("Only the following data formats are accepted:",
-                   "csv, xls, xlsx, and no others."))
+        stop("Only the following data formats are accepted: csv, xls, xlsx, and no others.")
     }
 
     # Check that the ws_xml_path leads to a valid workspace
@@ -273,6 +280,8 @@ update_path <- function(ws_xml_path, raw_data_path, pos_sap, pos_sa_item) {
         }
     }
 
-    cat("Done!\n")
+    if (verbose) {
+        cat("Done!\n")
+    }
     return(invisible(ws))
 }
