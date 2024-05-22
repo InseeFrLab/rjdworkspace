@@ -8,9 +8,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+
+### Added
+
+* CRAN release 1.1.7
+* New documentation and new examples
+* `verbose` argument to print more indication. It replaces the argument `print_indication`.
+* New logo for rjdworkspace
+
 ### Fixed
 
 * Bug in update_path with the meta character ` ` (which can be encode as `%20` or as `+`)
+
+### Changed
+
+* `copy_ws` is now exported
+* format the file NEWS.md
+* new path related to rjdverse
 
 
 ## [1.1.6] - 2024-02-14
