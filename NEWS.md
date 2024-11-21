@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+* `update_path` keeps the imports options when updating a path
+
 
 ## [1.1.7] - 2024-05-22
 

@@ -53,14 +53,10 @@ update_one_xml <- function(xml_path, pos_sa_item, formatted_path) {
 
     attrib <- XML::xmlAttrs(node_to_change)
 
-    chain_temp <- unlist(strsplit(attrib["value"], split = "file="))
-    chain1 <- chain_temp[1]
-    chain_temp <- unlist(strsplit(chain_temp[2], split = "#series"))
-    chain2 <- chain_temp[2]
-
-    attrib["value"] <- paste0(chain1,
-                              "file=", formatted_path,
-                              "#series", chain2)
+    providers_options <- unlist(strsplit(attrib["value"], split = "&amp;"))
+    id <- which(substr(providers_options, start = 1, stop = 4) == "file")
+    providers_options[id] <- paste0("file=", formatted_path)
+    attrib["value"] <- paste(providers_options, collapse = "&amp;")
 
     XML::xmlAttrs(node_to_change) <- attrib
     XML::saveXML(doc = xml_file, file = xml_path)
