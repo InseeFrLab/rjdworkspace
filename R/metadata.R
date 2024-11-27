@@ -57,8 +57,8 @@ update_metadata <- function(ws_from, ws_to) {
         sap_ws_to <- RJDemetra::get_object(ws_to, i_sap)
         sap_name <- RJDemetra::get_name(sap_ws_to)
         sap_ws_from_i <- which(all_sap_ws_from_names %in% sap_name)
-        if (length(sap_ws_from_i) > 0) {
-            if (length(sap_ws_from_i) > 1) {
+        if (length(sap_ws_from_i) > 0L) {
+            if (length(sap_ws_from_i) > 1L) {
                 warning(
                     "At least 2 SA-Processings called",
                     sap_name,
@@ -66,21 +66,21 @@ update_metadata <- function(ws_from, ws_to) {
                 )
             }
 
-            sap_ws_from <- all_sap_ws_from[[sap_ws_from_i[1]]]
+            sap_ws_from <- all_sap_ws_from[[sap_ws_from_i[1L]]]
             all_sa_ws_from_names <- names(RJDemetra::get_all_objects(sap_ws_from))
             for (i_sa in seq_len(RJDemetra::count(sap_ws_to))) {
                 # i_sa <- 2
                 sa_ws_to <- RJDemetra::get_object(sap_ws_to, i_sa)
                 sa_name <- RJDemetra::get_name(sa_ws_to)
                 sa_ws_from_i <- which(all_sa_ws_from_names %in% sa_name)
-                if (length(sa_ws_from_i) > 0) {
-                    if (length(sa_ws_from_i) > 1) {
+                if (length(sa_ws_from_i) > 0L) {
+                    if (length(sa_ws_from_i) > 1L) {
                         warning(sprintf('At least 2 SaItem called "%s" were found in the ws_from: the first object will be used', sa_name))
                     }
 
                     sa_ws_from <- RJDemetra::get_object(
                         x = sap_ws_from,
-                        pos = sa_ws_from_i[1]
+                        pos = sa_ws_from_i[1L]
                     )
                     new_sa_item <- set_metadata(
                         sa_to = sa_ws_to,
@@ -218,7 +218,8 @@ set_metadata <- function(sa_from, sa_to) {
 #'
 #' @param x the object from which the comments are retrieved.
 #'
-#' @returns A string or list of string with all the comment contained in a SA-Item, a SA-Processing or a workspace (depending on the argument \code{x}).
+#' @returns A string or list of string with all the comment contained in a
+#' SA-Item, a SA-Processing or a workspace (depending on the argument \code{x}).
 #' @export
 #'
 #' @examples

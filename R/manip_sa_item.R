@@ -6,8 +6,11 @@
 #' @param pos the index of the `sa_item` to remove or to replace.
 #' @param sa_item `sa_item` object.
 #'
-#' @returns The functions \code{remove_sa_item()}, \code{remove_all_sa_item()} and \code{replace_sa_item()} return invisibly (with \code{invisible()}) \code{TRUE} or an error.
-#' The function \code{add_new_sa_item()} returns invisibly (with \code{invisible()}) the updated `SA-Item`.
+#' @returns The functions \code{remove_sa_item()}, \code{remove_all_sa_item()}
+#' and \code{replace_sa_item()} return invisibly (with \code{invisible()})
+#' \code{TRUE} or an error.
+#' The function \code{add_new_sa_item()} returns invisibly (with
+#' \code{invisible()}) the updated `SA-Item`.
 #'
 #' @name manipulate_sa_item
 #' @rdname manipulate_sa_item
@@ -33,13 +36,13 @@
 #' # To replace the first sa_item by "sa_item1"
 #' replace_sa_item(sap = sap1, pos = 1L, sa_item = sa_item1)
 #' @export
-remove_sa_item <- function(sap, pos = 1) {
+remove_sa_item <- function(sap, pos = 1L) {
     if (!inherits(sap, "multiprocessing")) {
         stop("x must be a multiprocessing")
     }
 
     item <- .jcall(sap, "Ljava/util/List;", "getItems")
-    item$remove(as.integer(pos - 1))
+    item$remove(as.integer(pos - 1L))
     return(invisible(TRUE))
 }
 #' @name manipulate_sa_item
@@ -56,7 +59,7 @@ remove_all_sa_item <- function(sap) {
 #' @name manipulate_sa_item
 #' @rdname manipulate_sa_item
 #' @export
-replace_sa_item <- function(sap, pos = 1, sa_item) {
+replace_sa_item <- function(sap, pos = 1L, sa_item) {
     if (!inherits(sap, "multiprocessing")) {
         stop("x must be a multiprocessing")
     }
@@ -64,7 +67,7 @@ replace_sa_item <- function(sap, pos = 1, sa_item) {
     if (inherits(sa_item, "sa_item")) {
         class(sa_item) <- "jobjRef"
     }
-    item$set(as.integer(pos - 1), sa_item)
+    item$set(as.integer(pos - 1L), sa_item)
     return(invisible(TRUE))
 }
 

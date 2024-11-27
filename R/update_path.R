@@ -20,7 +20,7 @@ update_one_xml <- function(xml_path, pos_sa_item, formatted_path) {
     # First SA-ITEM (index 1 is reserved for metadata of the SA-processing)
     SAITEM_nodes <- XML::xmlChildren(
         x = XML::xmlChildren(
-            x = XML::xmlChildren(x = informationSet_node)[[1 + pos_sa_item]]
+            x = XML::xmlChildren(x = informationSet_node)[[1L + pos_sa_item]]
         )[["subset"]]
     )
 
@@ -36,7 +36,7 @@ update_one_xml <- function(xml_path, pos_sa_item, formatted_path) {
         X = SAITEM_nodes,
         FUN = XML::xmlAttrs,
         "name",
-        FUN.VALUE = character(1)
+        FUN.VALUE = character(1L)
     ))
 
     # Metadata node
@@ -46,15 +46,15 @@ update_one_xml <- function(xml_path, pos_sa_item, formatted_path) {
         X = metadata_nodes,
         FUN = XML::xmlAttrs,
         "name",
-        FUN.VALUE = character(2)
+        FUN.VALUE = character(2L)
     )["name", ])
 
     node_to_change <- metadata_nodes[[pos_id_node]]
 
     attrib <- XML::xmlAttrs(node_to_change)
 
-    providers_options <- unlist(strsplit(attrib["value"], split = "&amp;"))
-    id <- which(substr(providers_options, start = 1, stop = 4) == "file")
+    providers_options <- unlist(strsplit(attrib["value"], split = "&amp;", fixed = TRUE))
+    id <- which(startsWith(x = providers_options, prefix = "file"))
     providers_options[id] <- paste0("file=", formatted_path)
     attrib["value"] <- paste(providers_options, collapse = "&amp;")
 
@@ -98,10 +98,8 @@ check_information <- function(ws_xml_path, pos_sap, pos_sa_item) {
         }
 
         nb_sa_item <- length(get_all_objects(get_object(ws, pos = pos_sap)))
-        if (!missing(pos_sa_item)) {
-            if (nb_sa_item < max(pos_sa_item)) {
-                stop("The SA Item doesn't exist.")
-            }
+        if (!missing(pos_sa_item) && nb_sa_item < max(pos_sa_item)) {
+            stop("The SA Item doesn't exist.")
         }
     }
 
@@ -223,10 +221,8 @@ update_path <- function(ws_xml_path,
         nb_sa_item <- RJDemetra::count(
             RJDemetra::get_object(ws, pos = pos_sap)
         )
-        if (!missing(pos_sa_item)) {
-            if (nb_sa_item < max(pos_sa_item)) {
-                stop("The SA Item doesn't exist.")
-            }
+        if (!missing(pos_sa_item) && nb_sa_item < max(pos_sa_item)) {
+            stop("The SA Item doesn't exist.")
         }
     }
 

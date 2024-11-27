@@ -8,12 +8,12 @@ identify_object <- function(ws,
                             name_sap, pos_sap,
                             error_on_unknown = TRUE) {
     # Empty WS
-    if (RJDemetra::count(ws) == 0) {
+    if (RJDemetra::count(ws) == 0L) {
         if (error_on_unknown) {
             message("The program stops without transferring the series.\n")
             stop("The ws is empty.")
         } else {
-            return(0)
+            return(0L)
         }
     }
 
@@ -39,7 +39,7 @@ identify_object <- function(ws,
             message("The program stops without transferring the series.")
             stop("There is no SAP named ", name_sap, " in ws.")
         } else {
-            return(0)
+            return(0L)
         }
     } else {
         if (!name_sap %in% names_saps) {
@@ -47,7 +47,7 @@ identify_object <- function(ws,
                 message("The program stops without transferring the series.")
                 stop("There is no SAP named ", name_sap, " in ws.")
             } else {
-                return(0)
+                return(0L)
             }
         } else if (pos_sap > RJDemetra::count(ws) || pos_sap <= 0L) {
             message("The program stops without transferring the series.")
@@ -236,7 +236,7 @@ transfer_series <- function(ws_from, ws_to,
         error_on_unknown = !create_sap
     )
 
-    if (pos_sap_to == 0) {
+    if (pos_sap_to == 0L) {
         # A new SAP will be created
         if (missing(name_sap_to)) {
             message("The program stops without transferring the series.")
@@ -279,7 +279,7 @@ transfer_series <- function(ws_from, ws_to,
     # Check de selected series
     if (missing(selected_series)) {
         selected_series <- names_series_from
-    } else if (any(!selected_series %in% names_series_from)) {
+    } else if (!all(selected_series %in% names_series_from)) {
         warning("The series ", setdiff(selected_series, names_series_from),
                 " are not in the SAP ", name_sap_from,
                 "from ws_from. They won't be transfered.")
