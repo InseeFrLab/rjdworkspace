@@ -11,7 +11,7 @@ ts_r2jd <- function(s) {
     )
     jd_period <- .jnew(
         class = "ec/tstoolkit/timeseries/simplets/TsPeriod",
-        jd_freq, as.integer(start[1]), as.integer(start[2] - 1)
+        jd_freq, as.integer(start[1L]), as.integer(start[2L] - 1L)
     )
     ts <- .jnew(class = "ec/tstoolkit/timeseries/simplets/TsData",
                 jd_period, as.double(s), FALSE)

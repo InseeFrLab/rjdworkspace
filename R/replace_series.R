@@ -63,8 +63,15 @@ replace_series <- function(ws_from,
                            mp_from_name,
                            mp_to_name,
                            verbose = TRUE) {
-    .Deprecated(new = "transfer_series",
-                msg = "replace_series is replaced by transfer_series (with replace_series = TRUE).\n Functionality remains the same. \n The new function add new functionnalities. \n Please adjust your code accordingly.")
+    .Deprecated(
+        new = "transfer_series",
+        msg = paste(
+            "replace_series is replaced by transfer_series (with replace_series = TRUE).",
+            "Functionality remains the same.",
+            "The new function add new functionnalities.",
+            "Please adjust your code accordingly.", sep = "\n "
+        )
+    )
 
     # Verification of the parameters type
     if (!inherits(ws_to, "workspace")) {
@@ -109,8 +116,8 @@ replace_series <- function(ws_from,
     # and storage of its position in each workspace
 
     # if no SAP has been declared, the first of each workspaces will be used
-    pos_mp_to <- 1
-    pos_mp_from <- 1
+    pos_mp_to <- 1L
+    pos_mp_from <- 1L
 
 
     # otherwise, we retrieve the SAP's position in each workspace
@@ -127,12 +134,12 @@ replace_series <- function(ws_from,
 
     # End of the program if the SAP can't be found in one of the workspaces
     # ie. an unexisting SAP was specified
-    if (sum(pos_mp_to) == 0 || is.null(pos_mp_to) || is.na(pos_mp_to)) {
+    if (sum(pos_mp_to) == 0L || is.null(pos_mp_to) || is.na(pos_mp_to)) {
         warning("The chosen SAP couldn't be found in the first workspace.")
         return(FALSE)
     }
 
-    if (sum(pos_mp_from) == 0 || is.null(pos_mp_from) || is.na(pos_mp_from)) {
+    if (sum(pos_mp_from) == 0L || is.null(pos_mp_from) || is.na(pos_mp_from)) {
         warning("The chosen SAP couldn't be found in the second workspace.")
         return(FALSE)
     }
@@ -167,35 +174,35 @@ replace_series <- function(ws_from,
     )
 
     for (i in seq_len(nb_series)) {
-        if (!(selected_series[i] %in% names_series_to)) {
-            pos_table$pos_series_to[i] <- 0
+        if (selected_series[i] %in% names_series_to) {
+            pos_table$pos_series_to[i] <- which(selected_series[i] == names_series_to)
+        } else {
+            pos_table$pos_series_to[i] <- 0L
             warning("Warning, series ", selected_series[i],
                     " is not in the destination (to) workspace's SAP `",
                     names_saps_to, "`")
-        } else {
-            pos_table$pos_series_to[i] <- which(selected_series[i] == names_series_to)
         }
 
-        if (!(selected_series[i] %in% names_series_from)) {
-            pos_table$pos_series_from[i] <- 0
+        if (selected_series[i] %in% names_series_from) {
+            pos_table$pos_series_from[i] <- which(selected_series[i] == names_series_from)
+        } else {
+            pos_table$pos_series_from[i] <- 0L
             warning("Warning, series ", selected_series[i],
                     " is not in the origin (from) workspace's SAP `",
                     names_saps_to, "`")
-        } else {
-            pos_table$pos_series_from[i] <- which(selected_series[i] == names_series_from)
         }
     }
 
     # If a series is absent from at least one workspace/SAP:
     # Its name is stored
-    verif <- unique(c(pos_table[pos_table$pos_series_to == 0, ]$selected_series, pos_table[pos_table$pos_series_from == 0, ]$selected_series))
+    verif <- unique(c(pos_table[pos_table$pos_series_to == 0L, ]$selected_series, pos_table[pos_table$pos_series_from == 0L, ]$selected_series))
 
     # It is returned by the function
-    if (length(verif) != 0) {
+    if (length(verif) != 0L) {
         warning("The replacement wasn't performed: fix the selected_series vector or the workspace(s) and recompile!")
         return(invisible(verif))
-        # Otherwise, if all is good:
     } else {
+        # Otherwise, if all is good:
         # Retrieving both SAPs that will be used (possibly identically named)
         mp_to <- saps_to[[pos_mp_to]]
         mp_from <- saps_from[[pos_mp_from]]
@@ -265,7 +272,7 @@ verif_duplicates <- function(s) {
     lev <- levels(s)
     res <- data.frame(lev, ta)
     colnames(res) <- c("name", "s", "Freq")
-    res2 <- res[res$Freq > 1, c("name", "Freq")]
+    res2 <- res[res$Freq > 1L, c("name", "Freq")]
     return(res2)
 }
 #'
@@ -283,10 +290,10 @@ verif_ws_duplicates <- function(ws, verbose = TRUE) {
 
     RJDemetra::compute(ws)
     nb_sap <- RJDemetra::count(ws)
-    result <- c()
+    result <- NULL
 
     # Error message if the workspace is empty
-    if (is.na(nb_sap) || nb_sap <= 0) {
+    if (is.na(nb_sap) || nb_sap <= 0L) {
         warning("The workspace is empty, no duplicates could be found.")
         return(FALSE)
     } else {
@@ -296,8 +303,8 @@ verif_ws_duplicates <- function(ws, verbose = TRUE) {
     }
 
     # If the workspace contains more than one SAP, we verify that no two have the same name
-    sap_duplicates <- c()
-    if (nb_sap >= 1) {
+    sap_duplicates <- NULL
+    if (nb_sap >= 1L) {
         sap_ws <- RJDemetra::get_all_objects(ws)
         # if (is.null(count(sap_ws))) {return()}
         sap_names <- names(sap_ws)
@@ -306,7 +313,7 @@ verif_ws_duplicates <- function(ws, verbose = TRUE) {
     }
 
     # Then all series are scanned, one SAP at a time :
-    if (nb_sap != 1 && sum(sap_duplicates$Freq) != 0) {
+    if (nb_sap != 1L && sum(sap_duplicates$Freq) != 0L) {
         warning("Warning, the following SAPs are duplicated in the workspace: ", sap_duplicates$nom)
     } else {
         if (verbose) {
@@ -329,7 +336,7 @@ verif_ws_duplicates <- function(ws, verbose = TRUE) {
             # And the verif_duplicates() function is applied to the list of SAP series names.
             v <- verif_duplicates(series_names)
             ## We want v to be empty
-            if (nrow(v) == 0) {
+            if (nrow(v) == 0L) {
                 if (verbose) {
                     cat("The SAP", sap_name, "does not contain any duplicated series.\n")
                 }
@@ -342,7 +349,7 @@ verif_ws_duplicates <- function(ws, verbose = TRUE) {
             }
         }
     }
-    if (sum(sap_duplicates$Freq) != 0) {
+    if (sum(sap_duplicates$Freq) != 0L) {
         result <- c(sap_duplicates, result)
     }
     return(result)
