@@ -19,14 +19,14 @@
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="Manipulate JDemetra+ Workspaces">
 <meta property="og:description" content="Set of tools to manipulate the JDemetra+ workspaces. Based on the RJDemetra package (which interfaces with version 2 of the JDemetra+ (&lt;https://github.com/jdemetra/jdemetra-app&gt;), the seasonal adjustment software officially recommended to the members of the European Statistical System (ESS) and the European System of Central Banks). This package provides access to additional workspace manipulation functions such as metadata manipulation, raw paths and wrangling of several workspaces simultaneously. These additional functionalities are useful as part of a CVS data production chain.">
-<meta property="og:image" content="/logo.png">
+<meta property="og:image" content="/logo.svg">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -49,7 +49,7 @@
 <li>
   <a href="index.html">
     <span class="fa fa-home fa-lg"></span>
-     
+
   </a>
 </li>
 <li>
@@ -63,7 +63,7 @@
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     JDemetra+
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -78,7 +78,7 @@
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Around JDemetra+ and R
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -102,7 +102,7 @@
 <li>
   <a href="https://github.com/InseeFrLab/rjdworkspace" class="external-link">
     <span class="fa fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul>
@@ -113,13 +113,14 @@
 </div>
 <!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="contents col-md-9">
 <div class="section level1">
-<div class="page-header"><h1 id="rjdworskpace-">rjdworskpace <a href="https://inseefrlab.github.io/rjdworkspace/" class="external-link"><img src="reference/figures/logo.png" align="right" height="200" style="float:right; height:200px;"></a>
-<a class="anchor" aria-label="anchor" href="#rjdworskpace-"></a>
+<div class="page-header"><h1 id="rjdworkspace-">
+<code>{rjdworkspace}</code> <a href="https://inseefrlab.github.io/rjdworkspace/" class="external-link"><img src="reference/figures/logo.png" align="right" height="150" style="float:right; height:150px;"></a>
+<a class="anchor" aria-label="anchor" href="#rjdworkspace-"></a>
 </h1></div>
 <!-- badges: start -->
 
@@ -129,7 +130,7 @@
 <div class="section level3">
 <h3 id="présentation">Présentation<a class="anchor" aria-label="anchor" href="#pr%C3%A9sentation"></a>
 </h3>
-<p><code>rjdworkspace</code> propose un ensemble d’outils pour manipuler les workspaces de <code>JDemetra+</code>. Ce package utilise les archives .jar Java de <a href="https://github.com/rjdverse/rjdemetra" class="external-link"><code>RJDemetra</code></a> en y ajoutant certaines fonctionnalités. En particulier, <code>rjdworkspace</code> permet de :</p>
+<p><a href="https://github.com/InseeFrLab/rjdworkspace" class="external-link">rjdworkspace</a> propose un ensemble d’outils pour manipuler les workspaces de <code>JDemetra+</code>. Ce package utilise les archives .jar Java de <a href="https://github.com/rjdverse/rjdemetra" class="external-link"><code>RJDemetra</code></a> en y ajoutant certaines fonctionnalités. En particulier, <a href="https://github.com/InseeFrLab/rjdworkspace" class="external-link">rjdworkspace</a> permet de :</p>
 <ul>
 <li>mettre à jour toutes les metadata d’un workspace avec celles d’un autre (<code><a href="reference/update_metadata.html">update_metadata()</a></code>, <code><a href="reference/update_metadata.html">update_metadata_roughly()</a></code>) ou mettre à jour les metadata d’un SaItem avec les metadata d’un autre SaItem (<code><a href="reference/set_metadata.html">set_metadata()</a></code>)</li>
 <li>remplacer, supprimer ou ajouter des séries à un workspace (<code><a href="reference/manipulate_sa_item.html">remove_sa_item()</a></code>, <code><a href="reference/manipulate_sa_item.html">remove_all_sa_item()</a></code>, <code><a href="reference/manipulate_sa_item.html">replace_sa_item()</a></code>, <code><a href="reference/replace_series.html">replace_series()</a></code>, <code><a href="reference/manipulate_sa_item.html">add_new_sa_item()</a></code>)</li>
@@ -141,17 +142,11 @@
 <div class="section level3">
 <h3 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h3>
-<p><code>rjdworkspace</code> s’appuie sur <a href="https://github.com/rjdverse/rjdemetra" class="external-link"><code>RJDemetra</code></a> qui nécessite Java SE 8 ou une version ultérieure.</p>
-<p>Pour obtenir la dernière release stable du package :</p>
+<p><a href="https://github.com/InseeFrLab/rjdworkspace" class="external-link">rjdworkspace</a> s’appuie sur <a href="https://github.com/rjdverse/rjdemetra" class="external-link"><code>RJDemetra</code></a> qui nécessite Java SE 8 ou une version ultérieure.</p>
+<p><strong>🎉 <a href="https://github.com/InseeFrLab/rjdworkspace" class="external-link">rjdworkspace</a> est maintenant disponible sur le CRAN ! 🎉</strong></p>
+<p>Pour installer, il suffit de lancer la ligne de code suivante :</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Si le package remotes n'est pas installé</span></span>
-<span><span class="co"># install.packages("remotes")</span></span>
-<span></span>
-<span><span class="co"># Installer la dernière version stable disponible sur GitHub</span></span>
-<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"InseeFrLab/rjdworkspace@*release"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Sur les ordinateurs Insee</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"rjdworkspace"</span>, repos <span class="op">=</span> <span class="st">"https://nexus.insee.fr/repository/r-public/"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"rjdworkspace"</span><span class="op">)</span></span></code></pre></div>
 <p>Pour obtenir la version en cours de développement depuis GitHub :</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Si le package remotes n'est pas installé</span></span>
@@ -159,6 +154,10 @@
 <span></span>
 <span><span class="co"># Installer la version en cours de développement depuis GitHub</span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"InseeFrLab/rjdworkspace"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="autres-informations">Autres informations<a class="anchor" aria-label="anchor" href="#autres-informations"></a>
+</h3>
 <p>Pour une description plus complète des packages R pour JDemetra+ voir le document de travail Insee <a href="https://www.insee.fr/fr/statistiques/5019786" class="external-link">Les packages R pour JDemetra+ : une aide à la désaisonnalisation</a></p>
 </div>
 </div>
@@ -168,7 +167,7 @@
 <div class="section level3">
 <h3 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h3>
-<p><code>rjdworkspace</code> provides a set of tools designed to manipulate <code>JDemetra+</code> workspaces. It depends on the .jar files of <a href="https://github.com/rjdverse/rjdemetra" class="external-link"><code>RJDemetra</code></a> and extends some functions. In particular, <code>rjdworkspace</code> allows to:</p>
+<p><a href="https://github.com/InseeFrLab/rjdworkspace" class="external-link">rjdworkspace</a> provides a set of tools designed to manipulate <code>JDemetra+</code> workspaces. It depends on the .jar files of <a href="https://github.com/rjdverse/rjdemetra" class="external-link"><code>RJDemetra</code></a> and extends some functions. In particular, <a href="https://github.com/InseeFrLab/rjdworkspace" class="external-link">rjdworkspace</a> allows to:</p>
 <ul>
 <li>update all metadata of a workspace with those contained in another one (<code><a href="reference/update_metadata.html">update_metadata()</a></code>, <code><a href="reference/update_metadata.html">update_metadata_roughly()</a></code>) or update the metadata of a SaItem with the metadata contained in another SaItem (<code><a href="reference/set_metadata.html">set_metadata()</a></code>) ;<br>
 </li>
@@ -182,17 +181,11 @@
 <div class="section level3">
 <h3 id="installation-1">Installation<a class="anchor" aria-label="anchor" href="#installation-1"></a>
 </h3>
-<p><code>rjdworkspace</code> relies on <a href="https://github.com/rjdverse/rjdemetra" class="external-link"><code>RJDemetra</code></a> that requires Java SE 8 or later version.</p>
-<p>To get the current stable version (from the latest release):</p>
+<p><a href="https://github.com/InseeFrLab/rjdworkspace" class="external-link">rjdworkspace</a> relies on <a href="https://github.com/rjdverse/rjdemetra" class="external-link"><code>RJDemetra</code></a> that requires Java SE 8 or later version.</p>
+<p><strong>🎉 <a href="https://github.com/InseeFrLab/rjdworkspace" class="external-link">rjdworkspace</a> is now available on CRAN! 🎉</strong></p>
+<p>To install it, you have to launch the following command line:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># If remotes packages is not installed</span></span>
-<span><span class="co"># install.packages("remotes")</span></span>
-<span></span>
-<span><span class="co"># Install the last stable release from GitHub</span></span>
-<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"InseeFrLab/rjdworkspace@*release"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># on Insee computer</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"rjdworkspace"</span>, repos <span class="op">=</span> <span class="st">"https://nexus.insee.fr/repository/r-public/"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"rjdworkspace"</span><span class="op">)</span></span></code></pre></div>
 <p>To get the current development version from GitHub:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># If remotes packages is not installed</span></span>
@@ -200,6 +193,10 @@
 <span></span>
 <span><span class="co"># Install development version from GitHub</span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"InseeFrLab/rjdworkspace"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="autres-informations-1">Autres informations<a class="anchor" aria-label="anchor" href="#autres-informations-1"></a>
+</h3>
 <p>For a more comprehensive description of the R packages for JDemetra+ check the Insee working paper <a href="https://www.insee.fr/en/statistiques/5019812" class="external-link">R Tools for JDemetra+: Seasonal adjustment made easier</a></p>
 </div>
 </div>
@@ -261,16 +258,16 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
       </footer>
 </div>
 
-  
 
 
-  
+
+
 
   </body>
 </html>
