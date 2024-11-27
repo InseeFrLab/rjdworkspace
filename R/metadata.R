@@ -75,7 +75,8 @@ update_metadata <- function(ws_from, ws_to) {
                 sa_ws_from_i <- which(all_sa_ws_from_names %in% sa_name)
                 if (length(sa_ws_from_i) > 0L) {
                     if (length(sa_ws_from_i) > 1L) {
-                        warning(sprintf('At least 2 SaItem called "%s" were found in the ws_from: the first object will be used', sa_name))
+                        warning("At least 2 SaItem called ", sa_name,
+                                " were found in the ws_from: the first object will be used")
                     }
 
                     sa_ws_from <- RJDemetra::get_object(
@@ -91,10 +92,12 @@ update_metadata <- function(ws_from, ws_to) {
                         pos = i_sa
                     )
 
-                    # sa_def1 <- .jcall(sa_ws_from, "Ljd2/datatypes/sa/SaItemType;", "getSaDefinition")
+                    # sa_def1 <- .jcall(sa_ws_from, "Ljd2/datatypes/sa/SaItemType;",
+                    #                  "getSaDefinition")
                     # jts1 <- .jcall(sa_def1, "Ljd2/datatypes/Ts;", "getTs")
                     #
-                    # sa_def2 <- .jcall(sa_ws_to, "Ljd2/datatypes/sa/SaItemType;", "getSaDefinition")
+                    # sa_def2 <- .jcall(sa_ws_to, "Ljd2/datatypes/sa/SaItemType;",
+                    #                   "getSaDefinition")
                     # jts2 <- .jcall(sa_def2, "Ljd2/datatypes/Ts;", "getTs")
                     #
                     # builder_ts <- jts2$toBuilder()
