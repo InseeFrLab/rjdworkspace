@@ -8,9 +8,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+
+## [1.1.8] - 2025-01-09
+
 ### Fixed
 
 * `update_path` keeps the imports options when updating a path
+
+### Added
+
+* New logo for {rjdworkspace}
 
 
 ## [1.1.7] - 2024-05-22
@@ -88,7 +95,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     * `set_metadata` for SA ITEM
 * the function `replace_series` has an new argument `mp_from_name` and `mp_to_name` to specify the multipreprocessing in which to search for series
 
-[unreleased]: https://github.com/InseeFrLab/rjdworkspace/compare/v1.1.7...HEAD
+[Unreleased]: https://github.com/InseeFrLab/rjdworkspace/compare/v1.1.8...HEAD
+[1.1.8]: https://github.com/InseeFrLab/rjdworkspace/compare/v1.1.7...v1.1.8
 [1.1.7]: https://github.com/InseeFrLab/rjdworkspace/compare/v1.1.6...v1.1.7
 [1.1.6]: https://github.com/InseeFrLab/rjdworkspace/compare/v1.1.3...v1.1.6
 [1.1.3]: https://github.com/InseeFrLab/rjdworkspace/compare/v1.1.0...v1.1.3
