@@ -52,6 +52,11 @@ jobs:
           sudo bash reconf.sh
         shell: bash
 
+      - name: Set up library on macos
+        if: runner.os == 'macOS'
+        run: |
+          brew install libpng
+        
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           extra-packages: rcmdcheck
