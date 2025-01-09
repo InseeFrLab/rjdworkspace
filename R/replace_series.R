@@ -195,11 +195,14 @@ replace_series <- function(ws_from,
 
     # If a series is absent from at least one workspace/SAP:
     # Its name is stored
-    verif <- unique(c(pos_table[pos_table$pos_series_to == 0L, ]$selected_series, pos_table[pos_table$pos_series_from == 0L, ]$selected_series))
+
+    verif <- unique(c(pos_table[pos_table$pos_series_to == 0L, ]$selected_series,
+                      pos_table[pos_table$pos_series_from == 0L, ]$selected_series))
 
     # It is returned by the function
     if (length(verif) != 0L) {
-        warning("The replacement wasn't performed: fix the selected_series vector or the workspace(s) and recompile!")
+        warning("The replacement wasn't performed:",
+                "fix the selected_series vector or the workspace(s) and recompile!")
         return(invisible(verif))
     } else {
         # Otherwise, if all is good:
@@ -224,7 +227,8 @@ replace_series <- function(ws_from,
                 print(get_name(replacement_series))
             }
 
-            # Replacement of the series by its updated version (change made in the reference workspace)
+            # Replacement of the series by its updated version
+            # (change made in the reference workspace)
             replace_sa_item(
                 sap = mp_to,
                 pos = pos_table$pos_series_to[i],
@@ -261,8 +265,11 @@ replace_series <- function(ws_from,
 #'
 #' @rdname replace_series
 #' @return If there are no duplicates, the function returns an empty data frame.
-#' Otherwise, it returns a data frame giving the name and number of duplicates found within the argument (list).
+#' Otherwise, it returns a data frame giving the name and number of duplicates
+#' found within the argument (list).
+#'
 #' @examples
+#'
 #' s <- c("a", "b", "a", "c", "a", "c")
 #' print(rjdworkspace:::verif_duplicates(s))
 #'
@@ -342,7 +349,8 @@ verif_ws_duplicates <- function(ws, verbose = TRUE) {
                 }
             } else {
                 if (verbose) {
-                    cat("Attention! The SAP", sap_name, "(position ", i, ") contains at least one duplicated series:\n")
+                    cat("Attention! The SAP", sap_name, "(position ", i,
+                        ") contains at least one duplicated series:\n")
                     print(v)
                 }
                 result <- c(result, v)
