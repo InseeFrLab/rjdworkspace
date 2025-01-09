@@ -43,7 +43,8 @@ status (optional and TRUE by default)}
 the updated \code{workspace}
 
 If there are no duplicates, the function returns an empty data frame.
-Otherwise, it returns a data frame giving the name and number of duplicates found within the argument (list).
+Otherwise, it returns a data frame giving the name and number of duplicates
+found within the argument (list).
 
 a list containing the name and number of occurences of duplicated SAPs and series
 }
@@ -96,6 +97,7 @@ replace_series(
     selected_series = c("RF1039", "RF1041"),
     verbose = TRUE
 )
+
 
 s <- c("a", "b", "a", "c", "a", "c")
 print(rjdworkspace:::verif_duplicates(s))

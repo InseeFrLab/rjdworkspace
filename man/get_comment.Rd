@@ -10,7 +10,8 @@ get_comment(x)
 \item{x}{the object from which the comments are retrieved.}
 }
 \value{
-A string or list of string with all the comment contained in a SA-Item, a SA-Processing or a workspace (depending on the argument \code{x}).
+A string or list of string with all the comment contained in a
+SA-Item, a SA-Processing or a workspace (depending on the argument \code{x}).
 }
 \description{
 Function to extract the comments of a workspace

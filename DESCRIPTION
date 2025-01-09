@@ -31,7 +31,6 @@ Imports:
     XML
 License: EUPL
 URL: https://github.com/InseeFrLab/rjdworkspace
-LazyData: TRUE
 BugReports: https://github.com/InseeFrLab/rjdworkspace/issues
 Encoding: UTF-8
 RoxygenNote: 7.3.2
