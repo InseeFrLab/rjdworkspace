@@ -1,7 +1,7 @@
 Package: rjdworkspace
 Type: Package
 Title: Manipulate 'JDemetra+' Workspaces
-Version: 1.1.9
+Version: 1.1.9.9000
 Authors@R: c(
     person(given = "Tanguy", 
            family = "Barthelemy", role = c("aut", "cre", "art"),
