@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rjdworkspace</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.8.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.9</span>
       </span>
     </div>
 
@@ -94,11 +94,11 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">remove_sa_item</span><span class="op">(</span><span class="va">sap</span>, pos <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">remove_sa_item</span><span class="op">(</span><span class="va">sap</span>, pos <span class="op">=</span> <span class="fl">1L</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">remove_all_sa_item</span><span class="op">(</span><span class="va">sap</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">replace_sa_item</span><span class="op">(</span><span class="va">sap</span>, pos <span class="op">=</span> <span class="fl">1</span>, <span class="va">sa_item</span><span class="op">)</span></span>
+<span><span class="fu">replace_sa_item</span><span class="op">(</span><span class="va">sap</span>, pos <span class="op">=</span> <span class="fl">1L</span>, <span class="va">sa_item</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">add_new_sa_item</span><span class="op">(</span><span class="va">sap</span>, <span class="va">sa_item</span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -121,8 +121,11 @@
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>The functions <code>remove_sa_item()</code>, <code>remove_all_sa_item()</code> and <code>replace_sa_item()</code> return invisibly (with <code><a href="https://rdrr.io/r/base/invisible.html" class="external-link">invisible()</a></code>) <code>TRUE</code> or an error.
-The function <code>add_new_sa_item()</code> returns invisibly (with <code><a href="https://rdrr.io/r/base/invisible.html" class="external-link">invisible()</a></code>) the updated <code>SA-Item</code>.</p>
+    <p>The functions <code>remove_sa_item()</code>, <code>remove_all_sa_item()</code>
+and <code>replace_sa_item()</code> return invisibly (with <code><a href="https://rdrr.io/r/base/invisible.html" class="external-link">invisible()</a></code>)
+<code>TRUE</code> or an error.
+The function <code>add_new_sa_item()</code> returns invisibly (with
+<code><a href="https://rdrr.io/r/base/invisible.html" class="external-link">invisible()</a></code>) the updated <code>SA-Item</code>.</p>
     </div>
 
     <div id="ref-examples">
