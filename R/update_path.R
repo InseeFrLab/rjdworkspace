@@ -13,7 +13,11 @@ format_path_to_xml <- function(path) {
     return(formatted_path)
 }
 
-update_one_xml <- function(xml_path, pos_sa_item, formatted_path) {
+update_one_xml <- function(xml_path, pos_sa_item, formatted_path, verbose = TRUE) {
+
+    if (verbose) {
+        cat("Opening the xml file ", xml_path, "...\n")
+    }
     xml_file <- XML::xmlParse(xml_path)
     informationSet_node <- XML::xmlChildren(xml_file)$informationSet
 
@@ -53,12 +57,16 @@ update_one_xml <- function(xml_path, pos_sa_item, formatted_path) {
 
     attrib <- XML::xmlAttrs(node_to_change)
 
-    providers_options <- unlist(strsplit(attrib["value"], split = "&amp;", fixed = TRUE))
+    providers_options <- unlist(strsplit(attrib["value"], split = "&", fixed = TRUE))
     id <- which(startsWith(x = providers_options, prefix = "file"))
     providers_options[id] <- paste0("file=", formatted_path)
-    attrib["value"] <- paste(providers_options, collapse = "&amp;")
+    attrib["value"] <- paste(providers_options, collapse = "&")
 
     XML::xmlAttrs(node_to_change) <- attrib
+
+    if (verbose) {
+        cat("Rewriting the xml file...\n")
+    }
     XML::saveXML(doc = xml_file, file = xml_path)
     return(invisible(NULL))
 }
@@ -243,7 +251,8 @@ update_path <- function(ws_xml_path,
                 update_one_xml(
                     xml_path = xml_path,
                     pos_sa_item = pos2,
-                    formatted_path = new_raw_data_path
+                    formatted_path = new_raw_data_path,
+                    verbose = verbose
                 )
             }
         }
@@ -258,7 +267,8 @@ update_path <- function(ws_xml_path,
                 update_one_xml(
                     xml_path = xml_path,
                     pos_sa_item = pos,
-                    formatted_path = new_raw_data_path
+                    formatted_path = new_raw_data_path,
+                    verbose = verbose
                 )
             }
         } else {
@@ -266,7 +276,8 @@ update_path <- function(ws_xml_path,
                 update_one_xml(
                     xml_path = xml_path,
                     pos_sa_item = pos,
-                    formatted_path = new_raw_data_path
+                    formatted_path = new_raw_data_path,
+                    verbose = verbose
                 )
             }
         }
