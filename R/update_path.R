@@ -13,6 +13,38 @@ format_path_to_xml <- function(path) {
     return(formatted_path)
 }
 
+
+update_one_xml <- function(xml_path, pos_sa_item, formatted_path, verbose = TRUE) {
+    if (verbose) {
+        cat("Opening the xml file ", xml_path, "...\n")
+    }
+    xml_file <- XML::xmlParse(xml_path)
+    informationSet_node <- XML::xmlChildren(xml_file)$informationSet
+    SAITEM_nodes <- XML::xmlChildren(x = XML::xmlChildren(x = XML::xmlChildren(x = informationSet_node)[[1L + pos_sa_item]])[["subset"]])
+    pos_ts_node <- which("ts" == vapply(X = SAITEM_nodes, FUN = XML::xmlAttrs,
+                                        "name", FUN.VALUE = character(1L)))
+    metadata_nodes <- XML::xmlChildren(SAITEM_nodes[[pos_ts_node]][["ts"]][["metaData"]])
+    pos_id_node <- which("@id" == vapply(X = metadata_nodes,
+                                         FUN = XML::xmlAttrs, "name", FUN.VALUE = character(2L))["name",
+                                         ])
+    node_to_change <- metadata_nodes[[pos_id_node]]
+    attrib <- XML::xmlAttrs(node_to_change)
+    regex_pattern <- "(file=)[^&#]+"
+    attrib["value"] <- gsub(
+        pattern = regex_pattern,
+        replacement = paste0("\\1", formatted_path),
+        x = attrib["value"],
+        fixed = FALSE
+    )
+    XML::xmlAttrs(node_to_change) <- attrib
+    if (verbose) {
+        cat("Rewriting the xml file...\n\n")
+    }
+    XML::saveXML(doc = xml_file, file = xml_path)
+    return(invisible(NULL))
+}
+
+
 update_one_xml <- function(xml_path, pos_sa_item, formatted_path, verbose = TRUE) {
 
     if (verbose) {
@@ -56,16 +88,18 @@ update_one_xml <- function(xml_path, pos_sa_item, formatted_path, verbose = TRUE
     node_to_change <- metadata_nodes[[pos_id_node]]
 
     attrib <- XML::xmlAttrs(node_to_change)
+    regex_pattern <- "(file=)[^&#]+"
 
-    providers_options <- unlist(strsplit(attrib["value"], split = "&", fixed = TRUE))
-    id <- which(startsWith(x = providers_options, prefix = "file"))
-    providers_options[id] <- paste0("file=", formatted_path)
-    attrib["value"] <- paste(providers_options, collapse = "&")
-
+    attrib["value"] <- gsub(
+        pattern = regex_pattern,
+        replacement = paste0("\\1", formatted_path),
+        x = attrib["value"],
+        fixed = FALSE
+    )
     XML::xmlAttrs(node_to_change) <- attrib
 
     if (verbose) {
-        cat("Rewriting the xml file...\n")
+        cat("Rewriting the xml file...\n\n")
     }
     XML::saveXML(doc = xml_file, file = xml_path)
     return(invisible(NULL))
