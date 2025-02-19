@@ -30,7 +30,7 @@ Imports:
     RJDemetra,
     XML
 License: EUPL
-URL: https://github.com/InseeFrLab/rjdworkspace
+URL: https://github.com/InseeFrLab/rjdworkspace, https://inseefrlab.github.io/rjdworkspace/
 BugReports: https://github.com/InseeFrLab/rjdworkspace/issues
 Encoding: UTF-8
 RoxygenNote: 7.3.2
