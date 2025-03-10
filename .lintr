@@ -5,7 +5,6 @@ linters: lintr::all_linters(
         object_name_linter = NULL,
         cyclocomp_linter = NULL,
         commented_code_linter = NULL,
-        extraction_operator_linter = NULL,
         nonportable_path_linter = NULL,
         function_argument_linter = NULL,
         return_linter = NULL,
