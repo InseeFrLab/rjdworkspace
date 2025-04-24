@@ -13,38 +13,6 @@ format_path_to_xml <- function(path) {
     return(formatted_path)
 }
 
-
-update_one_xml <- function(xml_path, pos_sa_item, formatted_path, verbose = TRUE) {
-    if (verbose) {
-        cat("Opening the xml file ", xml_path, "...\n")
-    }
-    xml_file <- XML::xmlParse(xml_path)
-    informationSet_node <- XML::xmlChildren(xml_file)$informationSet
-    SAITEM_nodes <- XML::xmlChildren(x = XML::xmlChildren(x = XML::xmlChildren(x = informationSet_node)[[1L + pos_sa_item]])[["subset"]])
-    pos_ts_node <- which("ts" == vapply(X = SAITEM_nodes, FUN = XML::xmlAttrs,
-                                        "name", FUN.VALUE = character(1L)))
-    metadata_nodes <- XML::xmlChildren(SAITEM_nodes[[pos_ts_node]][["ts"]][["metaData"]])
-    pos_id_node <- which("@id" == vapply(X = metadata_nodes,
-                                         FUN = XML::xmlAttrs, "name", FUN.VALUE = character(2L))["name",
-                                         ])
-    node_to_change <- metadata_nodes[[pos_id_node]]
-    attrib <- XML::xmlAttrs(node_to_change)
-    regex_pattern <- "(file=)[^&#]+"
-    attrib["value"] <- gsub(
-        pattern = regex_pattern,
-        replacement = paste0("\\1", formatted_path),
-        x = attrib["value"],
-        fixed = FALSE
-    )
-    XML::xmlAttrs(node_to_change) <- attrib
-    if (verbose) {
-        cat("Rewriting the xml file...\n\n")
-    }
-    XML::saveXML(doc = xml_file, file = xml_path)
-    return(invisible(NULL))
-}
-
-
 update_one_xml <- function(xml_path, pos_sa_item, formatted_path, verbose = TRUE) {
 
     if (verbose) {
@@ -148,7 +116,7 @@ check_information <- function(ws_xml_path, pos_sap, pos_sa_item) {
     return(invisible(NULL))
 }
 
-#' Update the path to the raw series file
+#' @title Update the path to the raw series file
 #'
 #' @param ws_xml_path the path to the xml file of the workspace
 #' @param raw_data_path the new path to the raw data
@@ -255,9 +223,10 @@ update_path <- function(ws_xml_path,
     }
 
     nb_sap <- RJDemetra::count(ws)
+
     if (!missing(pos_sap)) {
         if (nb_sap < pos_sap) {
-            stop("The SA-Processing doesn't exist.")
+            stop("The SA-Processing doesn't exist. (pos_sap can't be greater than the number of SAP)")
         }
 
         nb_sa_item <- RJDemetra::count(
