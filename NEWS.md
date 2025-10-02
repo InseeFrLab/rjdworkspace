@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.0] - 2025-10-02
+
+
 ### Fixed
 
 * Function `update_xml_file()` updated with a REGEX
@@ -111,7 +114,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * the function `replace_series` has an new argument `mp_from_name` and `mp_to_name` to specify the multipreprocessing in which to search for series
 
 
-[Unreleased]: https://github.com/InseeFrLab/rjdworkspace/compare/v1.1.9...HEAD
+[Unreleased]: https://github.com/InseeFrLab/rjdworkspace/compare/v1.2.0...HEAD
+[1.2.0]: https://github.com/InseeFrLab/rjdworkspace/compare/v1.1.9...v1.2.0
 [1.1.9]: https://github.com/InseeFrLab/rjdworkspace/compare/v1.1.8...v1.1.9
 [1.1.8]: https://github.com/InseeFrLab/rjdworkspace/compare/v1.1.7...v1.1.8
 [1.1.7]: https://github.com/InseeFrLab/rjdworkspace/compare/v1.1.6...v1.1.7
