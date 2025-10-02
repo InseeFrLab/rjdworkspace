@@ -8,17 +8,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+* Function `update_xml_file()` updated with a REGEX
+
+### Changed
+
+* Function `update_path()` is now based on the .xml files and not on the SAP position or name
+
+
 ## [1.1.9] - 2025-01-16
 
 ### Fixed
 
-* changing the meta-character &amp; into & in `update_xml_file`
+* changing the meta-character &amp; into & in `update_xml_file()`
+
 
 ## [1.1.8] - 2025-01-09
 
 ### Fixed
 
-* `update_path` keeps the imports options when updating a path
+* `update_path()` keeps the imports options when updating a path
 
 ### Added
 
@@ -31,7 +41,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * CRAN release 1.1.7
 * New documentation and new examples
-* `verbose` argument to print more indication. It replaces the argument `print_indication`.
+* `verbose` argument to print more indication. It replaces the argument `print_indication()`.
 * New logo for rjdworkspace
 
 ### Fixed
@@ -40,7 +50,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-* `copy_ws` is now exported
+* `copy_ws()` is now exported
 * format the file NEWS.md
 * new path related to rjdverse
 
@@ -53,11 +63,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-* simplify the XML path writting with `URLencode`
+* simplify the XML path writting with `URLencode()`
 
 ### Fixed
 
-* resolve bugs for `update_path` with WS created with `RJDemetra::add_sa_item`
+* resolve bugs for `update_path()` with WS created with `RJDemetra::add_sa_item()`
 
 
 ## [1.1.3] - 2023-08-29
@@ -69,22 +79,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-* Changes in `transfer_series` to regroup `transfer_series` and `replace_series` with new arguments
-    * ws_from and ws_to to identify the workspaces in which we take the data and to which we transfer the data
-    * name_mp_from, name_mp_to, pos_mp_from and pos_mp_to to identify the SA-Processings (or Multi-Processings denoted mp)
-    * create_mp to create a new Multi-Processing
-    * replace_series to replace existing series
+* Changes in `transfer_series()` to regroup `transfer_series()` and `replace_series()` with new arguments
+    * `ws_from`b and `ws_to` to identify the workspaces in which we take the data and to which we transfer the data
+    * `name_mp_from`, `name_mp_to`, `pos_mp_from` and `pos_mp_to` to identify the SA-Processings (or Multi-Processings denoted mp)
+    * `create_mp` to create a new Multi-Processing
+    * `replace_series()` to replace existing series
     
 ### Fixed
 
-* Bug fixed in `get_comment`
+* Bug fixed in `get_comment()`
 
 
 ## [1.1.0] - 2023-07-04
 
 ### Added
 
-* add new function to `update_path` of **workspaces**, **SAProcessing** and specifically **Sa-items** for csv, xls and xlsx files
+* add new function to `update_path()` of **workspaces**, **SAProcessing** and specifically **Sa-items** for csv, xls and xlsx files
 
 
 ## [1.0.0] - 2023-07-04
@@ -99,6 +109,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     * `update_metadata_roughly`
     * `set_metadata` for SA ITEM
 * the function `replace_series` has an new argument `mp_from_name` and `mp_to_name` to specify the multipreprocessing in which to search for series
+
 
 [Unreleased]: https://github.com/InseeFrLab/rjdworkspace/compare/v1.1.9...HEAD
 [1.1.9]: https://github.com/InseeFrLab/rjdworkspace/compare/v1.1.8...v1.1.9

@@ -4,17 +4,15 @@
 \alias{update_path}
 \title{Update the path to the raw series file}
 \usage{
-update_path(ws_xml_path, raw_data_path, pos_sap, pos_sa_item, verbose = TRUE)
+update_path(ws_xml_path, raw_data_path, sap_xml_path, verbose = TRUE)
 }
 \arguments{
 \item{ws_xml_path}{the path to the xml file of the workspace}
 
 \item{raw_data_path}{the new path to the raw data}
 
-\item{pos_sap}{the index of the SA-Processing containing the series
-(Optional)}
-
-\item{pos_sa_item}{the index of the SA-Item containing the series (Optional)}
+\item{sap_xml_path}{the path (or just the filename) of the xml file of
+SA-Processing containing the series (Optional).}
 
 \item{verbose}{A boolean to print indications on the processing
 status (optional and TRUE by default)}
@@ -28,11 +26,13 @@ Function to update the path of the raw data file in a workspace.
 This function works with .csv, .xls and .xlsx format.
 }
 \details{
-The argument \code{pos_sap} and \code{pos_sa_item} are optional.
-If \code{pos_sa_item} is not supplied, all SA-Item will be updated.
-If \code{pos_sap} is not supplied, all SA-Processing will be updated.
+Warning! Since version 1.2.0, this function updates the raw data path of ALL
+SA-Items in a SA-Processing. Therefore, the only way to identify a specific
+SA-Processing is to provide the path to the XML file (which is not obvious
+when the SA-Processings have different names or indices to their position).
 
-If \code{pos_sa_item} is supplied, \code{pos_sap} must be specified.
+The argument \code{sap_xml_path} is optional.
+If \code{sap_xml_path} is not supplied, all SA-Processing will be updated.
 
 It's also important that the new data file has the same structure as the
 previous file :
@@ -41,7 +41,6 @@ previous file :
 - same extension and format (.csv, .xls or .xlsx)
 }
 \examples{
-
 library("RJDemetra")
 new_dir <- tempdir()
 ws_template_path <- file.path(system.file("extdata", package = "rjdworkspace"),
@@ -68,17 +67,15 @@ new_raw_data_path <- file.path(new_dir, "data_file.csv")
 update_path(
     ws_xml_path = path_ws,
     raw_data_path = new_raw_data_path,
-    pos_sap = 1L,
-    pos_sa_item = 1L:2L
+    sap_xml_path = file.path(new_dir, "ws_example_path", "SAProcessing", "SAProcessing-1.xml"),
 )
 update_path(
     ws_xml_path = path_ws,
     raw_data_path = new_raw_data_path,
-    pos_sap = 1L
+    sap_xml_path = "SAProcessing-1.xml",
 )
 update_path(
     ws_xml_path = path_ws,
     raw_data_path = new_raw_data_path
 )
-
 }
